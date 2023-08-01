@@ -1,5 +1,6 @@
 import { Card, Title, Text } from '@tremor/react';
-import { queryBuilder } from '../lib/planetscale';
+// import { queryBuilder } from '../lib/planetscale';
+import prisma from '../lib/prisma';
 import Search from './search';
 import UsersTable from './table';
 
@@ -11,12 +12,13 @@ export default async function IndexPage({
   searchParams: { q: string };
 }) {
   const search = searchParams.q ?? '';
-  const users = await queryBuilder
-    .selectFrom('users')
-    .select(['id', 'name', 'username', 'email'])
-    .where('name', 'like', `%${search}%`)
-    .execute();
-
+  // const users = await queryBuilder
+  //   .selectFrom('users')
+  //   .select(['id', 'name', 'username', 'email'])
+  //   .where('name', 'like', `%${search}%`)
+  //   .execute();
+  const users = await prisma.playing_with_neon.findMany();
+  
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Title>Users</Title>
@@ -25,7 +27,15 @@ export default async function IndexPage({
       </Text>
       <Search />
       <Card className="mt-6">
-        <UsersTable users={users} />
+      <ul> 
+        {users.map(user => (
+          <>
+          <li key={user.id}>{user.id}</li>
+          <li key={user.name}>{user.name}</li>
+          </>
+        ))}
+      </ul>
+        {/* <UsersTable users={users} /> */}
       </Card>
     </main>
   );
