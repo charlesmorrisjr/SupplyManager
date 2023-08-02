@@ -34,7 +34,7 @@ export default async function IndexPage({
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Title>Users</Title>
       <Text>
-        A list of users retrieved from a MySQL database (PlanetScale).
+        A list of users retrieved from a PostgreSQL database (Neon).
       </Text>
       <Search />
       <Card className="mt-6">
