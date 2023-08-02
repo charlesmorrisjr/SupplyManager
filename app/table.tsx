@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Table,
   TableHead,
@@ -8,8 +10,8 @@ import {
   Text
 } from '@tremor/react';
 
-export default async function UsersTable({ users }: { users: User[] }) {
-  return (
+// export default async function UsersTable({ users }: { users: User[] }) {
+//   return (
     <Table>
       <TableHead>
         <TableRow>
@@ -32,5 +34,24 @@ export default async function UsersTable({ users }: { users: User[] }) {
         ))}
       </TableBody>
     </Table>
+//   );
+// }
+
+interface User {
+  id:  number;
+  name: string;
+  value: number;
+};
+
+export default async function UsersTable({ users }: { users: User[] }) {
+  return (
+    <ul> 
+      {users.map(user => (
+        <>
+        <li key={user.id}>{user.id}</li>
+        <li key={user.name}>{user.name}</li>
+        </>
+      ))}
+    </ul>
   );
-}
+};
