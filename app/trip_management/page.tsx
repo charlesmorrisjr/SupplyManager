@@ -30,12 +30,18 @@ export default async function TripManagementPage() {
   
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <Title>Trips</Title>
-      <Text>
-        Trip summary for the day.
-      </Text>
 
-      {/* <Search /> */}
+      <div className="stats shadow">
+        
+        <div className="stat">
+          <div className="stat-title text-gray-100">Trips</div>
+          <div className="stat-value text-gray-100">{trips.length}</div>
+        </div>
+        
+      </div>
+
+{/* TODO: Add date selector widget here */}
+
       <Card className="mt-6">
 
 {/* TODO: Need to place this table into a component! */}
