@@ -79,6 +79,11 @@ export default async function TripManagementPage() {
                 </TableCell>
                 <TableCell>
                   <Text>{trip.cases_picked}/{trip.total_cases}</Text>
+                  {trip.completion !== TRIP_COMPLETED ?
+                    <progress className="progress progress-warning w-40" value={String(trip.cases_picked)} max={String(trip.total_cases)}></progress>
+                  : 
+                    <progress className="progress progress-success w-40" value={String(trip.cases_picked)} max={String(trip.total_cases)}></progress>
+                  }
                 </TableCell>
                 <TableCell>
                   <button className='btn btn-outline btn-sm btn-neutral'>Details</button>
