@@ -6,9 +6,9 @@ import Toast from './toast';
 import { Suspense } from 'react';
 
 export const metadata = {
-  title: 'Next.js 13 + PlanetScale + NextAuth + Tailwind CSS',
+  title: 'Supply Manager',
   description:
-    'A user admin dashboard configured with Next.js, PlanetScale, NextAuth, Tailwind CSS, TypeScript, ESLint, and Prettier.'
+    'A supply chain and logistics management software'
 };
 
 export default async function RootLayout({
