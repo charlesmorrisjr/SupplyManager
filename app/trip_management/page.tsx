@@ -12,6 +12,7 @@ import {
   TableHead,
   TableHeaderCell,
   TableBody,
+  Button,
 } from "@tremor/react";
 
 const TRIP_UNASSIGNED = 0, TRIP_ASSIGNED = 1, TRIP_COMPLETED = 2;
@@ -48,6 +49,7 @@ export default async function TripManagementPage() {
               <TableHeaderCell>Order Filler</TableHeaderCell>
               <TableHeaderCell>Weight</TableHeaderCell>
               <TableHeaderCell>Cases Picked/Total Cases</TableHeaderCell>
+              <TableHeaderCell>Trip Details</TableHeaderCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -61,8 +63,6 @@ export default async function TripManagementPage() {
                   <Text>{trip.stop}</Text>
                 </TableCell>
                 <TableCell>
-                  {/* <Badge color="rose"> */}
-                  {/* <Text> */}
                   {/* <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"> */}
                   <div className={`badge ${colors[trip.completion]}`}>
                     {trip.completion === TRIP_UNASSIGNED && 'Unassigned'}
@@ -70,8 +70,6 @@ export default async function TripManagementPage() {
                     {trip.completion === TRIP_COMPLETED && 'Completed'}
                   </div>
                   {/* </span> */}
-                  {/* </Text> */}
-                  {/* </Badge> */}
                 </TableCell>
                 <TableCell>
                   <Text>{trip.orderfiller_id}</Text>
@@ -81,6 +79,9 @@ export default async function TripManagementPage() {
                 </TableCell>
                 <TableCell>
                   <Text>{trip.cases_picked}/{trip.total_cases}</Text>
+                </TableCell>
+                <TableCell>
+                  <button className='btn btn-outline btn-sm btn-neutral'>Details</button>
                 </TableCell>
               </TableRow>
             ))}
