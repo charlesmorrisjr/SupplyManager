@@ -3,19 +3,31 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  name    String?  @db.VarChar(255)
-  email   String   @unique @db.VarChar(255)
+  id    Int    @id @default(autoincrement())
+  name  String @db.VarChar(255)
+  email String @unique @db.VarChar(255)
 }
 
 model playing_with_neon {
   id    Int    @id @default(autoincrement())
   name  String
   value Float? @db.Real
+}
+
+model trips {
+  id             Int     @id @default(autoincrement())
+  trip_id        Int
+  completion     Int     @default(0) @db.SmallInt
+  orderfiller_id Int?
+  weight         Decimal @default(1) @db.Decimal(6, 2)
+  route          Int     @default(0) @db.SmallInt
+  stop           Int     @default(0) @db.SmallInt
+  total_cases    Int     @default(1) @db.SmallInt
+  cases_picked   Int     @default(0) @db.SmallInt
 }
