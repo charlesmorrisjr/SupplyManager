@@ -1,35 +1,30 @@
-// import { queryBuilder } from '../lib/planetscale';
 import prisma from '../../lib/prisma';
 import Search from '../search';
 import UsersTable from '../table';
 
 import {
-  Table,
-  TableHead,
-  TableRow,
-  TableHeaderCell,
-  TableBody,
-  TableCell,
-  Text,
   Card,
   Title,
-} from '@tremor/react';
-
-export const dynamic = 'force-dynamic';
+  Text,
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableBody,
+} from "@tremor/react";
 
 const TRIP_UNASSIGNED = 0, TRIP_ASSIGNED = 1, TRIP_COMPLETED = 2;
 
-export default async function IndexPage({
-  // searchParams
-// }: {
-  // searchParams: { q: string };
-}) {
-  // const search = searchParams.q ?? '';
-  // const users = await queryBuilder
-  //   .selectFrom('users')
-  //   .select(['id', 'name', 'username', 'email'])
-  //   .where('name', 'like', `%${search}%`)
-  //   .execute();
+const colors: { [key: number]: string } = {
+  [TRIP_UNASSIGNED]: "badge-outline",
+  [TRIP_ASSIGNED]: "badge-secondary",
+  [TRIP_COMPLETED]: "badge-primary",
+};
+
+export const dynamic = 'force-dynamic';
+
+export default async function TripManagementPage() {
   const trips = await prisma.trips.findMany();
   
   return (
@@ -52,8 +47,7 @@ export default async function IndexPage({
               <TableHeaderCell>Completion</TableHeaderCell>
               <TableHeaderCell>Order Filler</TableHeaderCell>
               <TableHeaderCell>Weight</TableHeaderCell>
-              <TableHeaderCell>Cases Picked</TableHeaderCell>
-              <TableHeaderCell>Total Cases</TableHeaderCell>
+              <TableHeaderCell>Cases Picked/Total Cases</TableHeaderCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -67,11 +61,17 @@ export default async function IndexPage({
                   <Text>{trip.stop}</Text>
                 </TableCell>
                 <TableCell>
-                  <Text>
+                  {/* <Badge color="rose"> */}
+                  {/* <Text> */}
+                  {/* <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"> */}
+                  <div className={`badge ${colors[trip.completion]}`}>
                     {trip.completion === TRIP_UNASSIGNED && 'Unassigned'}
                     {trip.completion === TRIP_ASSIGNED && 'Assigned'}
                     {trip.completion === TRIP_COMPLETED && 'Completed'}
-                  </Text>
+                  </div>
+                  {/* </span> */}
+                  {/* </Text> */}
+                  {/* </Badge> */}
                 </TableCell>
                 <TableCell>
                   <Text>{trip.orderfiller_id}</Text>
@@ -80,10 +80,7 @@ export default async function IndexPage({
                   <Text>{trip.weight}</Text>
                 </TableCell>
                 <TableCell>
-                  <Text>{trip.cases_picked}</Text>
-                </TableCell>
-                <TableCell>
-                  <Text>{trip.total_cases}</Text>
+                  <Text>{trip.cases_picked}/{trip.total_cases}</Text>
                 </TableCell>
               </TableRow>
             ))}

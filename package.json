@@ -44,6 +44,7 @@
     "trailingComma": "none"
   },
   "devDependencies": {
+    "daisyui": "^3.5.1",
     "prisma": "^5.1.1"
   }
 }
