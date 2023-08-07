@@ -24,7 +24,7 @@ const colors: { [key: number]: string } = {
   [TRIP_COMPLETED]: "badge-primary",
 };
 
-interface Trip {
+type Trip = {
   trip_id: number;
   completion: number;
   orderfiller_id: number;
@@ -35,7 +35,13 @@ interface Trip {
   cases_picked: number;
 }
 
-export default function TripsTable({ trips }: { trips: Trip[] }) {
+interface Props {
+  trips: Trip[];
+}
+
+// TODO: Figure out how to allow trips to be passed in as a prop without getting a type error.
+
+export default function TripsTable({ trips }: { trips: any }) {
   return (
     <Card className="mt-6">
 
@@ -55,7 +61,7 @@ export default function TripsTable({ trips }: { trips: Trip[] }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {trips.map((trip) => (
+          {trips.map((trip: any) => (
             <TableRow key={trip.trip_id}>
               <TableCell>{trip.trip_id}</TableCell>
               <TableCell>

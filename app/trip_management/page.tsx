@@ -5,7 +5,7 @@ import TripsTable from './table';
 export const dynamic = 'force-dynamic';
 
 export default async function TripManagementPage() {
-  const trips = await prisma.trips.findMany();
+  const allTrips = await prisma.trips.findMany();
   
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
@@ -14,12 +14,12 @@ export default async function TripManagementPage() {
         
         <div className="stat">
           <div className="stat-title text-gray-100">Trips</div>
-          <div className="stat-value text-gray-100">{trips.length}</div>
+          <div className="stat-value text-gray-100">{allTrips.length}</div>
         </div>
         
       </div>
 
-      <TripsTable trips={trips} />
+      <TripsTable trips={allTrips} />
     
     </main>
   );
