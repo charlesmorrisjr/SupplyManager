@@ -2,7 +2,7 @@
 import prisma from '../lib/prisma';
 import { getServerSession } from "next-auth/next"
 import Search from './search';
-import UsersTable from './table';
+import UsersTable from './trip_management/table';
 
 import {
   Table,

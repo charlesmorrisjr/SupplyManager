@@ -21,13 +21,13 @@ model playing_with_neon {
 }
 
 model trips {
-  id             Int     @id @default(autoincrement())
+  id             Int  @id @default(autoincrement())
   trip_id        Int
-  completion     Int     @default(0) @db.SmallInt
+  completion     Int  @default(0) @db.SmallInt
   orderfiller_id Int?
-  weight         Decimal @default(1) @db.Decimal(6, 2)
-  route          Int     @default(0) @db.SmallInt
-  stop           Int     @default(0) @db.SmallInt
-  total_cases    Int     @default(1) @db.SmallInt
-  cases_picked   Int     @default(0) @db.SmallInt
+  weight         Int  @default(1) @db.SmallInt
+  route          Int  @default(0) @db.SmallInt
+  stop           Int  @default(0) @db.SmallInt
+  total_cases    Int  @default(1) @db.SmallInt
+  cases_picked   Int  @default(0) @db.SmallInt
 }
