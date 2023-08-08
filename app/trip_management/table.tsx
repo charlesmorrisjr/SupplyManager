@@ -15,7 +15,12 @@ import {
   Button,
   Badge,
   DatePicker,
+  // DatePickerValue,
+  DateRangePicker,
+  DateRangePickerValue,
 } from '@tremor/react';
+
+import { data } from "autoprefixer";
 
 const TRIP_UNASSIGNED = 0, TRIP_ASSIGNED = 1, TRIP_COMPLETED = 2;
 
@@ -44,12 +49,21 @@ interface Props {
 }
 
 // TODO: Figure out how to allow trips to be passed in as a prop without getting a type error. Remove 'any' types
-
+// TODO: Idea -- place code to query database in separate file -- it will need to be called multiple times, like when changing the date
 export default function TripsTable({ trips }: { trips: any }) {
+  type DatePickerValue = Date | undefined;
+
+  const [dateValue, setDateValue] = React.useState<DatePickerValue>(new Date());
+  const show = () => { alert(dateValue); };
+  
   return (
     <Card className="mt-6">
 
-      <DatePicker className="max-w-sm mx-auto" />
+      <DatePicker 
+        className="max-w-sm mx-auto"
+        value={dateValue}
+        onValueChange={setDateValue}
+      />
 
       <Table>
         <TableHead>
@@ -100,7 +114,7 @@ export default function TripsTable({ trips }: { trips: any }) {
                 }
               </TableCell>
               <TableCell>
-                <button className='btn btn-outline btn-sm btn-neutral'>Details</button>
+                <button className='btn btn-outline btn-sm btn-neutral' onClick={show}>Details</button>
               </TableCell>
             </TableRow>
           ))}
