@@ -15,7 +15,7 @@ import {
   Button,
   Badge,
   DatePicker,
-  DatePickerValue,
+  // DatePickerValue,
   DateRangePicker,
   DateRangePickerValue,
 } from '@tremor/react';
@@ -51,8 +51,8 @@ interface Props {
 // TODO: Figure out how to allow trips to be passed in as a prop without getting a type error. Remove 'any' types
 // TODO: Idea -- place code to query database in separate file -- it will need to be called multiple times, like when changing the date
 export default function TripsTable({ trips }: { trips: any }) {
-  // type DatePickerValue = Date | undefined;
-
+  type DatePickerValue = Date | undefined;
+  
   const [dateValue, setDateValue] = React.useState<DatePickerValue>(new Date());
   const show = () => { alert(dateValue); };
   
