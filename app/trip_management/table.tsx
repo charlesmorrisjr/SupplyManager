@@ -19,6 +19,9 @@ import {
   // DatePickerValue,
   DateRangePicker,
   DateRangePickerValue,
+  Tab,
+  TabList,
+  TabGroup,
 } from '@tremor/react';
 
 import useSWR from 'swr';
@@ -56,7 +59,6 @@ export default function TripsTable() {
   if (!data) return <div>Loading ...</div>
   
   const trips = structuredClone(data);
-  console.log(trips);
 
   return (
     <Card className="mt-6">
@@ -75,14 +77,13 @@ export default function TripsTable() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableHeaderCell>ID</TableHeaderCell>
-            <TableHeaderCell>Route</TableHeaderCell>
-            <TableHeaderCell>Stop</TableHeaderCell>
-            <TableHeaderCell>Completion</TableHeaderCell>
-            <TableHeaderCell>Order Filler</TableHeaderCell>
-            <TableHeaderCell>Weight</TableHeaderCell>
-            <TableHeaderCell>Cases Picked/Total Cases</TableHeaderCell>
-            <TableHeaderCell>Trip Details</TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Trip ID</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Route</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Stop</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Completion</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Order Filler</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Weight</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Cases Picked/Total Cases</Button></TableHeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -122,7 +123,7 @@ export default function TripsTable() {
               </TableCell>
               <TableCell>
                 {/* <button className='btn btn-outline btn-sm btn-neutral' onClick={() => alert(trip.date)}>Details</button> */}
-                <Button size="md" onClick={() => alert(trip.date)}>Details</Button>
+                <Button size="md" variant="secondary" onClick={() => alert(trip.date)}>Details</Button>
               </TableCell>
             </TableRow>
           ))}
