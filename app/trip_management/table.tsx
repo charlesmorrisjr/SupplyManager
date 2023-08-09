@@ -80,8 +80,8 @@ export default function TripsTable() {
         </TableHead>
         <TableBody>
           {trips.map((trip: any) => (
-            <TableRow key={trip.trip_id}>
-              <TableCell>{trip.trip_id}</TableCell>
+            <TableRow key={trip.id}>
+              <TableCell>{trip.id}</TableCell>
               <TableCell>
                 <Text>{trip.route}</Text>
               </TableCell>
