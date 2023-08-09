@@ -55,7 +55,8 @@ export default function TripsTable() {
   if (error) return <div>An error occurred.</div>
   if (!data) return <div>Loading ...</div>
   
-  const trips = data;
+  const trips = structuredClone(data);
+  console.log(trips);
 
   return (
     <Card className="mt-6">
@@ -120,7 +121,8 @@ export default function TripsTable() {
                 }
               </TableCell>
               <TableCell>
-                <button className='btn btn-outline btn-sm btn-neutral' onClick={() => alert(trip.date)}>Details</button>
+                {/* <button className='btn btn-outline btn-sm btn-neutral' onClick={() => alert(trip.date)}>Details</button> */}
+                <Button size="md" onClick={() => alert(trip.date)}>Details</Button>
               </TableCell>
             </TableRow>
           ))}
