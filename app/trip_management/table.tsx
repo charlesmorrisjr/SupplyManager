@@ -37,21 +37,6 @@ const colors: { [key: number]: string } = {
   // [TRIP_COMPLETED]: "green",
 };
 
-type Trip = {
-  trip_id: number;
-  completion: number;
-  orderfiller_id: number;
-  weight: number;
-  route: number;
-  stop: number;
-  total_cases: number;
-  cases_picked: number;
-}
-
-interface Props {
-  trips: Trip[];
-}
-
 export default function TripsTable() {
   type DatePickerValue = Date | undefined;
   
