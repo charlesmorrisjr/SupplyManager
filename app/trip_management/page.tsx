@@ -10,15 +10,6 @@ export default async function TripManagementPage() {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
 
-      <div className="stats shadow">
-        
-        <div className="stat">
-          <div className="stat-title text-gray-100">Trips</div>
-          <div className="stat-value text-gray-100">{allTrips.length}</div>
-        </div>
-        
-      </div>
-
       <TripsTable trips={allTrips} />
     
     </main>

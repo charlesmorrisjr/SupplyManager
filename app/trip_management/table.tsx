@@ -4,6 +4,7 @@ import React from "react";
 
 import {
   Card,
+  Flex,
   Title,
   Text,
   Table,
@@ -20,7 +21,7 @@ import {
   DateRangePickerValue,
 } from '@tremor/react';
 
-import { data } from "autoprefixer";
+// import { data } from "autoprefixer";
 
 const TRIP_UNASSIGNED = 0, TRIP_ASSIGNED = 1, TRIP_COMPLETED = 2;
 
@@ -59,6 +60,11 @@ export default function TripsTable({ trips }: { trips: any }) {
   return (
     <Card className="mt-6">
 
+      <Flex justifyContent="start" className="space-x-2">
+        <Title>Trips</Title>
+        <Badge color="gray">{trips.length}</Badge>
+      </Flex>
+  
       <DatePicker 
         className="max-w-sm mx-auto"
         value={dateValue}
