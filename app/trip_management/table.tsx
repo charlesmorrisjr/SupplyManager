@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Card,
@@ -22,7 +22,6 @@ import {
 } from '@tremor/react';
 
 import useSWR from 'swr';
-const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 // import { data } from "autoprefixer";
 
@@ -41,11 +40,18 @@ export default function TripsTable() {
   type DatePickerValue = Date | undefined;
   
   const [dateValue, setDateValue] = React.useState<DatePickerValue>(new Date());
-  const show = () => { alert(dateValue); };
+
+  const fetcher = async ([url, dateValue]: [string, string]) =>
+  await fetch(url, {
+    headers: {
+      dateValue
+    }
+  }).then((response) => response.json());
+
+  const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher);
 
   // * Uncomment the following line to have the table refresh every second
-  // const { data, error } = useSWR('/api/trips', fetcher, { refreshInterval: 1000 })
-  const { data, error } = useSWR('/api/trips', fetcher)
+  // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
   if (!data) return <div>Loading ...</div>
   
@@ -114,7 +120,7 @@ export default function TripsTable() {
                 }
               </TableCell>
               <TableCell>
-                <button className='btn btn-outline btn-sm btn-neutral' onClick={show}>Details</button>
+                <button className='btn btn-outline btn-sm btn-neutral' onClick={() => alert(trip.date)}>Details</button>
               </TableCell>
             </TableRow>
           ))}
