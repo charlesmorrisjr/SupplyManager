@@ -21,6 +21,9 @@ import {
   DateRangePickerValue,
 } from '@tremor/react';
 
+import useSWR from 'swr';
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
 // import { data } from "autoprefixer";
 
 const TRIP_UNASSIGNED = 0, TRIP_ASSIGNED = 1, TRIP_COMPLETED = 2;
@@ -49,14 +52,20 @@ interface Props {
   trips: Trip[];
 }
 
-// TODO: Figure out how to allow trips to be passed in as a prop without getting a type error. Remove 'any' types
-// TODO: Idea -- place code to query database in separate file -- it will need to be called multiple times, like when changing the date
-export default function TripsTable({ trips }: { trips: any }) {
+export default function TripsTable() {
   type DatePickerValue = Date | undefined;
   
   const [dateValue, setDateValue] = React.useState<DatePickerValue>(new Date());
   const show = () => { alert(dateValue); };
+
+  // * Uncomment the following line to have the table refresh every second
+  // const { data, error } = useSWR('/api/trips', fetcher, { refreshInterval: 1000 })
+  const { data, error } = useSWR('/api/trips', fetcher)
+  if (error) return <div>An error occurred.</div>
+  if (!data) return <div>Loading ...</div>
   
+  const trips = data;
+
   return (
     <Card className="mt-6">
 
