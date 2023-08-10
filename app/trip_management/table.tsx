@@ -45,12 +45,7 @@ export default function TripsTable() {
   }).then((response) => response.json());
 
   const { data, error } = useSWR([ '/api/trips', date ], fetcher);
-  const trips = structuredClone(data);
   
-  // useEffect(() => {
-  //   console.log(trips);
-  // }, [trips]);
-
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
@@ -59,10 +54,10 @@ export default function TripsTable() {
   return (
     <div className="mt-6">
 
-      {/* <Flex justifyContent="start" className="space-x-2">
-        <Title>Trips</Title>
-        <Badge color="gray">{trips.length}</Badge>
-      </Flex> */}
+      <div>
+        <div>Trips</div>
+        <div color="gray">{data.length}</div>
+      </div>
 
       <Popover>
         <PopoverTrigger asChild>
@@ -87,13 +82,11 @@ export default function TripsTable() {
         </PopoverContent>
       </Popover>
 
-      {/* <DatePicker 
-        className="max-w-sm mx-auto"
-        value={dateValue}
-        onValueChange={setDateValue}
-      /> */}
-
-      <DataTable columns={columns} data={trips} />
+      { date ?
+        <DataTable columns={columns} data={data} />
+      :
+        <div>Select a date.</div>
+      }
     </div>
   )
 }
