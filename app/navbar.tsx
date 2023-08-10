@@ -73,13 +73,13 @@ export default function Navbar({ user }: { user: any }) {
                   <div>
                     <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
                       <span className="sr-only">Open user menu</span>
-                      {/* <Image
+                      <Image
                         className="h-8 w-8 rounded-full"
                         src={user?.image || 'https://avatar.vercel.sh/leerob'}
                         height={32}
                         width={32}
                         alt={`${user?.name || 'placeholder'} avatar`}
-                      /> */}
+                      />
                     </Menu.Button>
                   </div>
                   <Transition
