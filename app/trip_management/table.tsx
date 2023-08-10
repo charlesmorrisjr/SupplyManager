@@ -13,9 +13,9 @@ import {
   // TableHead,
   // TableHeaderCell,
   // TableBody,
-  Button,
+  // Button,
   Badge,
-  DatePicker,
+  // DatePicker,
   // DatePickerValue,
   DateRangePicker,
   DateRangePickerValue,
@@ -23,6 +23,18 @@ import {
   TabList,
   TabGroup,
 } from '@tremor/react';
+
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+
+import { cn } from "../../@/lib/utils"
+import { Button } from "../../@/components/ui/button"
+import { Calendar } from "../../@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../@/components/ui/popover"
 
 import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
@@ -34,27 +46,29 @@ import TableBodyComponent from "./table_body";
 // import { data } from "autoprefixer";
 
 export default function TripsTable() {
-  function sortBy() {
-    trips.sort((a: any, b: any) => a.id - b.id);
-    setSortState(!sortState);
-    console.log(trips);
-  }
+  // function sortBy() {
+  //   trips.sort((a: any, b: any) => a.id - b.id);
+  //   setSortState(!sortState);
+  //   console.log(trips);
+  // }
   
-  const [sortState, setSortState] = React.useState(false);
+  // const [sortState, setSortState] = React.useState(false);
   
   // Set up state for calendar
-  type DatePickerValue = Date | undefined;
-  const [dateValue, setDateValue] = React.useState<DatePickerValue>(new Date());
+  
+  // type DatePickerValue = Date | undefined;
+  // const [dateValue, setDateValue] = React.useState<DatePickerValue>(new Date());
+  const [date, setDate] = React.useState<Date>()
 
   // Fetch data from database using SWR
-  const fetcher = async ([url, dateValue]: [string, string]) =>
+  const fetcher = async ([url, date]: [string, any]) =>
   await fetch(url, {
     headers: {
-      dateValue
+      datevalue: String(date)
     }
   }).then((response) => response.json());
 
-  const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher);
+  const { data, error } = useSWR([ '/api/trips', date ], fetcher);
   const trips = structuredClone(data);
   
   // useEffect(() => {
@@ -73,12 +87,36 @@ export default function TripsTable() {
         <Title>Trips</Title>
         <Badge color="gray">{trips.length}</Badge>
       </Flex>
+      <Button onClick={() => console.log(date)}>Click </Button>
 
-      <DatePicker 
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-[280px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+
+      {/* <DatePicker 
         className="max-w-sm mx-auto"
         value={dateValue}
         onValueChange={setDateValue}
-      />
+      /> */}
 
       <DataTable columns={columns} data={trips} />
     </Card>
