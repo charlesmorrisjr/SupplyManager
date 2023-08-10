@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "trips" ALTER COLUMN "weight" SET DATA TYPE DECIMAL(6,2);
