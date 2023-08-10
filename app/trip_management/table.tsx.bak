@@ -7,12 +7,12 @@ import {
   Flex,
   Title,
   Text,
-  // Table,
-  // TableRow,
-  // TableCell,
-  // TableHead,
-  // TableHeaderCell,
-  // TableBody,
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableBody,
   Button,
   Badge,
   DatePicker,
@@ -23,9 +23,6 @@ import {
   TabList,
   TabGroup,
 } from '@tremor/react';
-
-import { Trips, columns } from "./columns"
-import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
 
@@ -73,14 +70,48 @@ export default function TripsTable() {
         <Title>Trips</Title>
         <Badge color="gray">{trips.length}</Badge>
       </Flex>
-
+  
       <DatePicker 
         className="max-w-sm mx-auto"
         value={dateValue}
         onValueChange={setDateValue}
       />
 
-      <DataTable columns={columns} data={trips} />
-    </Card>
-  )
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableHeaderCell><Button size='xs' variant='light' onClick={sortBy}>Trip ID</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Route</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Stop</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Completion</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Order Filler</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Weight</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>Cases Picked/Total Cases</Button></TableHeaderCell>
+            <TableHeaderCell><Button size='xs' variant='light'>{String(sortState)}</Button></TableHeaderCell>
+          </TableRow>
+        </TableHead>
+        
+        <TableBodyComponent trips={trips} />
+      </Table>
+    </Card>    
+ );
 }
+
+// interface User {
+//   id:  number;
+//   name: string;
+//   value: number;
+// };
+
+// export default async function UsersTable({ users }: { users: User[] }) {
+//   return (
+//     <ul> 
+//       {users.map(user => (
+//         <>
+//         <li key={user.id}>{user.id}</li>
+//         <li key={user.name}>{user.name}</li>
+//         </>
+//       ))}
+//     </ul>
+//   );
+// };
