@@ -2,27 +2,27 @@
 
 import React, { useEffect } from "react";
 
-import {
-  Card,
-  Flex,
-  Title,
-  Text,
-  // Table,
-  // TableRow,
-  // TableCell,
-  // TableHead,
-  // TableHeaderCell,
-  // TableBody,
-  // Button,
-  Badge,
-  // DatePicker,
-  // DatePickerValue,
-  DateRangePicker,
-  DateRangePickerValue,
-  Tab,
-  TabList,
-  TabGroup,
-} from '@tremor/react';
+// import {
+//   // Card,
+//   // Flex,
+//   // Title,
+//   Text,
+//   // Table,
+//   // TableRow,
+//   // TableCell,
+//   // TableHead,
+//   // TableHeaderCell,
+//   // TableBody,
+//   // Button,
+//   // Badge,
+//   // DatePicker,
+//   // DatePickerValue,
+//   DateRangePicker,
+//   DateRangePickerValue,
+//   Tab,
+//   TabList,
+//   TabGroup,
+// } from '@tremor/react';
 
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
@@ -81,13 +81,12 @@ export default function TripsTable() {
   if (!data) return <div>Loading ...</div>
 
   return (
-    <Card className="mt-6">
+    <div className="mt-6">
 
-      <Flex justifyContent="start" className="space-x-2">
+      {/* <Flex justifyContent="start" className="space-x-2">
         <Title>Trips</Title>
         <Badge color="gray">{trips.length}</Badge>
-      </Flex>
-      <Button onClick={() => console.log(date)}>Click </Button>
+      </Flex> */}
 
       <Popover>
         <PopoverTrigger asChild>
@@ -119,6 +118,6 @@ export default function TripsTable() {
       /> */}
 
       <DataTable columns={columns} data={trips} />
-    </Card>
+    </div>
   )
 }
