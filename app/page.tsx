@@ -14,7 +14,7 @@ export default async function IndexPage() {
       <div>
         {session ? (
           <p className="text-black text-xl md:text-xl font-black text-center pb-2">
-            Welcome!
+            Welcome {session.user.name}! You are logged in.
           </p>
         ) : (
           <p className="text-black text-xl md:text-xl font-black text-center pb-2">
