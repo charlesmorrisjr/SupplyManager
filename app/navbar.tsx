@@ -10,6 +10,7 @@ import Image from 'next/image';
 const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'Team Performance', href: '/team_performance' },
+  { name: 'Team Management', href: '/trip_management' },
   { name: 'Trip Management', href: '/trip_management' },
 ];
 
