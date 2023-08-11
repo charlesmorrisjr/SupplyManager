@@ -14,6 +14,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 import { Users, columns } from "./columns"
 import { DataTable } from "./data-table"
 
@@ -40,35 +49,38 @@ export default function TeamTable() {
   return (
     <div className="mt-6">
 
-      <div>
-        <div>Users</div>
-        <div color="gray">{data.length}</div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Users {data.length}</CardTitle>
+        </CardHeader>
 
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant={"outline"}
-            className={cn(
-              "w-[280px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, "PPP") : <span>Pick a date</span>}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setDate}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
+        <CardContent>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-[280px] justify-start text-left font-normal",
+                  !date && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date ? format(date, "PPP") : <span>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
 
-      <DataTable columns={columns} data={data} />
+          <DataTable columns={columns} data={data} />
+          </CardContent>
+      </Card>
     </div>
   )
 }

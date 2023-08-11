@@ -37,7 +37,7 @@ export const columns: ColumnDef<Users>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("id")}</div>
+      return <div className="text-left font-medium">{row.getValue("id")}</div>
     },
   },
   {
@@ -54,7 +54,7 @@ export const columns: ColumnDef<Users>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("name")}</div>
+      return <div className="text-left font-medium">{row.getValue("name")}</div>
     },
   },
   {
@@ -71,7 +71,7 @@ export const columns: ColumnDef<Users>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("email")}</div>
+      return <div className="text-left font-medium">{row.getValue("email")}</div>
     },
   },
   {
