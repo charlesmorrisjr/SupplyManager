@@ -14,7 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import { Trips, columns } from "./columns"
+import { Users, columns } from "./columns"
 import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
@@ -30,7 +30,7 @@ export default function TeamTable() {
     }
   }).then((response) => response.json());
 
-  const { data, error } = useSWR([ '/api/trips', date ], fetcher);
+  const { data, error } = useSWR([ '/api/users', date ], fetcher);
   
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
@@ -41,7 +41,7 @@ export default function TeamTable() {
     <div className="mt-6">
 
       <div>
-        <div>Trips</div>
+        <div>Users</div>
         <div color="gray">{data.length}</div>
       </div>
 
