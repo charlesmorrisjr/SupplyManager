@@ -19,22 +19,8 @@ import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
 
-// import { data } from "autoprefixer";
-
 export default function TripsTable() {
-  // function sortBy() {
-  //   trips.sort((a: any, b: any) => a.id - b.id);
-  //   setSortState(!sortState);
-  //   console.log(trips);
-  // }
-  
-  // const [sortState, setSortState] = React.useState(false);
-  
-  // Set up state for calendar
-  
-  // type DatePickerValue = Date | undefined;
-  // const [dateValue, setDateValue] = React.useState<DatePickerValue>(new Date());
-  const [date, setDate] = React.useState<Date>()
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date]: [string, any]) =>
@@ -82,11 +68,7 @@ export default function TripsTable() {
         </PopoverContent>
       </Popover>
 
-      { date ?
-        <DataTable columns={columns} data={data} />
-      :
-        <div>Select a date.</div>
-      }
+      <DataTable columns={columns} data={data} />
     </div>
   )
 }
