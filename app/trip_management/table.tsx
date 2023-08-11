@@ -2,46 +2,22 @@
 
 import React, { useEffect } from "react";
 
-import {
-  Card,
-  Flex,
-  Title,
-  Text,
-  // Table,
-  // TableRow,
-  // TableCell,
-  // TableHead,
-  // TableHeaderCell,
-  // TableBody,
-  // Button,
-  Badge,
-  // DatePicker,
-  // DatePickerValue,
-  DateRangePicker,
-  DateRangePickerValue,
-  Tab,
-  TabList,
-  TabGroup,
-} from '@tremor/react';
-
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
-import { cn } from "../../@/lib/utils"
-import { Button } from "../../@/components/ui/button"
-import { Calendar } from "../../@/components/ui/calendar"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../@/components/ui/popover"
+} from "@/components/ui/popover"
 
 import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
-
-import TableBodyComponent from "./table_body";
 
 // import { data } from "autoprefixer";
 
@@ -69,25 +45,19 @@ export default function TripsTable() {
   }).then((response) => response.json());
 
   const { data, error } = useSWR([ '/api/trips', date ], fetcher);
-  const trips = structuredClone(data);
   
-  // useEffect(() => {
-  //   console.log(trips);
-  // }, [trips]);
-
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
   if (!data) return <div>Loading ...</div>
 
   return (
-    <Card className="mt-6">
+    <div className="mt-6">
 
-      <Flex justifyContent="start" className="space-x-2">
-        <Title>Trips</Title>
-        <Badge color="gray">{trips.length}</Badge>
-      </Flex>
-      <Button onClick={() => console.log(date)}>Click </Button>
+      <div>
+        <div>Trips</div>
+        <div color="gray">{data.length}</div>
+      </div>
 
       <Popover>
         <PopoverTrigger asChild>
@@ -112,13 +82,11 @@ export default function TripsTable() {
         </PopoverContent>
       </Popover>
 
-      {/* <DatePicker 
-        className="max-w-sm mx-auto"
-        value={dateValue}
-        onValueChange={setDateValue}
-      /> */}
-
-      <DataTable columns={columns} data={trips} />
-    </Card>
+      { date ?
+        <DataTable columns={columns} data={data} />
+      :
+        <div>Select a date.</div>
+      }
+    </div>
   )
 }

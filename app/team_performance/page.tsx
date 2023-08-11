@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Metric, Text, Title, BarList, Flex, Grid } from '@tremor/react';
+// import { Card, Metric, Text, Title, BarList, Flex, Grid } from '@tremor/react';
 import Chart from './chart';
 
 const website = [
@@ -47,7 +47,7 @@ const data = [
 export default function TeamPerformancePage() {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
+      {/* <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
         {data.map((item) => (
           <Card key={item.category}>
             <Title>{item.category}</Title>
@@ -73,7 +73,7 @@ export default function TeamPerformancePage() {
           </Card>
         ))}
       </Grid>
-      <Chart />
+      <Chart /> */}
     </main>
   );
 }
