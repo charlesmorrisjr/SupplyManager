@@ -23,7 +23,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { Users, columns } from "./columns"
+import { Employees, columns } from "./columns"
 import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
@@ -39,7 +39,7 @@ export default function TeamTable() {
     }
   }).then((response) => response.json());
 
-  const { data, error } = useSWR([ '/api/users', date ], fetcher);
+  const { data, error } = useSWR([ '/api/employees', date ], fetcher);
   
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
