@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { Progress } from "@/components/ui/progress"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -128,7 +129,14 @@ export const columns: ColumnDef<Trips>[] = [
     accessorKey: "cases_picked",
     header: () => <div className="text-right">Cases Picked/Total Cases</div>,
     cell: ({ row }) => {
-      return <div className="text-right font-medium">{row.getValue("cases_picked")}/{row.getValue("total_cases")}</div>
+      let cases_picked: number = row.getValue("cases_picked");
+      let total_cases: number = row.getValue("total_cases");
+      return (
+        <>
+          <div className="text-right font-medium">{cases_picked}/{total_cases}</div>  
+          <Progress value={(cases_picked / total_cases) * 100} />
+        </>
+      )
     },
   },
   {
