@@ -21,7 +21,6 @@ model trips {
   standard_time DateTime? @db.Time(6)
   start_time    DateTime? @db.Time(6)
   end_time      DateTime? @db.Time(6)
-  actual_time   DateTime? @db.Time(6)
 }
 
 model employees {

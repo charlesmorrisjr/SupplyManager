@@ -59,7 +59,7 @@ export const columns: ColumnDef<Trips>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("id")}</div>
+      return <div className="text-center font-medium">{row.getValue("route")}</div>
     },
   },
   {
