@@ -21,7 +21,7 @@ export type Trips = {
   route: number
   stop: number
   completion: number
-  orderfiller_id: number
+  employee_id: number
   weight: number
   cases_picked: number
   total_cases: number
@@ -83,11 +83,15 @@ export const columns: ColumnDef<Trips>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("completion")}</div>
+      return (
+        <div className="text-center font-medium">
+          { row.getValue("completion") === 0 ? "Unassigned" : row.getValue("completion") === 1 ? "Assigned" : "Completed" }
+        </div>
+      )
     },
   },
   {
-    accessorKey: "orderfiller_id",
+    accessorKey: "employee_id",
     header: ({ column }) => {
       return (
         <Button
@@ -100,7 +104,7 @@ export const columns: ColumnDef<Trips>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("orderfiller_id")}</div>
+      return <div className="text-center font-medium">{row.getValue("employee_id")}</div>
     },
   },
   {
