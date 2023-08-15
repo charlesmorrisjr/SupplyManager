@@ -22,7 +22,7 @@ export type Employees = {
   email: string
 }
 
-export const columns: ColumnDef<Users>[] = [
+export const columns: ColumnDef<Employees>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => {
