@@ -83,7 +83,6 @@ export default function TripsTable() {
           <DataTable columns={columns} data={data} />
         </CardContent>
       </Card>
-
     </div>
   )
 }

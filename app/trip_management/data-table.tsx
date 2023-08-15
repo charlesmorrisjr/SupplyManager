@@ -2,8 +2,6 @@
 
 import * as React from "react"
 
-import { Button } from "@/components/ui/button";
-
 import {
   ColumnDef,
   SortingState,
@@ -100,7 +98,6 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <DataTablePagination table={table} />
-
     </div>
   )
 }
