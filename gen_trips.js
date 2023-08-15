@@ -1,6 +1,5 @@
 const { faker } = require('@faker-js/faker');
 const { Pool } = require('pg');
-const { start } = require('repl');
 require('dotenv').config();
 
 const { DATABASE_URL } = process.env;
@@ -17,9 +16,9 @@ const MIN_ROUTES = 30, MAX_ROUTES = 50, MAX_STOPS = 4;
 const MIN_TRIPS_PER_DAY = 400, TRIPS_PER_DAY_RANDOM_RANGE = 200, TRIP_LENGTH_RANDOM_RANGE = 1000 * 60 * 60 * 0.5;
 const CASE_WEIGHT = 30, CASE_TIME = 13 * 1000;  // 13 seconds per case
 
-const START_DATE = new Date('2023-08-15'), END_DATE = new Date();
+const START_DATE = new Date('07-01-2023'), END_DATE = new Date('07-31-2023');
 
-// TODO: Only assign trips to employees who orderfillers or lift drivers
+// TODO: Only assign trips to employees who are orderfillers or lift drivers
 // TODO: Make start and end times for trips assigned to the same employee on the same day not overlap
 
 /* algo:
@@ -108,16 +107,21 @@ async function insertTrips() {
   try {
     const query = 'INSERT INTO trips (completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *';
     // const values = [completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time];
+
+    console.log('Inserting trips...');
+    
     for (let curDate = START_DATE; curDate <= END_DATE; curDate.setDate(curDate.getDate() + 1)) {
       let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
       // let numTrips = 1;
+      
+      console.log(curDate);
   
       for (let curTrip = 1; curTrip <= numTrips; curTrip++) {
   
         const values = generateRandomTrip(curDate);
         
         const res = await client.query(query, values);
-        console.log(res.rows[0]);
+        // console.log(res.rows[0]);
       }
     }
   } finally {
