@@ -96,7 +96,7 @@ async function insertTrips() {
   }
 }
 
-insertTrips();
+// insertTrips();
 
 // console.log(generateRandomTrip());
-// generateRandomTrip()
+generateRandomTrip()
