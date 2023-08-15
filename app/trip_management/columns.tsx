@@ -66,7 +66,17 @@ export const columns: ColumnDef<Trips>[] = [
   },
   {
     accessorKey: "stop",
-    header: () => <div className="text-right">Stop</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Stop
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       return <div className="text-right font-medium">{row.getValue("stop")}</div>
     },
@@ -109,7 +119,7 @@ export const columns: ColumnDef<Trips>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Order Filler ID
+          Employee ID
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -136,8 +146,23 @@ export const columns: ColumnDef<Trips>[] = [
     },
   },
   {
+    // This column is hidden. The output combined with the 'Total Cases' column
     accessorKey: "cases_picked",
-    header: () => <div className="text-right">Cases Picked/Total Cases</div>,
+  },
+  {
+    accessorKey: "total_cases",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Cases Picked/Total Cases
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+
     cell: ({ row }) => {
       let cases_picked: number = row.getValue("cases_picked");
       let total_cases: number = row.getValue("total_cases");
@@ -148,10 +173,6 @@ export const columns: ColumnDef<Trips>[] = [
         </>
       )
     },
-  },
-  {
-    // This column is hidden. The output combined with the 'Cases Picked' column
-    accessorKey: "total_cases",
   },
   {
     id: "actions",
