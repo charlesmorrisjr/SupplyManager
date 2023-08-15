@@ -18,6 +18,8 @@ import {
 // You can use a Zod schema here if you want.
 export type Employees = {
   id: number
+  first_name: string
+  last_name: string
   name: string
   email: string
 }
@@ -37,24 +39,41 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-left font-medium">{row.getValue("id")}</div>
+      return <div className="text-center font-medium">{row.getValue("id")}</div>
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "first_name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          First Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => {
-      return <div className="text-left font-medium">{row.getValue("name")}</div>
+      return <div className="text-center font-medium">{row.getValue("first_name")}</div>
+    },
+  },
+  {
+    accessorKey: "last_name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Last Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return <div className="text-center font-medium">{row.getValue("last_name")}</div>
     },
   },
   {

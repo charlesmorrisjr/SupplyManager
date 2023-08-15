@@ -5,6 +5,8 @@ import React, { useEffect } from "react";
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
+import { Badge } from "@/components/ui/badge";
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -51,7 +53,7 @@ export default function TripsTable() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Trips {data.length}</CardTitle>
+          <CardTitle>Trips <Badge variant='secondary' className='text-xl'>{data.length}</Badge></CardTitle>
         </CardHeader>
 
         <CardContent className="flex flex-col space-y-4">
