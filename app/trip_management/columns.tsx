@@ -1,5 +1,8 @@
 "use client"
 
+import React, { useEffect } from "react";
+import useSWR from 'swr';
+
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
@@ -24,6 +27,7 @@ export type Trips = {
   stop: number
   completion: number
   employee_id: number
+  employees: object
   weight: number
   cases_picked: number
   total_cases: number
@@ -111,21 +115,44 @@ export const columns: ColumnDef<Trips>[] = [
       )
     },
   },
+  // {
+  //   accessorKey: "employee_id",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Employee ID
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     )
+  //   },
+  //   cell: ({ row }) => {
+  //     return <div className="text-center font-medium">{row.getValue("employee_id")}</div>
+  //   },
+  // },
   {
-    accessorKey: "employee_id",
+    accessorKey: "employees",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Employee ID
+          Employee Username
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("employee_id")}</div>
+      const employees = row.getValue("employees");
+
+      // Check if employees is an object and not null; otherwise, TypeScript will complain
+      if (typeof employees === "object" && employees !== null && "username" in employees) {
+        let username = String(employees.username);  
+        return <div className="text-center font-medium">{username}</div>
+      }
     },
   },
   {
@@ -188,7 +215,19 @@ export const columns: ColumnDef<Trips>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => {alert('Details')}}
+              onClick={() => {
+                let employee_id: number = row.getValue("employee_id");
+
+                const fetcher = async ([url, employee_id]: [string, any]) =>
+                await fetch(url, {
+                  headers: {
+                    employee_id
+                  }
+                }).then((response) => response.json());
+              
+                const { data, error } = useSWR([ '/api/trip_employee', employee_id ], fetcher);
+                if (data) alert(data);
+              }}
             >
               Trip Details
             </DropdownMenuItem>

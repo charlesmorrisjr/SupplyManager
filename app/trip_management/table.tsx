@@ -82,7 +82,9 @@ export default function TripsTable() {
               </PopoverContent>
             </Popover>
           </div>
+
           <DataTable columns={columns} data={data} />
+          
         </CardContent>
       </Card>
     </div>

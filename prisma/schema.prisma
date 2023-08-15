@@ -8,26 +8,26 @@ datasource db {
 }
 
 model trips {
-  id            Int       @id @default(autoincrement())
-  completion    Int       @default(0) @db.SmallInt
-  weight        Int       @default(1) @db.SmallInt
-  route         Int       @default(0) @db.SmallInt
-  stop          Int       @default(0) @db.SmallInt
-  total_cases   Int       @default(1) @db.SmallInt
-  cases_picked  Int       @default(0) @db.SmallInt
-  date          DateTime  @default(dbgenerated("CURRENT_DATE")) @db.Date
+  id            Int        @id @default(autoincrement())
+  completion    Int        @default(0) @db.SmallInt
+  weight        Int        @default(1) @db.SmallInt
+  route         Int        @default(0) @db.SmallInt
+  stop          Int        @default(0) @db.SmallInt
+  total_cases   Int        @default(1) @db.SmallInt
+  cases_picked  Int        @default(0) @db.SmallInt
+  date          DateTime   @default(dbgenerated("CURRENT_DATE")) @db.Date
   employee_id   Int?
-  door          Int?      @db.SmallInt
-  standard_time DateTime? @db.Time(6)
-  start_time    DateTime? @db.Time(6)
-  end_time      DateTime? @db.Time(6)
+  door          Int?       @db.SmallInt
+  standard_time DateTime?  @db.Time(6)
+  start_time    DateTime?  @db.Time(6)
+  end_time      DateTime?  @db.Time(6)
+  employees     employees? @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model employees {
   id               Int       @id(map: "User_pkey") @default(autoincrement())
   username         String    @db.VarChar(255)
   email            String    @unique(map: "User_email_key") @db.VarChar(255)
-  trips_id         Int?
   first_name       String?   @db.VarChar(50)
   last_login       DateTime? @db.Date
   permission_level Int       @default(1) @db.SmallInt
@@ -35,4 +35,5 @@ model employees {
   performance      Decimal?  @db.Decimal(5, 4)
   last_name        String?   @db.VarChar(50)
   password         String?   @db.VarChar(50)
+  trips            trips[]
 }

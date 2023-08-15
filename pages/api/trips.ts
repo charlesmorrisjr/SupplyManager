@@ -10,10 +10,18 @@ const prisma = new PrismaClient()
 export default async function getTrips(req: NextApiRequest, res: NextApiResponse) {
   const searchDate = String(req.headers.datevalue);
   const allTrips = await prisma.trips.findMany({
+    include: {
+      employees: {
+        select: {
+          username: true
+        }
+      }
+    },
     where: {
       date: new Date(searchDate)
       // date: new Date('08-09-2023')
     }
   });
+  // console.log(allTrips);
   res.json(allTrips)
 }
