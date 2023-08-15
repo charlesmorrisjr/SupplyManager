@@ -16,14 +16,14 @@ const MIN_ROUTES = 30, MAX_ROUTES = 50, MAX_STOPS = 4;
 const MIN_TRIPS_PER_DAY = 400, TRIPS_PER_DAY_RANDOM_RANGE = 200, TRIP_LENGTH_RANDOM_RANGE = 1000 * 60 * 60 * 0.5;
 const CASE_WEIGHT = 50, CASE_TIME = 13 * 1000;  // 13 seconds per case
 
-const START_DATE = new Date('2021-08-01'), END_DATE = new Date(Date.now());
+const START_DATE = new Date('2023-08-01'), END_DATE = new Date();
 
 // TODO: Only assign trips to employees who orderfillers or lift drivers
 // TODO: Make start and end times for trips assigned to the same employee on the same day not overlap
 
 /* algo:
 - Loop from START_DATE to END_DATE, incrementing by 1 day and set current date to curDate
-  - Loop from MIN_TRIPS_PER_DAY to MIN_TRIPS_PER_DAY + (random number * TRIPS_PER_DAY_RANDOM_RANGE)
+  - Loop from 1 to MIN_TRIPS_PER_DAY + (random number * TRIPS_PER_DAY_RANDOM_RANGE)
     - For current trip
       - Set date to curDate
       - Set route to random number from 1 to MAX_ROUTES
@@ -46,14 +46,22 @@ const START_DATE = new Date('2021-08-01'), END_DATE = new Date(Date.now());
 
 const parseDate = (date) => date.toISOString().replace("T", " ").replace(/\.\d+/, "");
 
-function generateRandomTrip() {
-  let curDate = new Date(Date.now());
+function genWeight(totalCases){
+  let weight = 0;
+  
+  for (let i = 0; i < totalCases; i++) {
+    weight += faker.number.int({min: 1, max: CASE_WEIGHT});
+  }
+  return weight;
+} 
+
+function generateRandomTrip(curDate) {
   let completion = 0;
   let date = curDate;
   let route = faker.number.int({min: 1, max: MAX_ROUTES});
   let stop = faker.number.int({min: 1, max: MAX_STOPS});
   let total_cases = faker.number.int({min: 1, max: MAX_CASES});
-  let weight = total_cases * faker.number.int({min: 1, max: CASE_WEIGHT});
+  let weight = genWeight(total_cases);
   let cases_picked = 0;
   let employee_id = null;
   let door = faker.number.int({min: 1, max: MAX_DOORS});
@@ -87,16 +95,24 @@ async function insertTrips() {
   try {
     const query = 'INSERT INTO trips (completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time, actual_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *';
     // const values = [completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time, actual_time];
-    const values = generateRandomTrip();
-    
-    const res = await client.query(query, values);
-    console.log(res.rows[0]);
+    for (let curDate = START_DATE; curDate <= END_DATE; curDate.setDate(curDate.getDate() + 1)) {
+      // let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
+      let numTrips = 1;
+  
+      for (let curTrip = 1; curTrip <= numTrips; curTrip++) {
+  
+        const values = generateRandomTrip(curDate);
+        
+        const res = await client.query(query, values);
+        console.log(res.rows[0]);
+      }
+    }
   } finally {
     client.release();
   }
 }
 
-// insertTrips();
+insertTrips();
 
 // console.log(generateRandomTrip());
-generateRandomTrip()
+// generateRandomTrip()
