@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Progress } from "@/components/ui/progress"
+import { Badge } from "@/components/ui/badge";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -86,7 +87,16 @@ export const columns: ColumnDef<Trips>[] = [
     cell: ({ row }) => {
       return (
         <div className="text-center font-medium">
-          { row.getValue("completion") === 0 ? "Unassigned" : row.getValue("completion") === 1 ? "Assigned" : "Completed" }
+          { row.getValue("completion") === 0 
+            ? 
+              <Badge variant='outline'>Unassigned</Badge> 
+            : 
+              row.getValue("completion") === 1 
+              ? 
+              <Badge variant='secondary'>Assigned</Badge> 
+              : 
+              <Badge>Completed</Badge>  
+          }
         </div>
       )
     },
