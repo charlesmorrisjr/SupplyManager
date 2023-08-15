@@ -23,7 +23,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import { DataTablePagination } from "./data-table-pagination"
+import { DataTablePagination } from "../../components/data-table-pagination"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -54,7 +54,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div>
+    <div className="space-y-4">
       <div className="rounded-md border">
         <Table>
           <TableHeader>
