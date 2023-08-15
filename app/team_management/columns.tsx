@@ -109,7 +109,7 @@ export const columns: ColumnDef<Employees>[] = [
             <DropdownMenuItem
               onClick={() => {alert('Details')}}
             >
-              User Details
+              Employee Details
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Assign</DropdownMenuItem>
