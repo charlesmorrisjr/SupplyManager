@@ -5,6 +5,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { Dialog, DialogTrigger } from "./dialog"
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
@@ -59,7 +60,8 @@ DropdownMenuSubContent.displayName =
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
+>(({ className, sideOffset = 4, ...props }, ref) => {
+  return (
   <DropdownMenuPrimitive.Portal>
     <DropdownMenuPrimitive.Content
       ref={ref}
@@ -71,8 +73,47 @@ const DropdownMenuContent = React.forwardRef<
       {...props}
     />
   </DropdownMenuPrimitive.Portal>
-))
+)})
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
+
+type DropdownMenuItemElementRef = React.ElementRef<
+    typeof DropdownMenuPrimitive.Item
+>;
+type DropdownMenuItemPropsWithoutRef = React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.Item
+>;
+
+const DropdownMenuDialogItem = React.forwardRef<
+
+    DropdownMenuItemElementRef,
+    DropdownMenuItemPropsWithoutRef & {
+        trigger: React.ReactNode;
+        closeDropdown?: () => void;
+        open?: boolean;
+        onOpenChange?: (open: boolean) => void;
+        onSelect?: DropdownMenuPrimitive.DropdownMenuItemProps['onSelect'];
+    }
+>(({ trigger, closeDropdown, children, open, onOpenChange, onSelect, ...props }, ref) => {
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogTrigger asChild>
+                <DropdownMenuItem
+                    {...props}
+                    ref={ref}
+                    onSelect={(event) => {
+                        event.preventDefault();
+                        onSelect && onSelect(event);
+                        // closeDropdown();
+                    }}
+                >
+                    {trigger}
+                </DropdownMenuItem>
+            </DialogTrigger>
+            {children}
+        </Dialog>
+    );
+});
+DropdownMenuDialogItem.displayName = 'DropdownMenuDialogItem';
 
 const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
@@ -197,4 +238,5 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
+  DropdownMenuDialogItem
 }

@@ -23,6 +23,8 @@ import {
 
 import { DataTablePagination } from "../../components/data-table-pagination"
 
+import ColumnDefinitions from "./columns"
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -32,6 +34,10 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  // const columnsDefs: any = ColumnDefinitions();
+  // console.log(columns)
+  // const columns: ColumnDef<TData>[] = columnsDefs.columns;
+
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
@@ -89,7 +95,7 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
                   No results.
                 </TableCell>
               </TableRow>
