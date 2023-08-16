@@ -275,9 +275,7 @@ function DropdownWithDialogItemsSolution2() {
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent 
-      className="w-56"
-      align="end"
-      sideOffset={5}
+      sideOffset={15}
       hidden={hasOpenDialog}
       onCloseAutoFocus={(event) => {
         if (focusRef.current) {
@@ -309,13 +307,13 @@ function DropdownWithDialogItemsSolution2() {
       <DropdownMenuSeparator />
       
       <DropdownMenuDialogItem 
-        trigger="Assign Trip to Employee"
+        trigger="Assign Trip"
         onSelect={handleDialogItemSelect}
         onOpenChange={handleDialogItemOpenChange}
       >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Assign Trip to Employee</DialogTitle>
+            <DialogTitle>Assign Trip</DialogTitle>
             <DialogDescription>
               Are you sure you want to assign this trip to this employee?
             </DialogDescription>
@@ -326,13 +324,13 @@ function DropdownWithDialogItemsSolution2() {
         </DialogContent>
       </DropdownMenuDialogItem>
       <DropdownMenuDialogItem
-        trigger="Unassign Trip from Employee"
+        trigger="Unassign Trip"
         onSelect={handleDialogItemSelect}
         onOpenChange={handleDialogItemOpenChange}
       >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Unassign Trip from Employee</DialogTitle>
+            <DialogTitle>Unassign Trip</DialogTitle>
             <DialogDescription>
               Are you sure you want to unassign this trip from this employee?
             </DialogDescription>
