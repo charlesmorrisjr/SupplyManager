@@ -29,224 +29,196 @@ import {
 
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge";
-import { log } from "console";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type Trips = {
   id: number
   route: number
   stop: number
   completion: number
-  employee_id: number
+  // employee_id: number
   employees: object
   weight: number
   cases_picked: number
   total_cases: number
 }
 
-// export default function ColumnDefinitions({dropdownOpen, setDropdownOpen, dropdownRef}: {dropdownOpen: boolean | undefined, setDropdownOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>, dropdownRef: any}) {
-export default function ColumnDefinitions({dropdownOpen, setDropdownOpen, dropdownRef}: any) {
-  
-  const hideDropdown = (id: number) => {
-    dropdownRef.current.hidden = true;
-  }
-
-  const showDropdown = () => {
-    alert('Clicked')
-    if (dropdownRef.current) {
-      if (dropdownRef.current.hidden !== undefined) dropdownRef.current.hidden = false;
-    }
-  }
-
-  const handleDropdown = (open: boolean) => {
-    if (dropdownRef.current) {
-      if (dropdownRef.current.open !== undefined) dropdownRef.current.open = false;
-    }
-  }
-  
-  let id = 0;
-
-  const columns: ColumnDef<Trips>[] = [
-    {
-      accessorKey: "id",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Trip ID
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        return <div className="text-center font-medium">{row.getValue("id")}</div>
-      },
+export const columns: ColumnDef<Trips>[] = [
+  {
+    accessorKey: "id",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Trip ID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
-    {
-      accessorKey: "route",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Route
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        return <div className="text-center font-medium">{row.getValue("route")}</div>
-      },
+    cell: ({ row }) => {
+      return <div className="text-center font-medium">{row.getValue("id")}</div>
     },
-    {
-      accessorKey: "stop",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Stop
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        return <div className="text-center font-medium">{row.getValue("stop")}</div>
-      },
+  },
+  {
+    accessorKey: "route",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Route
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
-    {
-      accessorKey: "completion",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Completion
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="text-center font-medium">
-            { row.getValue("completion") === 0 
+    cell: ({ row }) => {
+      return <div className="text-center font-medium">{row.getValue("route")}</div>
+    },
+  },
+  {
+    accessorKey: "stop",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Stop
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return <div className="text-center font-medium">{row.getValue("stop")}</div>
+    },
+  },
+  {
+    accessorKey: "completion",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Completion
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="text-center font-medium">
+          { row.getValue("completion") === 0 
+            ? 
+              <Badge variant='outline'>Unassigned</Badge> 
+            : 
+              row.getValue("completion") === 1 
               ? 
-                <Badge variant='outline'>Unassigned</Badge> 
+              <Badge variant='secondary'>Assigned</Badge> 
               : 
-                row.getValue("completion") === 1 
-                ? 
-                <Badge variant='secondary'>Assigned</Badge> 
-                : 
-                <Badge>Completed</Badge>  
-            }
-          </div>
-        )
-      },
+              <Badge>Completed</Badge>  
+          }
+        </div>
+      )
     },
-    // {
-    //   accessorKey: "employee_id",
-    //   header: ({ column }) => {
-    //     return (
-    //       <Button
-    //         variant="ghost"
-    //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    //       >
-    //         Employee ID
-    //         <ArrowUpDown className="ml-2 h-4 w-4" />
-    //       </Button>
-    //     )
-    //   },
-    //   cell: ({ row }) => {
-    //     return <div className="text-center font-medium">{row.getValue("employee_id")}</div>
-    //   },
-    // },
-    {
-      accessorKey: "employees",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Employee Username
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        const employees = row.getValue("employees");
+  },
+  // {
+  //   accessorKey: "employee_id",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Employee ID
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     )
+  //   },
+  //   cell: ({ row }) => {
+  //     return <div className="text-center font-medium">{row.getValue("employee_id")}</div>
+  //   },
+  // },
+  {
+    accessorKey: "employees",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Employee Username
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const employees = row.getValue("employees");
 
-        // Check if employees is an object and not null; otherwise, TypeScript will complain
-        if (typeof employees === "object" && employees !== null && "username" in employees) {
-          let username = String(employees.username);  
-          return <div className="text-center font-medium">{username}</div>
-        }
-      },
+      // Check if employees is an object and not null; otherwise, TypeScript will complain
+      if (typeof employees === "object" && employees !== null && "username" in employees) {
+        let username = String(employees.username);  
+        return <div className="text-center font-medium">{username}</div>
+      }
     },
-    {
-      accessorKey: "weight",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Weight
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        return <div className="text-center font-medium">{row.getValue("weight")} lbs</div>
-      },
+  },
+  {
+    accessorKey: "weight",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Weight
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
-    {
-      // This column is hidden. The output combined with the 'Total Cases' column
-      accessorKey: "cases_picked",
+    cell: ({ row }) => {
+      return <div className="text-center font-medium">{row.getValue("weight")} lbs</div>
     },
-    {
-      accessorKey: "total_cases",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Cases Picked/Total Cases
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
+  },
+  {
+    // This column is hidden. The output combined with the 'Total Cases' column
+    accessorKey: "cases_picked",
+  },
+  {
+    accessorKey: "total_cases",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Cases Picked/Total Cases
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
 
-      cell: ({ row }) => {
-        let cases_picked: number = row.getValue("cases_picked");
-        let total_cases: number = row.getValue("total_cases");
-        return (
-          <>
-            <div className="text-right font-medium">{cases_picked}/{total_cases}</div>  
-            <Progress style={{ height: '0.7rem' }} value={(cases_picked / total_cases) * 100} />
-          </>
-        )
-      },
+    cell: ({ row }) => {
+      let cases_picked: number = row.getValue("cases_picked");
+      let total_cases: number = row.getValue("total_cases");
+      return (
+        <>
+          <div className="text-right font-medium">{cases_picked}/{total_cases}</div>  
+          <Progress style={{ height: '0.7rem' }} value={(cases_picked / total_cases) * 100} />
+        </>
+      )
     },
-    {
-      id: "actions",
-      cell: () => { 
-        return (
-          <DropdownWithDialogItemsSolution2 />
-        )
-      },
+  },
+  {
+    id: "actions",
+    cell: () => { 
+      return (
+        <DropdownWithDialogItemsSolution2 />
+      )
     },
-  ]
-
-  return columns;
-};
+  },
+]
 
 function DropdownWithDialogItemsSolution2() {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);

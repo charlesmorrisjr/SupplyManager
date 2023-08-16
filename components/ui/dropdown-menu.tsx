@@ -83,38 +83,6 @@ type DropdownMenuItemPropsWithoutRef = React.ComponentPropsWithoutRef<
     typeof DropdownMenuPrimitive.Item
 >;
 
-const DropdownMenuDialogItem = React.forwardRef<
-
-    DropdownMenuItemElementRef,
-    DropdownMenuItemPropsWithoutRef & {
-        trigger: React.ReactNode;
-        closeDropdown?: () => void;
-        open?: boolean;
-        onOpenChange?: (open: boolean) => void;
-        onSelect?: DropdownMenuPrimitive.DropdownMenuItemProps['onSelect'];
-    }
->(({ trigger, closeDropdown, children, open, onOpenChange, onSelect, ...props }, ref) => {
-    return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogTrigger asChild>
-                <DropdownMenuItem
-                    {...props}
-                    ref={ref}
-                    onSelect={(event) => {
-                        event.preventDefault();
-                        onSelect && onSelect(event);
-                        // closeDropdown();
-                    }}
-                >
-                    {trigger}
-                </DropdownMenuItem>
-            </DialogTrigger>
-            {children}
-        </Dialog>
-    );
-});
-DropdownMenuDialogItem.displayName = 'DropdownMenuDialogItem';
-
 const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
@@ -221,6 +189,35 @@ const DropdownMenuShortcut = ({
   )
 }
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
+
+const DropdownMenuDialogItem = React.forwardRef<
+    DropdownMenuItemElementRef,
+    DropdownMenuItemPropsWithoutRef & {
+        trigger: React.ReactNode;
+        open?: boolean;
+        onOpenChange?: (open: boolean) => void;
+        onSelect?: DropdownMenuPrimitive.DropdownMenuItemProps['onSelect'];
+    }
+>(({ trigger, children, open, onOpenChange, onSelect, ...props }, ref) => {
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogTrigger asChild>
+                <DropdownMenuItem
+                    {...props}
+                    ref={ref}
+                    onSelect={(event) => {
+                        event.preventDefault();
+                        onSelect && onSelect(event);
+                    }}
+                >
+                    {trigger}
+                </DropdownMenuItem>
+            </DialogTrigger>
+            {children}
+        </Dialog>
+    );
+});
+DropdownMenuDialogItem.displayName = 'DropdownMenuDialogItem';
 
 export {
   DropdownMenu,

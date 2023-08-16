@@ -25,8 +25,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-// import { Trips, columns } from "./columns"
-import ColumnDefinitions from "./columns";
+import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
@@ -36,18 +35,6 @@ export default function TripsTable() {
   // when retrieving data from the database
   const curDate = new Date(new Date().setHours(0, 0, 0, 0));
   const [date, setDate] = React.useState<Date | undefined>(curDate);
-
-  const [dropdownOpen, setDropdownOpen] = React.useState<boolean | undefined | null>(null);
-  const dropdownRef: any = React.useRef();
-  
-  useEffect(() => {
-    if (dropdownRef.current) {
-      if (dropdownRef.current.hidden !== undefined) dropdownRef.current.hidden = false;
-    }
-  }, [dropdownRef])
-
-  // const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
-  // const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date]: [string, any]) =>
@@ -63,9 +50,7 @@ export default function TripsTable() {
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
   if (!data) return <div>Loading ...</div>
-  
-  const columns = ColumnDefinitions({dropdownOpen, setDropdownOpen, dropdownRef});
-  
+    
   return (
     <div className="mt-6">
 
