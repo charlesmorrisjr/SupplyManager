@@ -215,19 +215,7 @@ export const columns: ColumnDef<Trips>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => {
-                let employee_id: number = row.getValue("employee_id");
-
-                const fetcher = async ([url, employee_id]: [string, any]) =>
-                await fetch(url, {
-                  headers: {
-                    employee_id
-                  }
-                }).then((response) => response.json());
-              
-                const { data, error } = useSWR([ '/api/trip_employee', employee_id ], fetcher);
-                if (data) alert(data);
-              }}
+              onClick={() => alert('Details')}
             >
               Trip Details
             </DropdownMenuItem>
