@@ -31,7 +31,7 @@ import { DataTable } from "./data-table"
 import useSWR from 'swr';
 
 export default function TripsTable() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date]: [string, any]) =>
@@ -84,7 +84,7 @@ export default function TripsTable() {
           </div>
 
           <DataTable columns={columns} data={data} />
-          
+
         </CardContent>
       </Card>
     </div>

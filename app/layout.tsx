@@ -2,6 +2,7 @@ import './globals.css';
 
 import Nav from './nav';
 import { Suspense } from 'react';
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata = {
   title: 'Supply Manager',
@@ -17,10 +18,12 @@ export default async function RootLayout({
   return (
     <html lang="en" className="h-full bg-gray-200">
       <body className="h-full">
-        <Suspense>
-          <Nav />
-        </Suspense>
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Suspense>
+            <Nav />
+          </Suspense>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
