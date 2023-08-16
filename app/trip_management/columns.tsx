@@ -169,7 +169,7 @@ export const columns: ColumnDef<Trips>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("weight")}</div>
+      return <div className="text-center font-medium">{row.getValue("weight")} lbs</div>
     },
   },
   {
