@@ -16,6 +16,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge";
 
@@ -205,25 +215,42 @@ export const columns: ColumnDef<Trips>[] = [
     id: "actions",
     cell: ({ row }) => { 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => alert('Details')}
-            >
-              Trip Details
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Assign</DropdownMenuItem>
-            <DropdownMenuItem>Unassign</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => alert('Details')}
+              >
+                Trip Details
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DialogTrigger asChild>
+                <DropdownMenuItem>
+                  Assign
+                </DropdownMenuItem>
+              </DialogTrigger>
+              <DropdownMenuItem>Unassign</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you sure?</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to assign this trip to an employee?
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button type="submit">Confirm</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       )
     },
   },
