@@ -12,6 +12,13 @@ import { Button } from '@/components/ui/button';
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'Team Performance', href: '/team_performance' },
@@ -141,14 +148,31 @@ export default function Navbar({ user }: { user: any }) {
                 </Menu>
               </div>
               <div className="space-y-1 pt-2 pb-3">
-                  <Button variant="outline" size="icon">
+                  {/* <Button variant="outline" size="icon">
                     { mounted && 
                       theme === "dark" ?
                       <Sun className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" onClick={() => setTheme("light")} />
                       :
                       <Moon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" onClick={() => setTheme("dark")} />
                     }
-                 </Button>
+                 </Button> */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon">
+                      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                      <span className="sr-only">Toggle theme</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => setTheme("light")}>
+                      Light
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme("dark")}>
+                      Dark
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
 
               <div className="-mr-2 flex items-center sm:hidden">

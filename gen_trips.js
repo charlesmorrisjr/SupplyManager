@@ -16,8 +16,10 @@ const MIN_ROUTES = 30, MAX_ROUTES = 50, MAX_STOPS = 4;
 const MIN_TRIPS_PER_DAY = 400, TRIPS_PER_DAY_RANDOM_RANGE = 200, TRIP_LENGTH_RANDOM_RANGE = 1000 * 60 * 60 * 0.5;
 const CASE_WEIGHT = 30, CASE_TIME = 13 * 1000;  // 13 seconds per case
 
-// const START_DATE = new Date('07-01-2023'), END_DATE = new Date('07-31-2023');
-const START_DATE = new Date(), END_DATE = new Date();
+const MS_PER_HOUR = 1000 * 60 * 60;
+
+const START_DATE = new Date('08-01-2023'), END_DATE = new Date('08-16-2023');
+// const START_DATE = new Date(), END_DATE = new Date();
 
 // TODO: Only assign trips to employees who are orderfillers or lift drivers
 // TODO: Make start and end times for trips assigned to the same employee on the same day not overlap
@@ -72,7 +74,7 @@ function generateRandomTrip(curDate) {
 
   if (completion !== 0) {
     employee_id = faker.number.int({min: 1, max: MAX_EMPLOYEES});
-    start_time = faker.date.between({ from: date, to: new Date(date.getTime() + 1000 * 60 * 60 * 24) });
+    start_time = faker.date.between({ from: date, to: new Date(date.getTime() + MS_PER_HOUR * 24) });
     end_time = start_time.getTime() + (standard_time / 2) + TRIP_LENGTH_RANDOM_RANGE * Math.random();
   }
 
@@ -97,8 +99,8 @@ function generateRandomTrip(curDate) {
 
 function convertMillisecondsToTime(ms) {
   let hours = Math.floor(ms / 1000 / 60 / 60);
-  let minutes = Math.floor((ms - (hours * 1000 * 60 * 60)) / 1000 / 60);
-  let seconds = Math.floor((ms - (hours * 1000 * 60 * 60) - (minutes * 1000 * 60)) / 1000);
+  let minutes = Math.floor((ms - (hours * MS_PER_HOUR)) / 1000 / 60);
+  let seconds = Math.floor((ms - (hours * MS_PER_HOUR) - (minutes * 1000 * 60)) / 1000);
   const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   return formattedTime;
 }
@@ -112,8 +114,7 @@ async function insertTrips() {
     console.log('Inserting trips...');
     
     for (let curDate = START_DATE; curDate <= END_DATE; curDate.setDate(curDate.getDate() + 1)) {
-      // let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
-      let numTrips = 10;
+      let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
       
       console.log(curDate);
   
@@ -133,4 +134,3 @@ async function insertTrips() {
 insertTrips();
 
 // console.log(generateRandomTrip(new Date()));
-// generateRandomTrip(new Date())
