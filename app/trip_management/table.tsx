@@ -78,6 +78,7 @@ export default function TripsTable() {
               <PopoverContent className="w-auto p-0">
                 <Calendar
                   mode="single"
+                  required
                   selected={date}
                   onSelect={setDate}
                   initialFocus
