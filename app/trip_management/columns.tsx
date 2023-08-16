@@ -196,7 +196,7 @@ export const columns: ColumnDef<Trips>[] = [
       return (
         <>
           <div className="text-right font-medium">{cases_picked}/{total_cases}</div>  
-          <Progress value={(cases_picked / total_cases) * 100} />
+          <Progress style={{ height: '0.7rem' }} value={(cases_picked / total_cases) * 100} />
         </>
       )
     },
