@@ -8,6 +8,7 @@ export default async function getUsers(req: NextApiRequest, res: NextApiResponse
     include: {
       trips: {
         select: {
+          completion: true,
           start_time: true,
           end_time: true,
           standard_time: true,
