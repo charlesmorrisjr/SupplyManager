@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
+
 import { Badge } from "@/components/ui/badge";
 
 import { cn } from "@/lib/utils"
@@ -24,14 +25,14 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-import { Employees, columns } from "./columns"
+import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
 
-export default function TeamTable() {
+export default function TripsTable() {
+  // Sets the date to the current date at midnight to prevent timezone issues
+  // when retrieving data from the database
   const curDate = new Date(new Date().setHours(0, 0, 0, 0));
   const [date, setDate] = React.useState<Date | undefined>(curDate);
 
@@ -39,23 +40,24 @@ export default function TeamTable() {
   const fetcher = async ([url, date]: [string, any]) =>
   await fetch(url, {
     headers: {
-      datevalue: String(date)
+      datevalue: String(date),
+      employeeid: String(100)
     }
   }).then((response) => response.json());
 
-  const { data, error } = useSWR([ '/api/employees', date ], fetcher);
+  const { data, error } = useSWR([ '/api/employee_details', date ], fetcher);
   
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
   if (!data) return <div>Loading ...</div>
-
+    
   return (
     <div className="mt-6">
 
       <Card>
         <CardHeader>
-          <CardTitle>Employees <Badge variant='secondary' className='text-xl'>{data.length}</Badge></CardTitle>
+          <CardTitle>Trips <Badge variant='secondary' className='text-xl'>{data.length}</Badge></CardTitle>
         </CardHeader>
 
         <CardContent className="flex flex-col space-y-4">
