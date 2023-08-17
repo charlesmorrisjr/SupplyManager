@@ -104,7 +104,7 @@ export const columns: ColumnDef<Employees>[] = [
             let actual_time = (new Date(trip.end_time)).getTime() - (new Date(trip.start_time)).getTime();
             let standard_time = (new Date(trip.standard_time)).getTime();
             let performance = (standard_time / actual_time) * 100;
-            console.log(performance, row.getValue("id"));
+            // console.log(performance, row.getValue("id"));
             return total + Number(performance);
           } else {
             return total;

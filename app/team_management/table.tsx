@@ -24,6 +24,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 import { Employees, columns } from "./columns"
 import { DataTable } from "./data-table"
 
@@ -83,7 +85,17 @@ export default function TeamTable() {
               </PopoverContent>
             </Popover>
           </div>
-          <DataTable columns={columns} data={data} />
+          
+          <Tabs defaultValue="team">
+            <TabsList>
+              <TabsTrigger value="team">Team</TabsTrigger>
+              <TabsTrigger value="employee">Employee</TabsTrigger>
+            </TabsList>
+            <TabsContent value="team">
+              <DataTable columns={columns} data={data} />
+            </TabsContent>
+            <TabsContent value="employee">Change your password here.</TabsContent>
+          </Tabs>   
         </CardContent>
       </Card>
     </div>

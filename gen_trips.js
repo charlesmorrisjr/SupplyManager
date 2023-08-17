@@ -105,7 +105,7 @@ function convertMillisecondsToTime(ms) {
   return formattedTime;
 }
 
-async function insertTrips() {
+async function insertTrips(singleDate = false) {
   let client = await pool.connect();
   try {
     const query = 'INSERT INTO trips (completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *';
@@ -113,18 +113,30 @@ async function insertTrips() {
 
     console.log('Inserting trips...');
     
-    for (let curDate = START_DATE; curDate <= END_DATE; curDate.setDate(curDate.getDate() + 1)) {
+    if (!singleDate) {    
+      for (let curDate = START_DATE; curDate <= END_DATE; curDate.setDate(curDate.getDate() + 1)) {
+        let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
+        // let numTrips = 1;
+        
+        console.log(curDate);
+    
+        for (let curTrip = 1; curTrip <= numTrips; curTrip++) {
+    
+          const values = generateRandomTrip(curDate);
+          
+          const res = await client.query(query, values);
+          // console.log(res.rows[0]);
+        }
+      }
+    } else {
+      const curDate = new Date(new Date().setHours(0, 0, 0, 0));
       let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
-      // let numTrips = 1;
       
       console.log(curDate);
   
       for (let curTrip = 1; curTrip <= numTrips; curTrip++) {
-  
         const values = generateRandomTrip(curDate);
-        
         const res = await client.query(query, values);
-        // console.log(res.rows[0]);
       }
     }
   } finally {
@@ -132,6 +144,10 @@ async function insertTrips() {
   }
 }
 
-insertTrips();
+if (process.argv[2] === 'single') {
+  insertTrips(true);
+} else {
+  insertTrips();
+}
 
 // console.log(generateRandomTrip(new Date()));
