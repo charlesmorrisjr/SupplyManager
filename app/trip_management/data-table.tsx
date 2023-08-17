@@ -52,6 +52,8 @@ export function DataTable<TData, TValue>({
     }
   })
 
+  const skeletonRows = Array.from({ length: 10 }, (_, i) => i)
+
   return (
     <div className="space-y-4">
       <div className="rounded-md border">
@@ -96,11 +98,13 @@ export function DataTable<TData, TValue>({
                   </TableCell>
                 </TableRow>
            ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
-                <Skeleton className="w-[100%] h-[30px] rounded-full" />
-              </TableCell>
-            </TableRow>
+            skeletonRows.map((key) => (
+              <TableRow key={key}>
+                <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
+                  <Skeleton className="w-[100%] h-[30px] rounded-full" />
+                </TableCell>
+              </TableRow>
+            ))
           )}
           </TableBody>
         </Table>

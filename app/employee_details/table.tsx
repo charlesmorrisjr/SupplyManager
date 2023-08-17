@@ -73,8 +73,6 @@ export default function EmployeeDetailsTable() {
 
             <Combobox onValueChange={setSelectedEmployee} value={comboValue} setValue={setComboValue}/>
 
-            <Button onClick={() => console.log(data)}>Click</Button>
-
             <Popover>
               <PopoverTrigger asChild>
                 <Button
