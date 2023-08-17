@@ -13,8 +13,8 @@ export default async function getUsers(req: NextApiRequest, res: NextApiResponse
           standard_time: true,
         },
         where: {
-          // date: new Date(searchDate)
-          date: new Date('08-16-2023')
+          date: new Date(searchDate)
+          // date: new Date('08-16-2023')
         }
       }
     },

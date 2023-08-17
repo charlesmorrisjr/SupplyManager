@@ -95,9 +95,9 @@ export const columns: ColumnDef<Employees>[] = [
 
       // Check if employee actually worked on any trips
       if (trips.length > 0) {
-        let avg_performance = (trips.reduce((total, current) => {
-          let actual_time = (new Date(current.end_time)).getTime() - (new Date(current.start_time)).getTime();
-          let standard_time = (new Date(current.standard_time)).getTime();
+        let avg_performance = (trips.reduce((total, trip) => {
+          let actual_time = (new Date(trip.end_time)).getTime() - (new Date(trip.start_time)).getTime();
+          let standard_time = (new Date(trip.standard_time)).getTime();
           let performance = (standard_time / actual_time) * 100;
           console.log(performance, row.getValue("id"));
           return total + Number(performance);
