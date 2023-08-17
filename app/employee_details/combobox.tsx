@@ -20,9 +20,8 @@ import {
 
 import useSWR from 'swr';
 
-export function Combobox({ onValueChange }: { onValueChange: (value: number) => void}) {
+export function Combobox({ onValueChange, value, setValue }: { onValueChange: (value: number) => void, value: string | undefined, setValue: (value: string) => void}) {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
 
   // Fetch data from database using SWR
   const fetcher = async (url: string) => await fetch(url).then((response) => response.json());

@@ -38,7 +38,12 @@ export default function EmployeeDetailsTable() {
   const curDate = new Date(new Date().setHours(0, 0, 0, 0));
   const [date, setDate] = React.useState<Date | undefined>(curDate);
 
+  // selectedEmployee is used to pass the employee id to the database. setSelectedEmployee is passed to the child component Combobox
   const [selectedEmployee, setSelectedEmployee] = React.useState<number | undefined>(0);
+  
+  // comboValue is used to display the employee username in the Combobox. This state is defined here
+  // and passed to Combobox so that the Combobox doesn't lose its value when the table refreshes.
+  const [comboValue, setComboValue] = React.useState<string | undefined>("");
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date, selectedEmployee]: [string, any, any]) =>
@@ -66,7 +71,7 @@ export default function EmployeeDetailsTable() {
         <CardContent className="flex flex-col space-y-4">
           <div className="flex items-center justify-between">
 
-            <Combobox onValueChange={setSelectedEmployee}/>
+            <Combobox onValueChange={setSelectedEmployee} value={comboValue} setValue={setComboValue}/>
 
             <Button onClick={() => console.log(data)}>Click</Button>
 
