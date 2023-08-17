@@ -52,6 +52,7 @@ export function DataTable<TData, TValue>({
     }
   })
 
+  // Used to display skeleton rows while data is loading
   const skeletonRows = Array.from({ length: 10 }, (_, i) => i)
 
   return (
