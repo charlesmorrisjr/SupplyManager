@@ -2,7 +2,7 @@ import TripsTable from './table';
 
 export const dynamic = 'force-dynamic';
 
-export default async function TripManagementPage() {
+export default async function EmployeeDetailsPage() {
   // const data = await getData()
 
   return (

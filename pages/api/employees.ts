@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-export default async function getUsers(req: NextApiRequest, res: NextApiResponse) {
+export default async function getEmployees(req: NextApiRequest, res: NextApiResponse) {
   const searchDate = String(req.headers.datevalue);
   const allEmployees = await prisma.employees.findMany({
     include: {

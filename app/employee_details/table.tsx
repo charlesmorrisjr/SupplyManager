@@ -30,7 +30,7 @@ import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
 
-export default function TripsTable() {
+export default function EmployeeDetailsTable() {
   // Sets the date to the current date at midnight to prevent timezone issues
   // when retrieving data from the database
   const curDate = new Date(new Date().setHours(0, 0, 0, 0));
