@@ -27,6 +27,7 @@ import {
 
 import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
+import { ComboboxDemo } from "./combobox";
 
 import useSWR from 'swr';
 
@@ -87,6 +88,8 @@ export default function EmployeeDetailsTable() {
               </PopoverContent>
             </Popover>
           </div>
+        
+          <ComboboxDemo />
 
           <DataTable columns={columns} data={data} />
 

@@ -12,6 +12,5 @@ export default async function getEmployeeDetails(req: NextApiRequest, res: NextA
       date: new Date(searchDate)
     }
   });
-  console.log(allTrips)
   res.json(allTrips)
 }
