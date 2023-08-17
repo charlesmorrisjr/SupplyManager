@@ -35,8 +35,6 @@ export type Trips = {
   route: number
   stop: number
   completion: number
-  // employee_id: number
-  employees: object
   weight: number
   cases_picked: number
   total_cases: number
@@ -122,47 +120,6 @@ export const columns: ColumnDef<Trips>[] = [
           }
         </div>
       )
-    },
-  },
-  // {
-  //   accessorKey: "employee_id",
-  //   header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         Employee ID
-  //         <ArrowUpDown className="ml-2 h-4 w-4" />
-  //       </Button>
-  //     )
-  //   },
-  //   cell: ({ row }) => {
-  //     return <div className="text-center font-medium">{row.getValue("employee_id")}</div>
-  //   },
-  // },
-  {
-    accessorKey: "employees",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Employee Username
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => {
-      const employees = row.getValue("employees");
-
-      // Check if employees is an object and not null; otherwise, TypeScript will complain
-      if (typeof employees === "object" && employees !== null && "username" in employees) {
-        let username = String(employees.username);  
-        console.log(employees);
-        return <div className="text-center font-medium">{username}</div>
-      }
     },
   },
   {

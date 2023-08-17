@@ -81,7 +81,6 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
       </Popover>
     )
   } else {
-    console.log("Loading...")
     return (
       <Popover>
         <PopoverTrigger asChild>
