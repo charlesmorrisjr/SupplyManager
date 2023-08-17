@@ -97,11 +97,11 @@ export function DataTable<TData, TValue>({
                   </TableCell>
                 </TableRow>
             ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
-                <Skeleton className="w-[100%] h-[30px] rounded-full" />
-              </TableCell>
-            </TableRow>
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
+                  <Skeleton className="w-[100%] h-[30px] rounded-full" />
+                </TableCell>
+              </TableRow>
             )}
           </TableBody>
         </Table>

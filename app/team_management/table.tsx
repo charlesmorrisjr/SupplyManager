@@ -48,14 +48,13 @@ export default function TeamTable() {
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
-  if (!data) return <div>Loading ...</div>
 
   return (
     <div className="mt-6">
 
       <Card>
         <CardHeader>
-          <CardTitle>Employees <Badge variant='secondary' className='text-xl'>{data.length}</Badge></CardTitle>
+          <CardTitle>Employees <Badge variant='secondary' className='text-xl'>{data && data.length}</Badge></CardTitle>
         </CardHeader>
 
         <CardContent className="flex flex-col space-y-4">
