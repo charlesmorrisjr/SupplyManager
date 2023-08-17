@@ -59,7 +59,7 @@ export default function EmployeeDetailsTable() {
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
-  if (!data) return <div>Loading ...</div>
+  // if (!data) return <div>Loading ...</div>
     
   return (
     <div className="mt-6"> 
