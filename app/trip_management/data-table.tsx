@@ -110,7 +110,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {data &&
+      {data && table.getRowModel().rows?.length > 0 &&
         <DataTablePagination table={table} />
       }
     </div>
