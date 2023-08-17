@@ -30,6 +30,7 @@ import { DataTable } from "./data-table"
 import { Combobox } from "./combobox";
 
 import useSWR from 'swr';
+import { Separator } from "@radix-ui/react-dropdown-menu";
 
 export default function EmployeeDetailsTable() {
   // Sets the date to the current date at midnight to prevent timezone issues
@@ -42,7 +43,7 @@ export default function EmployeeDetailsTable() {
   await fetch(url, {
     headers: {
       datevalue: String(date),
-      employeeid: String(100)
+      employeeid: String(0)
     }
   }).then((response) => response.json());
 
@@ -54,15 +55,16 @@ export default function EmployeeDetailsTable() {
   if (!data) return <div>Loading ...</div>
     
   return (
-    <div className="mt-6">
-
+    <div className="mt-6"> 
       <Card>
         <CardHeader>
-          <CardTitle>Trips <Badge variant='secondary' className='text-xl'>{data.length}</Badge></CardTitle>
+          <CardTitle>Employee Details</CardTitle>
         </CardHeader>
 
         <CardContent className="flex flex-col space-y-4">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-between">
+
+          <Combobox />
 
             <Popover>
               <PopoverTrigger asChild>
@@ -87,9 +89,9 @@ export default function EmployeeDetailsTable() {
                 />
               </PopoverContent>
             </Popover>
-          </div>
-        
-          <Combobox />
+          </div>          
+
+          <Separator />
 
           <DataTable columns={columns} data={data} />
 

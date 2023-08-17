@@ -20,41 +20,18 @@ import {
 
 import useSWR from 'swr';
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-]
-
 export function Combobox() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
-    // Fetch data from database using SWR
-    const fetcher = async (url: string) => await fetch(url).then((response) => response.json());
-    const { data, error } = useSWR('/api/employee_list', fetcher);
-    
-    // * Uncomment the following line to have the table refresh every second
-    // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
-    if (error) return <div>An error occurred.</div>
-    if (!data) return <div>Loading ...</div>
+  // Fetch data from database using SWR
+  const fetcher = async (url: string) => await fetch(url).then((response) => response.json());
+  const { data, error } = useSWR('/api/employee_list', fetcher);
+  
+  // * Uncomment the following line to have the table refresh every second
+  // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
+  if (error) return <div>An error occurred.</div>
+  if (!data) return <div>Loading ...</div>
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -66,19 +43,19 @@ export function Combobox() {
           className="w-[200px] justify-between"
         >
           {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select framework..."}
+            ? data.find((employee: any) => employee.username === value)?.username
+            : "Select employee..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandInput placeholder="Search employees..." />
+          <CommandEmpty>No employee found.</CommandEmpty>
           <CommandGroup>
-            {frameworks.map((framework) => (
+            {data.map((employee: any) => (
               <CommandItem
-                key={framework.value}
+                key={employee.id}
                 onSelect={(currentValue) => {
                   setValue(currentValue === value ? "" : currentValue)
                   setOpen(false)
@@ -87,10 +64,11 @@ export function Combobox() {
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === framework.value ? "opacity-100" : "opacity-0"
+                    value === employee.username ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {framework.label}
+                {/* {employee.username} - {employee.last_name}, {employee.first_name} */}
+                {employee.username}
               </CommandItem>
             ))}
           </CommandGroup>
