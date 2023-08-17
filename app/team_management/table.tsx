@@ -30,7 +30,8 @@ import { DataTable } from "./data-table"
 import useSWR from 'swr';
 
 export default function TeamTable() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const curDate = new Date(new Date().setHours(0, 0, 0, 0));
+  const [date, setDate] = React.useState<Date | undefined>(curDate);
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date]: [string, any]) =>
@@ -74,6 +75,7 @@ export default function TeamTable() {
               <PopoverContent className="w-auto p-0">
                 <Calendar
                   mode="single"
+                  required
                   selected={date}
                   onSelect={setDate}
                   initialFocus
