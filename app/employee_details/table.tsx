@@ -38,17 +38,19 @@ export default function EmployeeDetailsTable() {
   const curDate = new Date(new Date().setHours(0, 0, 0, 0));
   const [date, setDate] = React.useState<Date | undefined>(curDate);
 
+  const [selectedEmployee, setSelectedEmployee] = React.useState<number | undefined>(0);
+
   // Fetch data from database using SWR
-  const fetcher = async ([url, date]: [string, any]) =>
+  const fetcher = async ([url, date, selectedEmployee]: [string, any, any]) =>
   await fetch(url, {
     headers: {
       datevalue: String(date),
-      employeeid: String(0)
+      employee_id: String(selectedEmployee)
     }
   }).then((response) => response.json());
 
-  const { data, error } = useSWR([ '/api/employee_details', date ], fetcher);
-  
+  const { data, error } = useSWR([ '/api/employee_details', date, selectedEmployee ], fetcher);
+
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
@@ -64,7 +66,9 @@ export default function EmployeeDetailsTable() {
         <CardContent className="flex flex-col space-y-4">
           <div className="flex items-center justify-between">
 
-          <Combobox />
+            <Combobox onValueChange={setSelectedEmployee}/>
+
+            <Button onClick={() => console.log(data)}>Click</Button>
 
             <Popover>
               <PopoverTrigger asChild>

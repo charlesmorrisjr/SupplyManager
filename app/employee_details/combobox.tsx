@@ -20,7 +20,7 @@ import {
 
 import useSWR from 'swr';
 
-export function Combobox() {
+export function Combobox({ onValueChange }: { onValueChange: (value: number) => void}) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
@@ -56,8 +56,13 @@ export function Combobox() {
             {data.map((employee: any) => (
               <CommandItem
                 key={employee.id}
+                value={employee.username}
                 onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue)
+                  // Find the employee id that matches the username, then pass it to the
+                  // onValueChange function to make an API request to the database
+                  onValueChange(currentValue === value ? 0 : data.find((employee: any) => employee.username === currentValue)?.id)
+                  
+                  setValue(currentValue === value ? "" : currentValue)                  
                   setOpen(false)
                 }}
               >

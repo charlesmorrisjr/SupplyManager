@@ -4,13 +4,33 @@ const prisma = new PrismaClient()
 
 export default async function getEmployeeDetails(req: NextApiRequest, res: NextApiResponse) {
   const searchDate = String(req.headers.datevalue);
-  const employeeID = Number(req.headers.employeeid);
+  const employeeID = Number(req.headers.employee_id);
   console.log(searchDate, employeeID);
-  const allTrips = await prisma.trips.findMany({
+  // const allTrips = await prisma.trips.findMany({
+  //   where: {
+  //     date: new Date(searchDate),
+  //     employee_id: 100
+  //   },
+  // });
+  // res.json(allTrips)
+  const allEmployees = await prisma.employees.findMany({
+    select: {
+      id: true,
+      trips: {
+        where: {
+          date: new Date(searchDate),
+          employee_id: employeeID
+        },
+      },
+    },
     where: {
-      employee_id: employeeID,
-      date: new Date(searchDate)
+      id: employeeID
     }
-  });
-  res.json(allTrips)
+  });      
+  // console.log(allEmployees[0].trips);
+  if (allEmployees.length) {
+    res.json(allEmployees[0].trips);
+  } else {
+    res.json(allEmployees);
+  }
 }
