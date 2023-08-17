@@ -18,7 +18,7 @@ const CASE_WEIGHT = 30, CASE_TIME = 13 * 1000;  // 13 seconds per case
 
 const MS_PER_HOUR = 1000 * 60 * 60;
 
-const START_DATE = new Date('08-01-2023'), END_DATE = new Date('08-16-2023');
+const START_DATE = new Date('01-01-2023'), END_DATE = new Date('08-16-2023');
 // const START_DATE = new Date(), END_DATE = new Date();
 
 // TODO: Only assign trips to employees who are orderfillers or lift drivers
@@ -115,6 +115,7 @@ async function insertTrips() {
     
     for (let curDate = START_DATE; curDate <= END_DATE; curDate.setDate(curDate.getDate() + 1)) {
       let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
+      // let numTrips = 1;
       
       console.log(curDate);
   

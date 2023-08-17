@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { start } from "repl"
 
 
 // This type is used to define the shape of our data.
@@ -21,7 +22,7 @@ export type Employees = {
   first_name: string
   last_name: string
   name: string
-  email: string
+  trips: object
 }
 
 export const columns: ColumnDef<Employees>[] = [
@@ -77,20 +78,34 @@ export const columns: ColumnDef<Employees>[] = [
     },
   },
   {
-    accessorKey: "email",
+    accessorKey: "trips",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Performance
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => {
-      return <div className="text-left font-medium">{row.getValue("email")}</div>
+      const trips: any[] = row.getValue("trips");
+
+      // Check if employee actually worked on any trips
+      if (trips.length > 0) {
+        let avg_performance = (trips.reduce((total, current) => {
+          let actual_time = (new Date(current.end_time)).getTime() - (new Date(current.start_time)).getTime();
+          let standard_time = (new Date(current.standard_time)).getTime();
+          let performance = (standard_time / actual_time) * 100;
+          console.log(performance, row.getValue("id"));
+          return total + Number(performance);
+        }, 0) / trips.length).toFixed(2);
+        
+        return <div className="text-center font-medium">{avg_performance}%</div>
+      }
+      return <div className="text-center font-medium">N/A</div>
     },
   },
   {

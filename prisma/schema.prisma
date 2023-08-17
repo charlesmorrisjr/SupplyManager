@@ -32,7 +32,6 @@ model employees {
   last_login       DateTime? @db.Date
   permission_level Int       @default(1) @db.SmallInt
   employee_type    Int       @default(1) @db.SmallInt
-  performance      Decimal?  @db.Decimal(5, 4)
   last_name        String?   @db.VarChar(50)
   password         String?   @db.VarChar(50)
   trips            trips[]

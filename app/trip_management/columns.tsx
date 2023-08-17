@@ -160,6 +160,7 @@ export const columns: ColumnDef<Trips>[] = [
       // Check if employees is an object and not null; otherwise, TypeScript will complain
       if (typeof employees === "object" && employees !== null && "username" in employees) {
         let username = String(employees.username);  
+        console.log(employees);
         return <div className="text-center font-medium">{username}</div>
       }
     },
