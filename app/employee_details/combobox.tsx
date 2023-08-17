@@ -18,6 +18,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+import useSWR from 'swr';
+
 const frameworks = [
   {
     value: "next.js",
@@ -41,9 +43,18 @@ const frameworks = [
   },
 ]
 
-export function ComboboxDemo() {
+export function Combobox() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
+
+    // Fetch data from database using SWR
+    const fetcher = async (url: string) => await fetch(url).then((response) => response.json());
+    const { data, error } = useSWR('/api/employee_list', fetcher);
+    
+    // * Uncomment the following line to have the table refresh every second
+    // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
+    if (error) return <div>An error occurred.</div>
+    if (!data) return <div>Loading ...</div>
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

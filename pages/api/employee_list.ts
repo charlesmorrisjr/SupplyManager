@@ -1,0 +1,8 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
+export default async function getEmployeeList(req: NextApiRequest, res: NextApiResponse) {
+  const allEmployees = await prisma.employees.findMany();
+  res.json(allEmployees)
+}
