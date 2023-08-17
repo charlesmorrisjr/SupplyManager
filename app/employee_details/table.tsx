@@ -30,7 +30,7 @@ import { DataTable } from "./data-table"
 import { Combobox } from "./combobox";
 
 import useSWR from 'swr';
-import { Separator } from "@radix-ui/react-dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 
 export default function EmployeeDetailsTable() {
   // Sets the date to the current date at midnight to prevent timezone issues
@@ -97,12 +97,13 @@ export default function EmployeeDetailsTable() {
               </PopoverContent>
             </Popover>
           </div>          
-
-          <Separator />
-
           <DataTable columns={columns} data={data} />
-
         </CardContent>
+      {/* <CardHeader> */}
+            {/* <Separator /> */}
+            {/* <CardTitle>Trips <Badge variant='secondary' className='text-xl'>{data && data.length}</Badge></CardTitle> */}
+        {/* </CardHeader> */}
+
       </Card>
     </div>
   )
