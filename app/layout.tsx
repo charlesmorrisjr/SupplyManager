@@ -16,7 +16,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full bg-gray-200">
+    <html lang="en" className="h-full">
       <body className="h-full">
         <ThemeProvider attribute="class" defaultTheme="light">
           <Suspense>

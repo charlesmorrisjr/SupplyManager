@@ -32,6 +32,9 @@ import { Combobox } from "./combobox";
 import useSWR from 'swr';
 import { Separator } from "@/components/ui/separator";
 
+import {Chart} from "./chart";
+import { Table } from "@/components/ui/table";
+
 export default function EmployeeDetailsTable() {
   // Sets the date to the current date at midnight to prevent timezone issues
   // when retrieving data from the database
@@ -59,7 +62,6 @@ export default function EmployeeDetailsTable() {
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
-  // if (!data) return <div>Loading ...</div>
     
   return (
     <div className="mt-6"> 
@@ -97,6 +99,38 @@ export default function EmployeeDetailsTable() {
               </PopoverContent>
             </Popover>
           </div>          
+          
+          <Separator />
+          
+          <div className="flex justify-between space-x-4">
+            <div className="flex-1 w-64">
+            <Card>
+              <CardHeader>
+                <CardTitle>Stats</CardTitle>
+                <CardDescription>
+                  Employee Stats for {date ? format(date, "PPP") : "today"}.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pb-4">
+                <div className="pb-4">
+                  <div className="pb-8">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">John Doe</p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">johndoe@supplymanager.com</p>
+                  </div>
+                  <div className="flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">Performance</p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">100%</p>
+                  </div>
+                </div>
+              </CardContent>                    
+            </Card>
+            </div>
+            
+            <div className="flex-1 w-64">
+              <Chart />
+            </div>
+          </div>
+          
           <DataTable columns={columns} data={data} />
         </CardContent>
       {/* <CardHeader> */}
