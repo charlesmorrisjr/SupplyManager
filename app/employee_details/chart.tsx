@@ -16,37 +16,6 @@ import {
 } from "@/components/ui/card"
 // import { themes } from "@/components/ui/themes"
 
-// const data = [
-//   {
-//     average: 400,
-//     today: 240,
-//   },
-//   {
-//     average: 300,
-//     today: 139,
-//   },
-//   {
-//     average: 200,
-//     today: 980,
-//   },
-//   {
-//     average: 278,
-//     today: 390,
-//   },
-//   {
-//     average: 189,
-//     today: 480,
-//   },
-//   {
-//     average: 239,
-//     today: 380,
-//   },
-//   {
-//     average: 349,
-//     today: 430,
-//   },
-// ]
-
 const data: any[] = [];
 
 function populateData(trips: any) {
@@ -55,8 +24,8 @@ function populateData(trips: any) {
 
   trips.forEach((trip: any) => {
     data.push({
-      average: 100.00,
-      today: trip.performance,
+      baseline: 100.00,
+      percentage: trip.performance,
     });
   });
 }
@@ -101,7 +70,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
             >
               <Tooltip
                 content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
+                  if (active && payload && payload !== undefined && payload.length) {
                     return (
                       <div className="rounded-lg border bg-background p-2 shadow-sm">
                         <div className="grid grid-cols-2 gap-2">
@@ -110,7 +79,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                               Baseline
                             </span>
                             <span className="font-bold text-muted-foreground">
-                              {payload[0].value}
+                              {payload[0].value}%
                             </span>
                           </div>
                           <div className="flex flex-col">
@@ -118,7 +87,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                               Trip
                             </span>
                             <span className="font-bold">
-                              {payload[1].value}
+                              {payload[1].value}%
                             </span>
                           </div>
                         </div>
@@ -132,7 +101,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
               <Line
                 type="monotone"
                 strokeWidth={2}
-                dataKey="average"
+                dataKey="baseline"
                 activeDot={{
                   r: 6,
                   style: { fill: "black", opacity: 0.25 },
@@ -150,7 +119,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
               />
               <Line
                 type="monotone"
-                dataKey="today"
+                dataKey="percentage"
                 strokeWidth={2}
                 activeDot={{
                   r: 8,

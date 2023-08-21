@@ -156,12 +156,6 @@ export default function EmployeeDetailsTable() {
                       {selectedEmployee.id ? selectedEmployee.email : 'N/A'}
                     </p>
                   </div>
-                  <div className="flex-auto">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">Performance</p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      {selectedEmployee.id ? avgPerformance(data) : 'N/A'}
-                    </p>
-                  </div>
                 </div>
               </CardContent>                    
             </Card>
