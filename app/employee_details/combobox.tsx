@@ -20,7 +20,7 @@ import {
 
 import useSWR from 'swr';
 
-export function Combobox({ onValueChange, value, setValue }: { onValueChange: (value: number) => void, value: string | undefined, setValue: (value: string) => void}) {
+export function Combobox({ onValueChange, value, setValue }: { onValueChange: (value: any) => void, value: string | undefined, setValue: (value: string) => void}) {
   const [open, setOpen] = React.useState(false)
 
   // Fetch data from database using SWR
@@ -59,8 +59,8 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
                   onSelect={(currentValue) => {
                     // Find the employee id that matches the username, then pass it to the
                     // onValueChange function to make an API request to the database
-                    onValueChange(currentValue === value ? 0 : data.find((employee: any) => employee.username === currentValue)?.id)
-                    
+                    onValueChange(currentValue === value ? 0 : data.find((employee: any) => employee.username === currentValue))
+          
                     setValue(currentValue === value ? "" : currentValue)                  
                     setOpen(false)
                   }}

@@ -55,14 +55,22 @@ function avgPerformance(trips: Trips[]) {
   return 0;
 }
 
+type selectedEmployeeObj = {
+  id: number,
+  first_name: string,
+  last_name: string,
+  username: string
+  email: string,
+}
+
 export default function EmployeeDetailsTable() {
   // Sets the date to the current date at midnight to prevent timezone issues
   // when retrieving data from the database
   const curDate = new Date(new Date().setHours(0, 0, 0, 0));
   const [date, setDate] = React.useState<Date | undefined>(curDate);
 
-  // selectedEmployee is used to pass the employee id to the database. setSelectedEmployee is passed to the child component Combobox
-  const [selectedEmployee, setSelectedEmployee] = React.useState<number | undefined>(0);
+  // selectedEmployee is used to pass the employee info to this component. setSelectedEmployee is passed to the child component Combobox
+  const [selectedEmployee, setSelectedEmployee] = React.useState<selectedEmployeeObj>({id: 0, first_name: "", last_name: "", username: "", email: ""});
   
   // comboValue is used to display the employee username in the Combobox. This state is defined here
   // and passed to Combobox so that the Combobox doesn't lose its value when the table refreshes.
@@ -73,7 +81,7 @@ export default function EmployeeDetailsTable() {
   await fetch(url, {
     headers: {
       datevalue: String(date),
-      employee_id: String(selectedEmployee)
+      employee_id: String(selectedEmployee.id)
     }
   }).then((response) => response.json());
 
@@ -135,14 +143,23 @@ export default function EmployeeDetailsTable() {
                 <div className="pb-4">
                   <div className="pb-8">
                     <p className="text-sm font-semibold leading-6 text-gray-900">
-                      John Doe
+                      {selectedEmployee.id
+                        ? 
+                        <>
+                          {selectedEmployee.first_name} {selectedEmployee.last_name}
+                        </>
+                        : 
+                          'N/A'
+                      }
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">johndoe@supplymanager.com</p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {selectedEmployee.id ? selectedEmployee.email : 'N/A'}
+                    </p>
                   </div>
                   <div className="flex-auto">
                     <p className="text-sm font-semibold leading-6 text-gray-900">Performance</p>
                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      {selectedEmployee ? avgPerformance(data) : 'N/A'}
+                      {selectedEmployee.id ? avgPerformance(data) : 'N/A'}
                     </p>
                   </div>
                 </div>
