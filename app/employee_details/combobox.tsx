@@ -57,10 +57,13 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
                   key={employee.id}
                   value={employee.username}
                   onSelect={(currentValue) => {
-                    // Find the employee id that matches the username, then pass it to the
+                    // Find the employee id that matches the username, then pass the object to the
                     // onValueChange function to make an API request to the database
-                    onValueChange(currentValue === value ? 0 : data.find((employee: any) => employee.username === currentValue))
-          
+                    onValueChange(
+                      currentValue === value 
+                      ? {id: 0, first_name: "", last_name: "", username: "", email: ""}
+                      : data.find((employee: any) => employee.username === currentValue)
+                    )          
                     setValue(currentValue === value ? "" : currentValue)                  
                     setOpen(false)
                   }}
