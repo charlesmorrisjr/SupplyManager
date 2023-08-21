@@ -29,6 +29,7 @@ import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
+import { get } from "http";
 
 export default function TripsTable() {
   // Sets the date to the current date at midnight to prevent timezone issues
@@ -44,8 +45,8 @@ export default function TripsTable() {
     }
   }).then((response) => response.json());
 
-  const { data, error } = useSWR([ '/api/trips', date ], fetcher);
-  
+  let { data, error } = useSWR([ '/api/trips', date ], fetcher);
+
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>

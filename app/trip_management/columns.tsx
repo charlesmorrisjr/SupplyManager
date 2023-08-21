@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect } from "react";
+import useSWR from 'swr';
 
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
@@ -143,7 +144,7 @@ export const columns: ColumnDef<Trips>[] = [
       // Check if employees is an object and not null; otherwise, TypeScript will complain
       if (typeof employees === "object" && employees !== null && "username" in employees) {
         let username = String(employees.username);  
-        console.log(employees);
+        // console.log(employees);
         return <div className="text-center font-medium">{username}</div>
       }
     },
@@ -243,15 +244,16 @@ export const columns: ColumnDef<Trips>[] = [
   },
   {
     id: "actions",
-    cell: () => { 
+    cell: ({ row }) => { 
+      console.log(row.getValue("id"));
       return (
-        <DropdownWithDialogItemsSolution2 />
+        <DropdownWithDialogItemsSolution tripID={row.getValue("id")} />
       )
     },
   },
 ]
 
-function DropdownWithDialogItemsSolution2() {
+function DropdownWithDialogItemsSolution({ tripID }: { tripID: string }) {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
   const dropdownTriggerRef: any = React.useRef(null);
@@ -267,6 +269,27 @@ function DropdownWithDialogItemsSolution2() {
       setDropdownOpen(false);
       document.body.style.pointerEvents = ""; // Fix to re-enable pointer events
     }
+  }
+
+  const fetcher = async ([url, id]: [string, string]) =>
+  await fetch(url, {
+    headers: {
+      trip_id: id,
+    }
+  }).then((response) => response.json());
+
+  let { data, error } = useSWR([ '/api/trip_details', tripID ], fetcher);
+
+  // const fetcher = async (url: string) => await fetch(url).then((response) => response.json());
+  // const { data, error } = useSWR(() => '/api/trip_details', fetcher);  
+
+  console.log(tripID);
+
+  if (!data || error) {
+    console.log("No data or error");
+  } else {
+    console.log(data[0].trip_details);
+    console.log(data.length, data[0].trip_details[0]?.items?.name);
   }
 
   return (
@@ -296,9 +319,19 @@ function DropdownWithDialogItemsSolution2() {
       >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Trip Details</DialogTitle>
+            <DialogTitle>Trip Details: {tripID}</DialogTitle>
             <DialogDescription>
-              Here are the details:
+              {data && data[0].trip_details.length ? (
+                data[0].trip_details.map((pickedCase: any) => (
+                  <div key={pickedCase.id}>
+                    <p>Item: {pickedCase.items.name}</p>
+                  </div>
+                ))
+              ) : (
+                <div>
+                  <p>No items.</p>
+                </div>
+              )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

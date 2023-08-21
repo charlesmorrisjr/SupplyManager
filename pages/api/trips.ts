@@ -15,13 +15,20 @@ export default async function getTrips(req: NextApiRequest, res: NextApiResponse
         select: {
           username: true
         }
-      }
+      },
+      trip_details: {
+        select: {
+          items: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
     where: {
       date: new Date(searchDate)
-      // date: new Date('08-09-2023')
     }
   });
-  // console.log(allTrips);
   res.json(allTrips)
 }

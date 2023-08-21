@@ -63,6 +63,22 @@ type selectedEmployeeObj = {
   email: string,
 }
 
+// export function useMultipleRequests() {
+//   const urls: any[] = ['/api/v1/magazines/1234', '/api/v1/magazines/1234/articles']
+
+//   const fetcher = (...urls: any[]) => {
+//     const f = (url: any) => fetch(url).then(r => r.json())
+//     return Promise.all(urls.map(url => f(url)))
+//   }
+
+//   const { data, error } = useSWR(urls, fetcher)
+//   return {
+//     data: data,
+//     isError: !!error,
+//     isLoading: !data && !error
+//   }
+// }
+
 export default function EmployeeDetailsTable() {
   // Sets the date to the current date at midnight to prevent timezone issues
   // when retrieving data from the database
@@ -86,6 +102,18 @@ export default function EmployeeDetailsTable() {
   }).then((response) => response.json());
 
   const { data, error } = useSWR([ '/api/employee_details', date, selectedEmployee ], fetcher);
+
+  // // TODO: Starter code for retrieving trip details as required
+  // const fetcher = async (url: string) => await fetch(url).then((response) => response.json());
+  // const { data, error } = useSWR(() => '/api/trip_details', fetcher);  
+
+  // if (!data || error) {
+  //   console.log("No data or error");
+  // } else {
+  //   console.log(data);
+  // }
+
+  // return;
 
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });

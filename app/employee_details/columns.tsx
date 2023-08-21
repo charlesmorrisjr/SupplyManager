@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect } from "react";
+import useSWR from 'swr';
 
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
@@ -196,15 +197,15 @@ export const columns: ColumnDef<Trips>[] = [
   },
   {
     id: "actions",
-    cell: () => { 
+    cell: ({ row }) => { 
       return (
-        <DropdownWithDialogItemsSolution2 />
+        <DropdownWithDialogItemsSolution />
       )
     },
   },
 ]
 
-function DropdownWithDialogItemsSolution2() {
+function DropdownWithDialogItemsSolution() {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
   const dropdownTriggerRef: any = React.useRef(null);
@@ -251,7 +252,8 @@ function DropdownWithDialogItemsSolution2() {
           <DialogHeader>
             <DialogTitle>Trip Details</DialogTitle>
             <DialogDescription>
-              Here are the details:
+              Items on this trip:
+              
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

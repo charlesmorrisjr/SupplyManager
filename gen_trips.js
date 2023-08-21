@@ -15,6 +15,7 @@ const MAX_EMPLOYEES = 100, MAX_CASES = 400, MAX_DOORS = 30;
 const MIN_ROUTES = 30, MAX_ROUTES = 50, MAX_STOPS = 4;
 const MIN_TRIPS_PER_DAY = 400, TRIPS_PER_DAY_RANDOM_RANGE = 200, TRIP_LENGTH_RANDOM_RANGE = 1000 * 60 * 60 * 0.5; // 30 minute range
 const CASE_WEIGHT = 30, CASE_TIME = 13 * 1000;  // 13 seconds per case
+const MIN_ITEM_NUM = 1, MAX_ITEM_NUM = 1807154;
 
 const MS_PER_HOUR = 1000 * 60 * 60;
 
@@ -56,6 +57,21 @@ function genWeight(totalCases){
   }
   return weight;
 } 
+
+async function generateItems(trip_id, cases) {
+  let client = await pool.connect();
+
+  try {
+    for (let i = 0; i < cases; i++) {
+      const query = 'INSERT INTO trip_details (trip_id, item_id) VALUES ($1, $2) RETURNING *';
+      const values = [trip_id, faker.number.int({min: MIN_ITEM_NUM, max: MAX_ITEM_NUM})];
+        
+      const res = await client.query(query, values);
+    }
+  } finally {
+    client.release();
+  }  
+}
 
 function generateRandomTrip(curDate) {
   let date = curDate;
@@ -129,7 +145,7 @@ async function insertTrips(startDate = TODAYS_DATE, endDate = TODAYS_DATE) {
   let client = await pool.connect();
   
   try {
-    const query = 'INSERT INTO trips (completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time, performance) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *';
+    const query = 'INSERT INTO trips (completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time, performance) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
     // const values = [completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time];
     
     for (let curDate = startDate; curDate <= endDate; curDate.setDate(curDate.getDate() + 1)) {
@@ -151,13 +167,15 @@ async function insertTrips(startDate = TODAYS_DATE, endDate = TODAYS_DATE) {
   }
 }
 
-if ((new Date(process.argv[2])).toString() !== 'Invalid Date' && (new Date(process.argv[3])).toString() !== 'Invalid Date') {
-  console.log(`Inserting trips from ${process.argv[2]} to ${process.argv[3]}...`);
-  insertTrips(new Date(process.argv[2]), new Date(process.argv[3]));
-} else if (process.argv.length === 2) {
-  console.log(`Inserting trips for ${TODAYS_DATE}...`);
-  insertTrips();
-} else if ((new Date(process.argv[2])).toString() === 'Invalid Date' || (new Date(process.argv[3])).toString() === 'Invalid Date') {
-  console.log('Invalid date(s)');
-  console.log('Please enter two valid dates (ex: gen_trips 01-01-2023 01-31-2023) or no dates to (ex: gen_trips)');
-}
+// if ((new Date(process.argv[2])).toString() !== 'Invalid Date' && (new Date(process.argv[3])).toString() !== 'Invalid Date') {
+//   console.log(`Inserting trips from ${process.argv[2]} to ${process.argv[3]}...`);
+//   insertTrips(new Date(process.argv[2]), new Date(process.argv[3]));
+// } else if (process.argv.length === 2) {
+//   console.log(`Inserting trips for ${TODAYS_DATE}...`);
+//   insertTrips();
+// } else if ((new Date(process.argv[2])).toString() === 'Invalid Date' || (new Date(process.argv[3])).toString() === 'Invalid Date') {
+//   console.log('Invalid date(s)');
+//   console.log('Please enter two valid dates (ex: gen_trips 01-01-2023 01-31-2023) or no dates to (ex: gen_trips)');
+// }
+
+generateItems(122269, 270);
