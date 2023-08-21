@@ -35,6 +35,26 @@ import { Separator } from "@/components/ui/separator";
 import {Chart} from "./chart";
 import { Table } from "@/components/ui/table";
 
+function avgPerformance(trips: Trips[]) {
+  // Get number of completed trips
+  let completedTrips = (trips || []).filter(trip => trip.completion === 2).length;
+
+  // Check if employee actually completed any trips
+  if (completedTrips > 0) {
+    // Calculate average performance by adding up all performance values and dividing by number of completed trips
+    let avg_performance = (trips.reduce((total, trip) => {
+      if (trip.completion === 2) {
+        return total + Number(trip.performance);
+      } else {
+        return total;
+      }
+    }, 0) / completedTrips).toFixed(2);
+    
+    return avg_performance;
+  }
+  return 0;
+}
+
 export default function EmployeeDetailsTable() {
   // Sets the date to the current date at midnight to prevent timezone issues
   // when retrieving data from the database
@@ -114,12 +134,16 @@ export default function EmployeeDetailsTable() {
               <CardContent className="pb-4">
                 <div className="pb-4">
                   <div className="pb-8">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">John Doe</p>
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      John Doe
+                    </p>
                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">johndoe@supplymanager.com</p>
                   </div>
                   <div className="flex-auto">
                     <p className="text-sm font-semibold leading-6 text-gray-900">Performance</p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">100%</p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {selectedEmployee ? avgPerformance(data) : 'N/A'}
+                    </p>
                   </div>
                 </div>
               </CardContent>                    
