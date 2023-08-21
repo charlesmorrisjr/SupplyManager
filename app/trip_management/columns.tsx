@@ -28,6 +28,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import { ScrollArea } from "@/components/ui/scroll-area"
+
+import { Separator } from "@/components/ui/separator"
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge";
 
@@ -144,7 +158,6 @@ export const columns: ColumnDef<Trips>[] = [
       // Check if employees is an object and not null; otherwise, TypeScript will complain
       if (typeof employees === "object" && employees !== null && "username" in employees) {
         let username = String(employees.username);  
-        // console.log(employees);
         return <div className="text-center font-medium">{username}</div>
       }
     },
@@ -245,7 +258,6 @@ export const columns: ColumnDef<Trips>[] = [
   {
     id: "actions",
     cell: ({ row }) => { 
-      console.log(row.getValue("id"));
       return (
         <DropdownWithDialogItemsSolution tripID={row.getValue("id")} />
       )
@@ -280,103 +292,116 @@ function DropdownWithDialogItemsSolution({ tripID }: { tripID: string }) {
 
   let { data, error } = useSWR([ '/api/trip_details', tripID ], fetcher);
 
-  // const fetcher = async (url: string) => await fetch(url).then((response) => response.json());
-  // const { data, error } = useSWR(() => '/api/trip_details', fetcher);  
+  if (data && !error) {
 
-  console.log(tripID);
-
-  if (!data || error) {
-    console.log("No data or error");
-  } else {
-    console.log(data[0].trip_details);
-    console.log(data.length, data[0].trip_details[0]?.items?.name);
+    return (
+      <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent 
+          sideOffset={15}
+          hidden={hasOpenDialog}
+          onCloseAutoFocus={(event) => {
+            if (focusRef.current) {
+              focusRef.current.focus();
+              focusRef.current = null;
+              event.preventDefault();
+            }
+          }}
+        >
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuDialogItem 
+            trigger="Trip Details"
+            onSelect={handleDialogItemSelect}
+            onOpenChange={handleDialogItemOpenChange}
+          >
+            <DialogContent className="sm:max-w-[725px]">
+              <DialogHeader>
+                <DialogTitle className="pb-4">Trip Details: {tripID}</DialogTitle>
+                <Separator />
+                <DialogDescription className="self-center pt-4">
+                  {data && data[0].trip_details.length ? (
+                    <TripDetailsTable data={data} />
+                  ) : (
+                    <div>
+                      <p>No items.</p>
+                    </div>
+                  )}
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogTrigger>
+                  <Button type="submit">OK</Button>
+                </DialogTrigger>
+              </DialogFooter>
+            </DialogContent>
+          </DropdownMenuDialogItem>
+          
+          <DropdownMenuSeparator />
+          
+          <DropdownMenuDialogItem 
+            trigger="Assign Trip"
+            onSelect={handleDialogItemSelect}
+            onOpenChange={handleDialogItemOpenChange}
+          >
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Assign Trip</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to assign this trip to this employee?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button type="submit">Confirm</Button>
+              </DialogFooter>
+            </DialogContent>
+          </DropdownMenuDialogItem>
+          <DropdownMenuDialogItem
+            trigger="Unassign Trip"
+            onSelect={handleDialogItemSelect}
+            onOpenChange={handleDialogItemOpenChange}
+          >
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Unassign Trip</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to unassign this trip from this employee?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button type="submit">Confirm</Button>
+              </DialogFooter>
+            </DialogContent>
+          </DropdownMenuDialogItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
   }
+}
 
+export function TripDetailsTable({ data }: { data: any[] }) {
   return (
-    <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
-    <DropdownMenuTrigger asChild>
-      <Button variant="ghost" className="h-8 w-8 p-0">
-        <span className="sr-only">Open menu</span>
-        <MoreHorizontal className="h-4 w-4" />
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent 
-      sideOffset={15}
-      hidden={hasOpenDialog}
-      onCloseAutoFocus={(event) => {
-        if (focusRef.current) {
-          focusRef.current.focus();
-          focusRef.current = null;
-          event.preventDefault();
-        }
-      }}
-    >
-    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-      <DropdownMenuDialogItem 
-        trigger="Trip Details"
-        onSelect={handleDialogItemSelect}
-        onOpenChange={handleDialogItemOpenChange}
-      >
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Trip Details: {tripID}</DialogTitle>
-            <DialogDescription>
-              {data && data[0].trip_details.length ? (
-                data[0].trip_details.map((pickedCase: any) => (
-                  <div key={pickedCase.id}>
-                    <p>Item: {pickedCase.items.name}</p>
-                  </div>
-                ))
-              ) : (
-                <div>
-                  <p>No items.</p>
-                </div>
-              )}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button type="submit">OK</Button>
-          </DialogFooter>
-        </DialogContent>
-      </DropdownMenuDialogItem>
-      
-      <DropdownMenuSeparator />
-      
-      <DropdownMenuDialogItem 
-        trigger="Assign Trip"
-        onSelect={handleDialogItemSelect}
-        onOpenChange={handleDialogItemOpenChange}
-      >
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Assign Trip</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to assign this trip to this employee?
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button type="submit">Confirm</Button>
-          </DialogFooter>
-        </DialogContent>
-      </DropdownMenuDialogItem>
-      <DropdownMenuDialogItem
-        trigger="Unassign Trip"
-        onSelect={handleDialogItemSelect}
-        onOpenChange={handleDialogItemOpenChange}
-      >
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Unassign Trip</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to unassign this trip from this employee?
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button type="submit">Confirm</Button>
-          </DialogFooter>
-        </DialogContent>
-      </DropdownMenuDialogItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
-  );
+    <ScrollArea className="h-[600px] w-[625px] rounded-md border p-8">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px] font-bold">Case No.</TableHead>
+            <TableHead className="text-right font-bold">Item Name</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data[0].trip_details.map((pickedCase: any, idx: number) => (
+            <TableRow key={idx}>
+              <TableCell className="font-medium">{idx + 1}</TableCell>
+              <TableCell className="font-medium text-right">{pickedCase.items.name}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </ScrollArea>
+  )
 }
