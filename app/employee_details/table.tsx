@@ -131,8 +131,8 @@ export default function EmployeeDetailsTable() {
           <Separator />
           
           <div className="flex justify-between space-x-4">
-            <div className="flex-1 w-64">
-            <Card>
+            <div className="flex w-1/2 max-w-full">
+            <Card className="grow">
               <CardHeader>
                 <CardTitle>Stats</CardTitle>
                 <CardDescription>
@@ -157,11 +157,11 @@ export default function EmployeeDetailsTable() {
                     </p>
                   </div>
                 </div>
-              </CardContent>                    
+              </CardContent>
             </Card>
             </div>
             
-            <div className="flex-1 w-64">
+            <div className="flex w-1/2 max-w-full">
               <Chart trips={data} performance={avgPerformance(data)} />
             </div>
           </div>

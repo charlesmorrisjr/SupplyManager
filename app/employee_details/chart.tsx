@@ -43,7 +43,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
   populateData(trips);
 
   return (
-    <Card>
+    <Card className="grow">
       <CardHeader>
         <CardTitle>
           Performance
