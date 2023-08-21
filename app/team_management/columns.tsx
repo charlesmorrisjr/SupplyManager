@@ -111,13 +111,14 @@ export const columns: ColumnDef<Employees>[] = [
     cell: ({ row }) => {
       const trips: any[] = row.getValue("trips");
 
-      // Check if employee actually worked on any trips
-      if (trips.length > 0) {
-        // Get number of completed trips
-        let completedTrips = trips.filter(trip => trip.completion === 2).length;
+      // Get number of completed trips
+      let completedTrips = trips.filter(trip => trip.completion === 2).length;
+
+      // Check if employee actually completed any trips
+      if (completedTrips > 0) {
         
         // Calculate average performance by adding up all performance values and dividing by number of completed trips
-        let avg_performance = ((trips.reduce((total, trip) => {
+        let avg_performance = (trips.reduce((total, trip) => {
           if (trip.completion === 2) {
             let actual_time = (new Date(trip.end_time)).getTime() - (new Date(trip.start_time)).getTime();
             let standard_time = (new Date(trip.standard_time)).getTime();
@@ -127,7 +128,7 @@ export const columns: ColumnDef<Employees>[] = [
           } else {
             return total;
           }
-        }, 0) / completedTrips) || 0).toFixed(2);
+        }, 0) / completedTrips).toFixed(2);
         
         return <div className="text-center font-medium">{avg_performance}%</div>
       }
