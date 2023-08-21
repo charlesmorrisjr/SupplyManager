@@ -39,15 +39,15 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between"
+            className="w-[300px] justify-between"
           >
             {value
-              ? data.find((employee: any) => employee.username === value)?.username
+              ? data.find((employee: any) => employee.username === value)?.username + " - " + data.find((employee: any) => employee.username === value)?.last_name + ", " + data.find((employee: any) => employee.username === value)?.first_name
               : "Select employee..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="w-[300px] p-0">
           <Command>
             <CommandInput placeholder="Search employees..." />
             <CommandEmpty>No employee found.</CommandEmpty>
@@ -74,8 +74,7 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
                       value === employee.username ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {/* {employee.username} - {employee.last_name}, {employee.first_name} */}
-                  {employee.username}
+                  {employee.username} - {employee.last_name}, {employee.first_name}
                 </CommandItem>
               ))}
             </CommandGroup>
