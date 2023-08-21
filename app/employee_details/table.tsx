@@ -142,7 +142,7 @@ export default function EmployeeDetailsTable() {
               <CardContent className="pb-4">
                 <div className="pb-4">
                   <div className="pb-8">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                    <p className="text-sm font-semibold leading-6">
                       {selectedEmployee.id
                         ? 
                         <>

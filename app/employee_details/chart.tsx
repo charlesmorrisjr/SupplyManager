@@ -132,7 +132,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                   style={
                     {
                       stroke: "black",
-                      color: "var(--theme-primary)",
+                      color: "var(--orange-900)",
                       // "--theme-primary": `hsl(${
                       //   theme?.cssVars[mode === "dark" ? "dark" : "light"].primary
                       // })`,
