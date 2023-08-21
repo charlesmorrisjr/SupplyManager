@@ -21,6 +21,7 @@ model trips {
   standard_time DateTime?  @db.Time(6)
   start_time    DateTime?  @db.Time(6)
   end_time      DateTime?  @db.Time(6)
+  performance   Decimal?   @db.Decimal(5, 2)
   employees     employees? @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
