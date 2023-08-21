@@ -120,11 +120,7 @@ export const columns: ColumnDef<Employees>[] = [
         // Calculate average performance by adding up all performance values and dividing by number of completed trips
         let avg_performance = (trips.reduce((total, trip) => {
           if (trip.completion === 2) {
-            let actual_time = (new Date(trip.end_time)).getTime() - (new Date(trip.start_time)).getTime();
-            let standard_time = (new Date(trip.standard_time)).getTime();
-            let performance = (standard_time / actual_time) * 100;
-            // console.log(performance, row.getValue("id"));
-            return total + Number(performance);
+            return total + Number(trip.performance);
           } else {
             return total;
           }

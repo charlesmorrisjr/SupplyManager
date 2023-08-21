@@ -12,6 +12,7 @@ export default async function getEmployees(req: NextApiRequest, res: NextApiResp
           start_time: true,
           end_time: true,
           standard_time: true,
+          performance: true,
         },
         where: {
           date: new Date(searchDate)
