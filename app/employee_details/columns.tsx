@@ -36,6 +36,7 @@ export type Trips = {
   stop: number
   completion: number
   weight: number
+  performance: number
   cases_picked: number
   total_cases: number
 }
@@ -93,6 +94,48 @@ export const columns: ColumnDef<Trips>[] = [
     },
   },
   {
+    accessorKey: "weight",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Weight
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return <div className="text-center font-medium">{row.getValue("weight")} lbs</div>
+    },
+  },
+  {
+    accessorKey: "performance",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Performance
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <>
+          {row.getValue("performance") !== null &&
+            <div className="text-center font-medium">
+              {row.getValue("performance")}%
+            </div>
+          }
+        </>
+      )
+    },
+  },
+  {
     accessorKey: "completion",
     header: ({ column }) => {
       return (
@@ -120,23 +163,6 @@ export const columns: ColumnDef<Trips>[] = [
           }
         </div>
       )
-    },
-  },
-  {
-    accessorKey: "weight",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Weight
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("weight")} lbs</div>
     },
   },
   {
