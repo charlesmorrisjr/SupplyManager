@@ -47,7 +47,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
       <CardHeader>
         <CardTitle>
           Performance
-          <span className="ml-2 text-muted-foreground float-right">
+          <span className="ml-2 float-right">
             {performance
               ? <> {performance}% </>
               : "N/A"
@@ -108,16 +108,12 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                   dataKey="baseline"
                   activeDot={{
                     r: 6,
-                    style: { fill: "black", opacity: 0.25 },
+                    style: { fill: "hsl(var(--text-muted-foreground))", opacity: 0.3 },
                   }}
                   style={
                     {
-                      stroke: "black",
-                      opacity: 0.25,
-                      color: "var(--theme-primary)",
-                      // "--theme-primary": `hsl(${
-                      //   theme?.cssVars[mode === "dark" ? "dark" : "light"].primary
-                      // })`,
+                      stroke: "hsl(var(--muted-foreground))",
+                      opacity: 0.3,
                     } as React.CSSProperties
                   }
                 />
@@ -127,15 +123,11 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                   strokeWidth={2}
                   activeDot={{
                     r: 8,
-                    style: { fill: "black" },
+                    style: { fill: "hsl(var(--primary))" },
                   }}
                   style={
                     {
-                      stroke: "black",
-                      color: "var(--orange-900)",
-                      // "--theme-primary": `hsl(${
-                      //   theme?.cssVars[mode === "dark" ? "dark" : "light"].primary
-                      // })`,
+                      stroke: "hsl(var(--primary))",
                     } as React.CSSProperties
                   }
                 />
