@@ -86,7 +86,7 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
     return (
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[200px] justify-between">
+          <Button variant="outline" className="w-[300px] justify-between">
             Loading...
           </Button>
         </PopoverTrigger>
