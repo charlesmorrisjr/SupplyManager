@@ -19,6 +19,7 @@ import { start } from "repl"
 // You can use a Zod schema here if you want.
 export type Employees = {
   id: number
+  username: string
   first_name: string
   last_name: string
   name: string
@@ -41,6 +42,23 @@ export const columns: ColumnDef<Employees>[] = [
     },
     cell: ({ row }) => {
       return <div className="text-center font-medium">{row.getValue("id")}</div>
+    },
+  },
+  {
+    accessorKey: "username",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Username
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return <div className="text-center font-medium">{row.getValue("username")}</div>
     },
   },
   {
@@ -99,7 +117,7 @@ export const columns: ColumnDef<Employees>[] = [
         let completedTrips = trips.filter(trip => trip.completion === 2).length;
         
         // Calculate average performance by adding up all performance values and dividing by number of completed trips
-        let avg_performance = (trips.reduce((total, trip) => {
+        let avg_performance = ((trips.reduce((total, trip) => {
           if (trip.completion === 2) {
             let actual_time = (new Date(trip.end_time)).getTime() - (new Date(trip.start_time)).getTime();
             let standard_time = (new Date(trip.standard_time)).getTime();
@@ -109,7 +127,7 @@ export const columns: ColumnDef<Employees>[] = [
           } else {
             return total;
           }
-        }, 0) / completedTrips).toFixed(2);
+        }, 0) / completedTrips) || 0).toFixed(2);
         
         return <div className="text-center font-medium">{avg_performance}%</div>
       }
