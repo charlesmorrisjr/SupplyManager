@@ -168,7 +168,7 @@ export default function EmployeeDetailsTable() {
             </div>
             
             <div className="flex-1 w-64">
-              <Chart />
+              <Chart trips={data} performance={avgPerformance(data)} />
             </div>
           </div>
           

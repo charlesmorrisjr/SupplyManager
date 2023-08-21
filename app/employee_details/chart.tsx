@@ -16,58 +16,84 @@ import {
 } from "@/components/ui/card"
 // import { themes } from "@/components/ui/themes"
 
-const data = [
-  {
-    average: 400,
-    today: 240,
-  },
-  {
-    average: 300,
-    today: 139,
-  },
-  {
-    average: 200,
-    today: 980,
-  },
-  {
-    average: 278,
-    today: 390,
-  },
-  {
-    average: 189,
-    today: 480,
-  },
-  {
-    average: 239,
-    today: 380,
-  },
-  {
-    average: 349,
-    today: 430,
-  },
-]
+// const data = [
+//   {
+//     average: 400,
+//     today: 240,
+//   },
+//   {
+//     average: 300,
+//     today: 139,
+//   },
+//   {
+//     average: 200,
+//     today: 980,
+//   },
+//   {
+//     average: 278,
+//     today: 390,
+//   },
+//   {
+//     average: 189,
+//     today: 480,
+//   },
+//   {
+//     average: 239,
+//     today: 380,
+//   },
+//   {
+//     average: 349,
+//     today: 430,
+//   },
+// ]
 
-export function Chart() {
+const data: any[] = [];
+
+function populateData(trips: any) {
+  // Populate data array with performance values from each trip
+  data.length = 0;
+
+  trips.forEach((trip: any) => {
+    data.push({
+      average: 100.00,
+      today: trip.performance,
+    });
+  });
+}
+
+export function Chart({ trips, performance }: { trips: any, performance: any }) {
   const { theme: mode } = useTheme()
   // const [config] = useConfig()
 
   // const theme = themes.find((theme) => theme.name === config.theme)
 
+  if (trips === undefined) return;
+
+  populateData(trips);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Performance</CardTitle>
+        <CardTitle>
+          Performance
+          <span className="ml-2 text-muted-foreground float-right">
+            {performance
+              ? <> {performance}% </>
+              : "N/A"
+            }
+          </span>
+        </CardTitle>
         <CardDescription>
           Employee Performance for today.
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-4">
         <div className="h-[200px]">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer>
             <LineChart
               data={data}
               margin={{
-                top: 5,
+                top: 100,
                 right: 10,
                 left: 10,
                 bottom: 0,
@@ -81,7 +107,7 @@ export function Chart() {
                         <div className="grid grid-cols-2 gap-2">
                           <div className="flex flex-col">
                             <span className="text-[0.70rem] uppercase text-muted-foreground">
-                              Average
+                              Baseline
                             </span>
                             <span className="font-bold text-muted-foreground">
                               {payload[0].value}
@@ -89,7 +115,7 @@ export function Chart() {
                           </div>
                           <div className="flex flex-col">
                             <span className="text-[0.70rem] uppercase text-muted-foreground">
-                              Today
+                              Trip
                             </span>
                             <span className="font-bold">
                               {payload[1].value}
