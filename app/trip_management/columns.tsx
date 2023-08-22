@@ -42,6 +42,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import { Skeleton } from "@/components/ui/skeleton";
+
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge";
 
@@ -291,6 +293,22 @@ function DropdownWithDialogItemsSolution({ tripID }: { tripID: string }) {
   }).then((response) => response.json());
 
   let { data, error } = useSWR([ '/api/trip_details', tripID ], fetcher);
+
+  if (!data) {
+    return (
+      <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>Loading...</DropdownMenuLabel>
+      </DropdownMenuContent>
+      </DropdownMenu>
+    )
+  }
 
   if (data && !error) {
 
