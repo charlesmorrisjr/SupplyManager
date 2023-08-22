@@ -54,7 +54,7 @@ export default function TripsTable() {
   return (
     <div className="mt-6">
 
-      <Card>
+<Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
         <CardHeader>
           <CardTitle>Trips <Badge variant='secondary' className='text-xl'>{data && data.length}</Badge></CardTitle>
         </CardHeader>

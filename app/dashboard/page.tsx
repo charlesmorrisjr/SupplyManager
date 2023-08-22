@@ -53,8 +53,13 @@ export default async function DashboardPage() {
           className="hidden dark:block"
         />
       </div>
+      <Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          {/* <CardTitle className="text-xl font-medium">Dashboard</CardTitle> */}
+        </CardHeader>
+        <CardContent>
       <div className="hidden flex-col md:flex">
-        <div className="border-b">
+        {/* <div className="border-b">
           <div className="flex h-16 items-center px-4">
             <TeamSwitcher />
             <MainNav className="mx-6" />
@@ -63,16 +68,17 @@ export default async function DashboardPage() {
               <UserNav />
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="flex-1 space-y-4 p-8 pt-6">
-          <div className="flex items-center justify-between space-y-2">
+          <div className="flex items-center p-6 pt-0 justify-between space-y-2">
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
             <div className="flex items-center space-x-2">
               <CalendarDateRangePicker />
-              <Button>Download</Button>
+              {/* <Button>Download</Button> */}
             </div>
           </div>
-          <Tabs defaultValue="overview" className="space-y-4">
+          <div className="space-y-4">
+          {/* <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="analytics" disabled>
@@ -84,8 +90,9 @@ export default async function DashboardPage() {
               <TabsTrigger value="notifications" disabled>
                 Notifications
               </TabsTrigger>
-            </TabsList>
-            <TabsContent value="overview" className="space-y-4">
+            </TabsList> */}
+            {/* <TabsContent value="overview" className="space-y-4"> */}
+            <CardContent className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -210,10 +217,16 @@ export default async function DashboardPage() {
                   </CardContent>
                 </Card>
               </div>
-            </TabsContent>
-          </Tabs>
+            </CardContent>
+            {/* </TabsContent> */}
+          {/* </Tabs> */}
+          </div>
         </div>
       </div>
+
+      </CardContent>
+      </Card>
+
       </main>
     </>
   );

@@ -121,7 +121,7 @@ export default function EmployeeDetailsTable() {
     
   return (
     <div className="mt-6"> 
-      <Card>
+      <Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
         <CardHeader>
           <CardTitle>Employee Details</CardTitle>
         </CardHeader>
