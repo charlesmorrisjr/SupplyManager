@@ -18,7 +18,7 @@ import {
 import { CalendarDateRangePicker } from "./components/date-range-picker"
 import { MainNav } from "./components/main-nav"
 import { Overview } from "./components/overview"
-import { RecentSales } from "./components/recent-sales"
+import { TopPerformers } from "./components/top-performers"
 import { Search } from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
 import { UserNav } from "./components/user-nav"
@@ -71,7 +71,7 @@ export default async function DashboardPage() {
         </div> */}
         <div className="flex-1 space-y-4 p-8 pt-6">
           <div className="flex items-center p-6 pt-0 justify-between space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight">Dashboard</h2>
             <div className="flex items-center space-x-2">
               <CalendarDateRangePicker />
               {/* <Button>Download</Button> */}
@@ -209,11 +209,11 @@ export default async function DashboardPage() {
                   <CardHeader>
                     <CardTitle>Top Performers</CardTitle>
                     <CardDescription>
-                      The highest performing employees this week
+                      The highest performing employees today
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <RecentSales />
+                    <TopPerformers />
                   </CardContent>
                 </Card>
               </div>
