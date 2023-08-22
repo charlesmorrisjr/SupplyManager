@@ -311,7 +311,6 @@ function DropdownWithDialogItemsSolution({ tripID }: { tripID: string }) {
   }
 
   if (data && !error) {
-
     return (
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger asChild>
