@@ -291,14 +291,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
     }
   }
 
-  const fetcher = async ([url, id]: [string, string]) =>
-  await fetch(url, {
-    headers: {
-      trip_id: id,
-    }
-  }).then((response) => response.json());
-
-  let { data, error } = useSWR([ '/api/trip_details', tripID ], fetcher);
+  let data = true, error = false;
 
   if (!data) {
     return (
@@ -346,15 +339,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
               <DialogHeader>
                 <DialogTitle className="pb-4">Trip Details: {tripID}</DialogTitle>
                 <Separator />
-                <div className="self-center pt-4">
-                  {data && data[0].trip_details.length ? (
-                    <TripDetailsTable data={data} />
-                  ) : (
-                    <div>
-                      <p>No items.</p>
-                    </div>
-                  )}
-                </div>
+                <TripDetailsTable tripID={tripID} />
               </DialogHeader>
               <DialogFooter>
                 <DialogTrigger>
@@ -431,25 +416,51 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
   }
 }
 
-export function TripDetailsTable({ data }: { data: any[] }) {
-  return (
-    <ScrollArea className="h-[600px] w-[625px] rounded-md border p-8">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px] font-bold">Case No.</TableHead>
-            <TableHead className="text-right font-bold">Item Name</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data[0].trip_details.map((pickedCase: any, idx: number) => (
-            <TableRow key={idx}>
-              <TableCell className="font-medium">{idx + 1}</TableCell>
-              <TableCell className="font-medium text-right">{pickedCase.items.name}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </ScrollArea>
-  )
+export function TripDetailsTable({ tripID }: { tripID: string }) {
+  const fetcher = async ([url, id]: [string, string]) =>
+  await fetch(url, {
+    headers: {
+      trip_id: id,
+    }
+  }).then((response) => response.json());
+
+  let { data, error } = useSWR([ '/api/trip_details', tripID ], fetcher);
+
+  // Used to display skeleton rows while data is loading
+  const skeletonRows = Array.from({ length: 8 }, (_, i) => i)
+  
+  if (!error) {
+    return (
+      <div className="self-center pt-4">
+        <ScrollArea className="h-[600px] w-[625px] rounded-md border p-8">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px] font-bold">Case No.</TableHead>
+                <TableHead className="text-right font-bold">Item Name</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data ? (
+                data[0].trip_details.map((pickedCase: any, idx: number) => (
+                  <TableRow key={idx}>
+                    <TableCell className="font-medium">{idx + 1}</TableCell>
+                    <TableCell className="font-medium text-right">{pickedCase.items.name}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                skeletonRows.map((key) => (
+                  <TableRow key={key}>
+                    <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
+                      <Skeleton className="w-[100%] h-[30px] rounded-full" />
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </ScrollArea>
+      </div>
+    )
+  }
 }

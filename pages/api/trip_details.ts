@@ -25,6 +25,6 @@ export default async function getTripDetails(req: NextApiRequest, res: NextApiRe
       id: tripID
     }
   });      
-
+  // console.log('fetching trip details for trip id: ' + tripID)
   res.json(tripDetails);
 }

@@ -21,15 +21,6 @@ export default async function getTrips(req: NextApiRequest, res: NextApiResponse
           username: true
         }
       },
-      trip_details: {
-        select: {
-          items: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
     },
     where: {
       date: searchDate
