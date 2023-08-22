@@ -1,21 +1,27 @@
 const { faker } = require('@faker-js/faker');
-const { Pool } = require('pg');
 require('dotenv').config();
+
+const pgp = require('pg-promise')({
+  capSQL: true // generate capitalized SQL 
+});
 
 const { DATABASE_URL } = process.env;
 
-const pool = new Pool({
+const cn = {
   connectionString: DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+  ssl: true,
+  max: 30,
+  allowExitOnIdle: true
+};
+
+const db = pgp(cn);
 
 const MAX_EMPLOYEES = 100, MAX_CASES = 400, MAX_DOORS = 30;
 const MIN_ROUTES = 30, MAX_ROUTES = 50, MAX_STOPS = 4;
 const MIN_TRIPS_PER_DAY = 400, TRIPS_PER_DAY_RANDOM_RANGE = 200, TRIP_LENGTH_RANDOM_RANGE = 1000 * 60 * 60 * 0.5; // 30 minute range
 const CASE_WEIGHT = 30, CASE_TIME = 13 * 1000;  // 13 seconds per case
 const MIN_ITEM_NUM = 1, MAX_ITEM_NUM = 1807154;
+const TRIP_BATCH_SIZE = 500;
 
 const MS_PER_HOUR = 1000 * 60 * 60;
 
@@ -47,6 +53,7 @@ const TODAYS_DATE = new Date(new Date().setHours(0, 0, 0, 0));
         - Set end_time to start_time plus standard_time - (TRIP_LENGTH_RANDOM_RANGE / 2) + random number from 0 to TRIP_LENGTH_RANDOM_RANGE minutes
 */
 
+// Parse date to format YYYY-MM-DD HH:MM:SS
 const parseDate = (date) => date.toISOString().replace("T", " ").replace(/\.\d+/, "");
 
 function genWeight(totalCases){
@@ -56,21 +63,39 @@ function genWeight(totalCases){
     weight += faker.number.int({min: 1, max: CASE_WEIGHT});
   }
   return weight;
-} 
+}
 
-async function generateItems(trip_id, cases) {
-  let client = await pool.connect();
+async function generateItems(tripInfo) {
+  // Creating a reusable/static ColumnSet for generating INSERT queries:    
+  const cs = new pgp.helpers.ColumnSet([
+    'trip_id',
+    'item_id',
+    { name: 'quantity', def: 1 }
+  ], {table: 'trip_details'});
 
-  try {
-    for (let i = 0; i < cases; i++) {
-      const query = 'INSERT INTO trip_details (trip_id, item_id) VALUES ($1, $2) RETURNING *';
-      const values = [trip_id, faker.number.int({min: MIN_ITEM_NUM, max: MAX_ITEM_NUM})];
-        
-      const res = await client.query(query, values);
+  // data = array of objects that represent the import data:
+  const data = [
+    // {trip_id: 122269, item_id: 1},
+    // {trip_id: 122269, item_id: 2}
+  ];
+
+  tripInfo.forEach((trip) => {
+    let trip_id = trip[0];
+    let cases = trip[1];
+    for (let i = 1; i <= cases; i++) {
+      data.push({trip_id, item_id: faker.number.int({min: MIN_ITEM_NUM, max: MAX_ITEM_NUM})});
     }
-  } finally {
-    client.release();
-  }  
+  });
+  
+  const insert = pgp.helpers.insert(data, cs);
+  
+  await db.none(insert)
+  .then(() => {
+    // console.log('success');
+  })
+  .catch(error => {
+    console.log(error);
+  });
 }
 
 function generateRandomTrip(curDate) {
@@ -109,28 +134,22 @@ function generateRandomTrip(curDate) {
     let actual_time = end_time - start_time;
     performance = ((standard_time / actual_time) * 100).toFixed(2);
   }
-
-  // console.log(total_cases, convertMillisecondsToTime(standard_time), convertMillisecondsToTime(actual_time));
-  // let parsedDate = new Date(start_time);
-  // const formattedDate = parsedDate.toISOString().replace("T", " ").replace(/\.\d+/, "");
-  // console.log(formattedDate);
-
-  return [
+  
+  return {
     completion,
     weight, 
     route, 
     stop, 
     total_cases, 
     cases_picked, 
-    date, 
+    date: parseDate(date), 
     employee_id, 
     door,
-    start_time ? parseDate(new Date(start_time)) : null,
-    end_time ? parseDate(new Date(end_time)) : null,
-    convertMillisecondsToTime(standard_time),
+    start_time: start_time ? parseDate(new Date(start_time)) : null,
+    end_time: end_time ? parseDate(new Date(end_time)) : null,
+    standard_time: convertMillisecondsToTime(standard_time),
     performance
-  ];
-  // return {completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, standard_time: convertMillisecondsToTime(standard_time), start_time: new Date(start_time), end_time: new Date(end_time), performance};
+  };
 }
 
 function convertMillisecondsToTime(ms) {
@@ -141,41 +160,85 @@ function convertMillisecondsToTime(ms) {
   return formattedTime;
 }
 
-async function insertTrips(startDate = TODAYS_DATE, endDate = TODAYS_DATE) {
-  let client = await pool.connect();
-  
-  try {
-    const query = 'INSERT INTO trips (completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time, performance) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
-    // const values = [completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time];
+async function insertTrips(startDate = new Date(TODAYS_DATE), endDate = new Date(TODAYS_DATE)) {  
+    let curTripID;
+    let tripInfo = [];
     
+    // Get the id of the last trip in the database
+    await db.any('SELECT MAX(id) FROM trips', [true])
+    .then(function(data) {
+      curTripID = Number(data[0].max) + 1;
+      // console.log(data[0].max);
+      // console.log(curTripID);
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
+
+    // const query = 'INSERT INTO trips (completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time, performance) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *';
+
+    // Creating a reusable/static ColumnSet for generating INSERT queries:    
+
+    const cs = new pgp.helpers.ColumnSet([
+      'completion',
+      'weight',
+      'route',
+      'stop',
+      'total_cases',
+      'cases_picked',
+      'date',
+      'employee_id',
+      'door',
+      'start_time',
+      'end_time',
+      'standard_time',
+      'performance'
+    ], {table: 'trips'});
+
+    // data = array of objects that represent the import data:
+    const data = [];
+
     for (let curDate = startDate; curDate <= endDate; curDate.setDate(curDate.getDate() + 1)) {
       let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
       // let numTrips = 1;
       
       console.log(curDate);
-  
+
       for (let curTrip = 1; curTrip <= numTrips; curTrip++) {
-  
-        const values = generateRandomTrip(curDate);
-        
-        const res = await client.query(query, values);
-        // console.log(res.rows[0]);
+        data.push(generateRandomTrip(curDate));
+        tripInfo.push([curTripID, data[data.length - 1].total_cases]);
+        curTripID++;
       }
     }
-  } finally {
-    client.release();
-  }
+    const insert = pgp.helpers.insert(data, cs);
+
+    await db.none(insert)
+    .then(() => {
+      console.log('success');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+    console.log('Generating items...');
+    
+    // Generate items in batches of TRIP_BATCH_SIZE to avoid overloading the database
+    for (let i = 0; i < tripInfo.length; i += TRIP_BATCH_SIZE) {
+      await generateItems(tripInfo.slice(i, i + TRIP_BATCH_SIZE));
+      console.log(`${i}/${tripInfo.length}`)
+    }
 }
 
-// if ((new Date(process.argv[2])).toString() !== 'Invalid Date' && (new Date(process.argv[3])).toString() !== 'Invalid Date') {
-//   console.log(`Inserting trips from ${process.argv[2]} to ${process.argv[3]}...`);
-//   insertTrips(new Date(process.argv[2]), new Date(process.argv[3]));
-// } else if (process.argv.length === 2) {
-//   console.log(`Inserting trips for ${TODAYS_DATE}...`);
-//   insertTrips();
-// } else if ((new Date(process.argv[2])).toString() === 'Invalid Date' || (new Date(process.argv[3])).toString() === 'Invalid Date') {
-//   console.log('Invalid date(s)');
-//   console.log('Please enter two valid dates (ex: gen_trips 01-01-2023 01-31-2023) or no dates to (ex: gen_trips)');
-// }
+if ((new Date(process.argv[2])).toString() !== 'Invalid Date' && (new Date(process.argv[3])).toString() !== 'Invalid Date') {
+  console.log(`Inserting trips from ${process.argv[2]} to ${process.argv[3]}...`);
+  insertTrips(new Date(process.argv[2]), new Date(process.argv[3]));
+} else if (process.argv.length === 2) {
+  console.log(`Inserting trips for ${TODAYS_DATE}...`);
+  insertTrips();
+} else if ((new Date(process.argv[2])).toString() === 'Invalid Date' || (new Date(process.argv[3])).toString() === 'Invalid Date') {
+  console.log('Invalid date(s)');
+  console.log('Please enter two valid dates (ex: gen_trips 01-01-2023 01-31-2023) or no dates to (ex: gen_trips)');
+}
 
-generateItems(122269, 270);
+// generateItems([[182727, 2]]);
+// insertTrips();
