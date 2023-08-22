@@ -291,130 +291,111 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
     }
   }
 
-  let data = true, error = false;
-
-  if (!data) {
-    return (
-      <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+  return (
+    <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
           <span className="sr-only">Open menu</span>
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Loading...</DropdownMenuLabel>
-      </DropdownMenuContent>
-      </DropdownMenu>
-    )
-  }
-
-  if (data && !error) {
-    return (
-      <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent 
-          sideOffset={15}
-          hidden={hasOpenDialog}
-          onCloseAutoFocus={(event) => {
-            if (focusRef.current) {
-              focusRef.current.focus();
-              focusRef.current = null;
-              event.preventDefault();
-            }
-          }}
+      <DropdownMenuContent 
+        sideOffset={15}
+        hidden={hasOpenDialog}
+        onCloseAutoFocus={(event) => {
+          if (focusRef.current) {
+            focusRef.current.focus();
+            focusRef.current = null;
+            event.preventDefault();
+          }
+        }}
+      >
+      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuDialogItem 
+          trigger="Trip Details"
+          onSelect={handleDialogItemSelect}
+          onOpenChange={handleDialogItemOpenChange}
         >
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuDialogItem 
-            trigger="Trip Details"
-            onSelect={handleDialogItemSelect}
-            onOpenChange={handleDialogItemOpenChange}
-          >
-            <DialogContent className="sm:max-w-[725px]">
-              <DialogHeader>
-                <DialogTitle className="pb-4">Trip Details: {tripID}</DialogTitle>
-                <Separator />
-                <TripDetailsTable tripID={tripID} />
-              </DialogHeader>
-              <DialogFooter>
-                <DialogTrigger>
-                  <Button type="submit">OK</Button>
-                </DialogTrigger>
-              </DialogFooter>
-            </DialogContent>
-          </DropdownMenuDialogItem>
-          
-          {/* If the trip is unassigned, show the 'Assign Trip' button */}
-          {completion === Completion.Unassigned && (            
-            <>
-              <DropdownMenuSeparator />
+          <DialogContent className="sm:max-w-[725px]">
+            <DialogHeader>
+              <DialogTitle className="pb-4">Trip Details: {tripID}</DialogTitle>
+              <Separator />
+              <TripDetailsTable tripID={tripID} />
+            </DialogHeader>
+            <DialogFooter>
+              <DialogTrigger>
+                <Button type="submit">OK</Button>
+              </DialogTrigger>
+            </DialogFooter>
+          </DialogContent>
+        </DropdownMenuDialogItem>
+        
+        {/* If the trip is unassigned, show the 'Assign Trip' button */}
+        {completion === Completion.Unassigned && (            
+          <>
+            <DropdownMenuSeparator />
 
-              <DropdownMenuDialogItem 
-                trigger="Assign Trip"
-                onSelect={handleDialogItemSelect}
-                onOpenChange={handleDialogItemOpenChange}
-              >
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Assign Trip</DialogTitle>
-                    <DialogDescription>
-                      Are you sure you want to assign this trip to this employee?
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <DialogTrigger>
-                      <Button type="submit">Confirm</Button>
-                    </DialogTrigger>
-                  </DialogFooter>
-                </DialogContent>
-              </DropdownMenuDialogItem>
-            </>
-          )}
-          
-          {/* If the trip is assigned, show the 'Unassign Trip' button */}
-          {completion === Completion.Assigned && (            
-            <>
-              <DropdownMenuSeparator />
+            <DropdownMenuDialogItem 
+              trigger="Assign Trip"
+              onSelect={handleDialogItemSelect}
+              onOpenChange={handleDialogItemOpenChange}
+            >
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Assign Trip</DialogTitle>
+                  <DialogDescription>
+                    Are you sure you want to assign this trip to this employee?
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogTrigger>
+                    <Button type="submit">Confirm</Button>
+                  </DialogTrigger>
+                </DialogFooter>
+              </DialogContent>
+            </DropdownMenuDialogItem>
+          </>
+        )}
+        
+        {/* If the trip is assigned, show the 'Unassign Trip' button */}
+        {completion === Completion.Assigned && (            
+          <>
+            <DropdownMenuSeparator />
 
-              <DropdownMenuDialogItem
-                trigger="Unassign Trip"
-                onSelect={handleDialogItemSelect}
-                onOpenChange={handleDialogItemOpenChange}
-              >
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Unassign Trip</DialogTitle>
-                    <DialogDescription>
-                      {casesPicked > 0 ? (
-                        <>
-                          This trip has {casesPicked} cases picked. Are you sure you want to unassign this trip from this employee?
-                        </>
-                      ) : (
-                        <>
-                          Are you sure you want to unassign this trip from this employee?
-                        </>
-                      )}
-                </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <DialogTrigger>
-                      <Button type="submit">Confirm</Button>
-                    </DialogTrigger>
-                  </DialogFooter>
-                </DialogContent>
-              </DropdownMenuDialogItem>
-            </>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  }
+            <DropdownMenuDialogItem
+              trigger="Unassign Trip"
+              onSelect={handleDialogItemSelect}
+              onOpenChange={handleDialogItemOpenChange}
+            >
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Unassign Trip</DialogTitle>
+                  <DialogDescription>
+                    {casesPicked > 0 ? (
+                      <>
+                        This trip has {casesPicked} cases picked. Are you sure you want to unassign this trip from this employee?
+                      </>
+                    ) : (
+                      <>
+                        Are you sure you want to unassign this trip from this employee?
+                      </>
+                    )}
+              </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogTrigger>
+                    <Button type="submit">Confirm</Button>
+                  </DialogTrigger>
+                </DialogFooter>
+              </DialogContent>
+            </DropdownMenuDialogItem>
+          </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
+
 
 export function TripDetailsTable({ tripID }: { tripID: string }) {
   const fetcher = async ([url, id]: [string, string]) =>
@@ -429,19 +410,19 @@ export function TripDetailsTable({ tripID }: { tripID: string }) {
   // Used to display skeleton rows while data is loading
   const skeletonRows = Array.from({ length: 8 }, (_, i) => i)
   
-  if (!error) {
-    return (
-      <div className="self-center pt-4">
-        <ScrollArea className="h-[600px] w-[625px] rounded-md border p-8">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px] font-bold">Case No.</TableHead>
-                <TableHead className="text-right font-bold">Item Name</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data ? (
+  return (
+    <div className="self-center pt-4">
+      <ScrollArea className="h-[600px] w-[625px] rounded-md border p-8">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px] font-bold">Case No.</TableHead>
+              <TableHead className="text-right font-bold">Item Name</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data ? (
+              !error ? (
                 data[0].trip_details.map((pickedCase: any, idx: number) => (
                   <TableRow key={idx}>
                     <TableCell className="font-medium">{idx + 1}</TableCell>
@@ -449,18 +430,24 @@ export function TripDetailsTable({ tripID }: { tripID: string }) {
                   </TableRow>
                 ))
               ) : (
-                skeletonRows.map((key) => (
-                  <TableRow key={key}>
-                    <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
-                      <Skeleton className="w-[100%] h-[30px] rounded-full" />
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </ScrollArea>
-      </div>
-    )
-  }
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
+                    Error loading data
+                  </TableCell>
+                </TableRow>
+              )
+            ) : (
+              skeletonRows.map((key) => (
+                <TableRow key={key}>
+                  <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
+                    <Skeleton className="w-[100%] h-[30px] rounded-full" />
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </ScrollArea>
+    </div>
+  )
 }
