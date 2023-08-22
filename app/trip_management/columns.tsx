@@ -346,7 +346,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
               <DialogHeader>
                 <DialogTitle className="pb-4">Trip Details: {tripID}</DialogTitle>
                 <Separator />
-                <DialogDescription className="self-center pt-4">
+                <div className="self-center pt-4">
                   {data && data[0].trip_details.length ? (
                     <TripDetailsTable data={data} />
                   ) : (
@@ -354,7 +354,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
                       <p>No items.</p>
                     </div>
                   )}
-                </DialogDescription>
+                </div>
               </DialogHeader>
               <DialogFooter>
                 <DialogTrigger>

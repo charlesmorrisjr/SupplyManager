@@ -35,8 +35,8 @@ import {
 import { Separator } from '@/components/ui/separator'
 
 const navigation = [
-  { name: 'Dashboard', href: '/' },
-  { name: 'Team Performance', href: '/team_performance' },
+  { name: 'Home', href: '/' },
+  { name: 'Dashboard', href: '/dashboard' },
   { name: 'Team Management', href: '/team_management' },
   { name: 'Employee Details', href: '/employee_details' },
   { name: 'Trip Management', href: '/trip_management' },
