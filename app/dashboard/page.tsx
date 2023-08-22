@@ -207,9 +207,9 @@ export default async function DashboardPage() {
                 </Card>
                 <Card className="col-span-3">
                   <CardHeader>
-                    <CardTitle>Recent Sales</CardTitle>
+                    <CardTitle>Top Performers</CardTitle>
                     <CardDescription>
-                      You made 265 sales this month.
+                      The highest performing employees this week
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
