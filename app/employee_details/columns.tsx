@@ -213,13 +213,13 @@ export const columns: ColumnDef<Trips>[] = [
     id: "actions",
     cell: ({ row }) => { 
       return (
-        <DropdownWithDialogItemsSolution tripID={row.getValue("id")} />
+        <DropdownDialog tripID={row.getValue("id")} />
       )
     },
   },
 ]
 
-function DropdownWithDialogItemsSolution({ tripID }: { tripID: string }) {
+function DropdownDialog({ tripID }: { tripID: string }) {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
   const dropdownTriggerRef: any = React.useRef(null);

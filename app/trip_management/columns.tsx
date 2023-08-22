@@ -60,6 +60,12 @@ export type Trips = {
   standard_time: string
 }
 
+enum Completion {
+  Unassigned = 0,
+  Assigned = 1,
+  Completed = 2,
+}
+
 // This function converts milliseconds to a time format of HH:MM:SS
 // Used for calculating standard time
 function convertMillisecondsToTime(ms: number) {
@@ -261,13 +267,13 @@ export const columns: ColumnDef<Trips>[] = [
     id: "actions",
     cell: ({ row }) => { 
       return (
-        <DropdownWithDialogItemsSolution tripID={row.getValue("id")} />
+        <DropdownDialog tripID={row.getValue("id")} completion={row.getValue("completion")} casesPicked={row.getValue("cases_picked")} />
       )
     },
   },
 ]
 
-function DropdownWithDialogItemsSolution({ tripID }: { tripID: string }) {
+function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, completion: number, casesPicked: number }) {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
   const dropdownTriggerRef: any = React.useRef(null);
@@ -358,42 +364,67 @@ function DropdownWithDialogItemsSolution({ tripID }: { tripID: string }) {
             </DialogContent>
           </DropdownMenuDialogItem>
           
-          <DropdownMenuSeparator />
+          {/* If the trip is unassigned, show the 'Assign Trip' button */}
+          {completion === Completion.Unassigned && (            
+            <>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuDialogItem 
+                trigger="Assign Trip"
+                onSelect={handleDialogItemSelect}
+                onOpenChange={handleDialogItemOpenChange}
+              >
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Assign Trip</DialogTitle>
+                    <DialogDescription>
+                      Are you sure you want to assign this trip to this employee?
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <DialogTrigger>
+                      <Button type="submit">Confirm</Button>
+                    </DialogTrigger>
+                  </DialogFooter>
+                </DialogContent>
+              </DropdownMenuDialogItem>
+            </>
+          )}
           
-          <DropdownMenuDialogItem 
-            trigger="Assign Trip"
-            onSelect={handleDialogItemSelect}
-            onOpenChange={handleDialogItemOpenChange}
-          >
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Assign Trip</DialogTitle>
-                <DialogDescription>
-                  Are you sure you want to assign this trip to this employee?
+          {/* If the trip is assigned, show the 'Unassign Trip' button */}
+          {completion === Completion.Assigned && (            
+            <>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuDialogItem
+                trigger="Unassign Trip"
+                onSelect={handleDialogItemSelect}
+                onOpenChange={handleDialogItemOpenChange}
+              >
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Unassign Trip</DialogTitle>
+                    <DialogDescription>
+                      {casesPicked > 0 ? (
+                        <>
+                          This trip has {casesPicked} cases picked. Are you sure you want to unassign this trip from this employee?
+                        </>
+                      ) : (
+                        <>
+                          Are you sure you want to unassign this trip from this employee?
+                        </>
+                      )}
                 </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button type="submit">Confirm</Button>
-              </DialogFooter>
-            </DialogContent>
-          </DropdownMenuDialogItem>
-          <DropdownMenuDialogItem
-            trigger="Unassign Trip"
-            onSelect={handleDialogItemSelect}
-            onOpenChange={handleDialogItemOpenChange}
-          >
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Unassign Trip</DialogTitle>
-                <DialogDescription>
-                  Are you sure you want to unassign this trip from this employee?
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button type="submit">Confirm</Button>
-              </DialogFooter>
-            </DialogContent>
-          </DropdownMenuDialogItem>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <DialogTrigger>
+                      <Button type="submit">Confirm</Button>
+                    </DialogTrigger>
+                  </DialogFooter>
+                </DialogContent>
+              </DropdownMenuDialogItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     );
