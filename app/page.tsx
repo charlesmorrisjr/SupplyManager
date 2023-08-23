@@ -138,7 +138,6 @@ export default function IndexPage() {
               height={162}
               alt="Supply Manager Logo"
               priority={true}
-              quality={100}
             />
 
             {/* <h1 className="mb-16 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
