@@ -10,19 +10,6 @@
   backdrop-filter: blur(20px);
 }
 
-.imgDark {
-  display: none;
-}
- 
-@media (prefers-color-scheme: dark) {
-  .imgLight {
-    display: none;
-  }
-  .imgDark {
-    display: unset;
-  }
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;

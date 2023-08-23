@@ -121,9 +121,9 @@ export default function IndexPage() {
             }}
           />
         </div>
-        <div className="mx-auto max-w-2xl py-8 sm:py-48 lg:py-36">
+        <div className="mx-auto max-w-3xl py-8 sm:py-48 lg:py-36">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">  
-            <div className="relative rounded-full mb-6 px-3 py-1 text-sm leading-6 text-slate-800 dark:text-slate-300 ring-1 ring-gray-900/10 dark:ring-black/30 dark:bg-slate-800 dark:glass hover:ring-gray-900/20">
+            <div className="relative rounded-full mt-16 mb-8 px-3 py-1 text-sm leading-6 text-slate-800 dark:text-slate-300 ring-1 ring-gray-900/10 dark:ring-black/30 dark:bg-slate-800 dark:glass hover:ring-gray-900/20">
               Currently in Development: {' '}
               <a href="#" className="font-semibold" style={{ color: '#008bff' }}>
                 <span className="absolute inset-0" aria-hidden="true" />
@@ -134,10 +134,11 @@ export default function IndexPage() {
           <div className="text-center">
             <Image
               src={imageUrl}
-              width={729}
-              height={329}
+              width={785}
+              height={162}
               alt="Supply Manager Logo"
               priority={true}
+              quality={100}
             />
 
             {/* <h1 className="mb-16 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
