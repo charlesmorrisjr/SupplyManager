@@ -8,12 +8,7 @@ const prisma = new PrismaClient()
 // - Query database for all trips that match date
 
 export default async function getTrips(req: NextApiRequest, res: NextApiResponse) {
-  // Parse date to format YYYY-MM-DD and set time to 00:00:00
-  // This ensures that the passed in date is the same as the date in the database
-  const parseDate = (date: string) => new Date(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
-
-  const searchDate = parseDate(String(req.headers.datevalue));
-
+  const searchDate = String(req.headers.datevalue);
   const allTrips = await prisma.trips.findMany({
     include: {
       employees: {
@@ -23,7 +18,7 @@ export default async function getTrips(req: NextApiRequest, res: NextApiResponse
       },
     },
     where: {
-      date: searchDate
+      date: new Date(searchDate)
     }
   });
   res.json(allTrips)

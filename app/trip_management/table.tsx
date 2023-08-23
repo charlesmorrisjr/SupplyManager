@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
@@ -29,7 +28,6 @@ import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
 
 import useSWR from 'swr';
-import { get } from "http";
 
 export default function TripsTable() {
   // Sets the date to the current date at midnight to prevent timezone issues
@@ -37,15 +35,19 @@ export default function TripsTable() {
   const curDate = new Date(new Date().setHours(0, 0, 0, 0));
   const [date, setDate] = React.useState<Date | undefined>(curDate);
 
+  // Parse date to format YYYY-MM-DD and set time to 00:00:00
+  // This ensures that the passed in date is the same as the date in the database
+  const parseDate = (date: any) => new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0];
+
   // Fetch data from database using SWR
   const fetcher = async ([url, date]: [string, any]) =>
   await fetch(url, {
     headers: {
-      datevalue: String(date)
+      datevalue: date
     }
   }).then((response) => response.json());
 
-  let { data, error } = useSWR([ '/api/trips', date ], fetcher);
+  let { data, error } = useSWR([ '/api/trips', parseDate(date) ], fetcher);
 
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
@@ -54,7 +56,7 @@ export default function TripsTable() {
   return (
     <div className="mt-6">
 
-<Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
+      <Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
         <CardHeader>
           <CardTitle>Trips <Badge variant='secondary' className='text-xl'>{data && data.length}</Badge></CardTitle>
         </CardHeader>

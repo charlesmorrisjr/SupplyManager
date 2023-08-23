@@ -1,7 +1,8 @@
 "use client"
 
 import React, { useEffect } from "react";
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr'
+import useSWRMutation from 'swr/mutation'
 
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
@@ -358,7 +359,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
         )}
         
         {/* If the trip is assigned, show the 'Unassign Trip' button */}
-        {completion === Completion.Assigned && (            
+        {completion === Completion.Completed && (            
           <>
             <DropdownMenuSeparator />
 
@@ -367,27 +368,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
               onSelect={handleDialogItemSelect}
               onOpenChange={handleDialogItemOpenChange}
             >
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Unassign Trip</DialogTitle>
-                  <DialogDescription>
-                    {casesPicked > 0 ? (
-                      <>
-                        This trip has {casesPicked} cases picked. Are you sure you want to unassign this trip from this employee?
-                      </>
-                    ) : (
-                      <>
-                        Are you sure you want to unassign this trip from this employee?
-                      </>
-                    )}
-              </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <DialogTrigger>
-                    <Button type="submit" onClick={() => console.log('clicked')}>Confirm</Button>
-                  </DialogTrigger>
-                </DialogFooter>
-              </DialogContent>
+              <UnassignTripDialog tripID={tripID} casesPicked={casesPicked} />
             </DropdownMenuDialogItem>
           </>
         )}
@@ -396,6 +377,60 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
   );
 }
 
+async function unassignTrip(tripID: string) {
+  try {
+    const response = await fetch('/api/unassign_trip', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ trip_id: tripID }),
+    });
+
+    if (response.ok) {
+      const jsonData = await response.json();
+      // console.log(jsonData);
+      return jsonData;
+    } else {
+      console.error('Request failed with status:', response.status);
+    }
+  } catch (error) {
+    console.error('Error sending POST request:', error);
+  }
+}
+
+export function UnassignTripDialog({ tripID, casesPicked }: { tripID: string, casesPicked: number }) {
+  const handleUpdateData = async () => {
+    const parseDate = (date: string) => String(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
+
+    let tripInfo = await unassignTrip(tripID)
+    mutate([ '/api/trips', parseDate(tripInfo.date) ])
+  };
+
+  return (    
+    <DialogContent className="sm:max-w-[425px]">
+      <DialogHeader>
+        <DialogTitle>Unassign Trip</DialogTitle>
+        <DialogDescription>
+          {casesPicked > 0 ? (
+            <>
+              This trip has {casesPicked} cases picked. Are you sure you want to unassign this trip from this employee?
+            </>
+          ) : (
+            <>
+              Are you sure you want to unassign this trip from this employee?
+            </>
+          )}
+        </DialogDescription>
+      </DialogHeader>
+      <DialogFooter>
+        <DialogTrigger>
+          <Button type="submit" onClick={handleUpdateData}>Confirm</Button>
+        </DialogTrigger>
+      </DialogFooter>
+    </DialogContent>
+  )
+}
 
 export function TripDetailsTable({ tripID }: { tripID: string }) {
   const fetcher = async ([url, id]: [string, string]) =>
