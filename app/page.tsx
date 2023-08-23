@@ -1,18 +1,30 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 import Image from 'next/image'
+import { useTheme } from "next-themes"
 
 export const dynamic = 'force-dynamic';
 
 export default function IndexPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  
+  const {theme} = useTheme();
+  const [imageUrl, setImageUrl] = useState('/logo.png');
+
+  
+  useEffect(() => {
+    const imageSrc = theme === 'light'
+      ? '/logo.png'
+      : '/logo-dark.png'
+    setImageUrl(imageSrc)
+  }, [theme]);
 
   return (
-    <div className="bg-white">
+    <div className="">
       {/* <header className="absolute inset-x-0 top-0 z-50">
         <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div className="flex lg:flex-1">
@@ -110,23 +122,24 @@ export default function IndexPage() {
           />
         </div>
         <div className="mx-auto max-w-2xl py-8 sm:py-48 lg:py-36">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="relative rounded-full mb-6 px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+          <div className="hidden sm:mb-8 sm:flex sm:justify-center">  
+            <div className="relative rounded-full mb-6 px-3 py-1 text-sm leading-6 text-slate-800 dark:text-slate-300 ring-1 ring-gray-900/10 dark:ring-black/30 dark:bg-slate-800 dark:glass hover:ring-gray-900/20">
               Currently in Development: {' '}
               <a href="#" className="font-semibold" style={{ color: '#008bff' }}>
                 <span className="absolute inset-0" aria-hidden="true" />
                 Read more <span aria-hidden="true">&rarr;</span>
-              </a>
+              </a> 
             </div>
           </div>
           <div className="text-center">
-            <Image 
-              src="/logo.png"
-              width={729} 
-              height={329} 
-              alt="Supply Manager Logo" 
+            <Image
+              src={imageUrl}
+              width={729}
+              height={329}
+              alt="Supply Manager Logo"
               priority={true}
             />
+
             {/* <h1 className="mb-16 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Supply Manager
             </h1>
