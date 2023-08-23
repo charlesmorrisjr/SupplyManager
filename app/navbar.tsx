@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, Fragment } from 'react';
+
 import Link from "next/link"
 
 import { usePathname } from 'next/navigation';
@@ -46,9 +47,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Navbar({ user }: { user: any }) {
-  const pathname = usePathname();
-  
+export default function Navbar({ user }: { user: any }) {  
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme();
 
@@ -57,6 +56,10 @@ export default function Navbar({ user }: { user: any }) {
   useEffect(() => {
     setMounted(true)
   }, []);
+
+  // Don't render the navbar on the homepage
+  const pathname = usePathname();
+  if (pathname === '/') return;
 
   return (
     <div className="mx-auto sm:px-6 lg:px-8 xl:px-32 2xl:px-96 border-b-2 shadow-md dark:shadow-sm dark:shadow-gray-800">
