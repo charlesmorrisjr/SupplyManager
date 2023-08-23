@@ -2,10 +2,11 @@
 
 import React, { useEffect } from "react";
 import useSWR, { mutate } from 'swr'
-import useSWRMutation from 'swr/mutation'
 
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+
+import { useToast } from "@/components/ui/use-toast";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -47,6 +48,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge";
+import { set } from "date-fns";
 
 export type Trips = {
   id: number
@@ -400,11 +402,18 @@ async function unassignTrip(tripID: string) {
 }
 
 export function UnassignTripDialog({ tripID, casesPicked }: { tripID: string, casesPicked: number }) {
+  const { toast } = useToast()
+
   const handleUpdateData = async () => {
     const parseDate = (date: string) => String(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
 
     let tripInfo = await unassignTrip(tripID)
     mutate([ '/api/trips', parseDate(tripInfo.date) ])
+
+    toast({
+      title: "Confirmed",
+      description: `Trip ${tripID} has been unassigned.`,
+    })
   };
 
   return (    

@@ -3,6 +3,7 @@ import './globals.css';
 import Nav from './nav';
 import { Suspense } from 'react';
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata = {
   title: 'Supply Manager',
@@ -24,6 +25,7 @@ export default async function RootLayout({
           </Suspense>
           {children}
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
