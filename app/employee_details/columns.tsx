@@ -44,6 +44,7 @@ import {
 
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export type Trips = {
   id: number
@@ -54,6 +55,12 @@ export type Trips = {
   performance: number
   cases_picked: number
   total_cases: number
+}
+
+enum Completion {
+  Unassigned = 0,
+  Assigned = 1,
+  Completed = 2,
 }
 
 export const columns: ColumnDef<Trips>[] = [
@@ -213,13 +220,13 @@ export const columns: ColumnDef<Trips>[] = [
     id: "actions",
     cell: ({ row }) => { 
       return (
-        <DropdownDialog tripID={row.getValue("id")} />
+        <DropdownDialog tripID={row.getValue("id")} completion={row.getValue("completion")} casesPicked={row.getValue("cases_picked")} />
       )
     },
   },
 ]
 
-function DropdownDialog({ tripID }: { tripID: string }) {
+function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, completion: number, casesPicked: number }) {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
   const dropdownTriggerRef: any = React.useRef(null);
@@ -278,40 +285,44 @@ function DropdownDialog({ tripID }: { tripID: string }) {
         
         <DropdownMenuSeparator />
         
-        <DropdownMenuDialogItem 
-          trigger="Assign Trip"
-          onSelect={handleDialogItemSelect}
-          onOpenChange={handleDialogItemOpenChange}
-        >
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Assign Trip</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to assign this trip to this employee?
+        {/* If the trip is assigned, show the 'Unassign Trip' button */}
+        {completion === Completion.Assigned && (            
+          <>
+            <DropdownMenuSeparator />
+
+            <DropdownMenuDialogItem
+              trigger="Unassign Trip"
+              onSelect={handleDialogItemSelect}
+              onOpenChange={handleDialogItemOpenChange}
+            >
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Unassign Trip</DialogTitle>
+                  <DialogDescription>
+                    {casesPicked > 0 ? (
+                      <>
+                        This trip has already had cases picked. It cannot be unassigned.
+                      </>
+                    ) : (
+                      <>
+                        Are you sure you want to unassign this trip from this employee?
+                      </>
+                    )}
               </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <Button type="submit">Confirm</Button>
-            </DialogFooter>
-          </DialogContent>
-        </DropdownMenuDialogItem>
-        <DropdownMenuDialogItem
-          trigger="Unassign Trip"
-          onSelect={handleDialogItemSelect}
-          onOpenChange={handleDialogItemOpenChange}
-        >
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Unassign Trip</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to unassign this trip from this employee?
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <Button type="submit">Confirm</Button>
-            </DialogFooter>
-          </DialogContent>
-        </DropdownMenuDialogItem>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogTrigger>
+                    <Button type="submit" onClick={() => {
+                      casesPicked === 0 &&
+                        console.log('ok!')
+                    }
+                    }>Confirm</Button>
+                  </DialogTrigger>
+                </DialogFooter>
+              </DialogContent>
+            </DropdownMenuDialogItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

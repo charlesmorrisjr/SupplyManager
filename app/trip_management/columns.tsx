@@ -349,7 +349,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
                 </DialogHeader>
                 <DialogFooter>
                   <DialogTrigger>
-                    <Button type="submit">Confirm</Button>
+                    <Button type="submit" onClick={() => console.log('clicked')}>Confirm</Button>
                   </DialogTrigger>
                 </DialogFooter>
               </DialogContent>
@@ -384,7 +384,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
                 </DialogHeader>
                 <DialogFooter>
                   <DialogTrigger>
-                    <Button type="submit">Confirm</Button>
+                    <Button type="submit" onClick={() => console.log('clicked')}>Confirm</Button>
                   </DialogTrigger>
                 </DialogFooter>
               </DialogContent>
