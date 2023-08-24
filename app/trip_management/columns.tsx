@@ -48,7 +48,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge";
-import { set } from "date-fns";
+
+import { Combobox } from "./combobox"
 
 export type Trips = {
   id: number
@@ -343,19 +344,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
               onSelect={handleDialogItemSelect}
               onOpenChange={handleDialogItemOpenChange}
             >
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Assign Trip</DialogTitle>
-                  <DialogDescription>
-                    Are you sure you want to assign this trip to this employee?
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <DialogTrigger>
-                    <Button type="submit" onClick={() => console.log('clicked')}>Confirm</Button>
-                  </DialogTrigger>
-                </DialogFooter>
-              </DialogContent>
+              <AssignTripDialog tripID={tripID} />
             </DropdownMenuDialogItem>
           </>
         )}
@@ -377,6 +366,58 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
       </DropdownMenuContent>
     </DropdownMenu>
   );
+}
+
+type selectedEmployeeObj = {
+  id: number,
+  first_name: string,
+  last_name: string,
+  username: string
+  email: string,
+}
+
+export function AssignTripDialog({ tripID }: { tripID: string }) {
+  const { toast } = useToast()
+
+  // selectedEmployee is used to pass the employee info to this component. setSelectedEmployee is passed to the child component Combobox
+  const [selectedEmployee, setSelectedEmployee] = React.useState<selectedEmployeeObj>({id: 0, first_name: "", last_name: "", username: "", email: ""});
+
+  const handleUpdateData = async () => {
+    const parseDate = (date: string) => String(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
+
+    // let tripInfo = await assignTrip(tripID)
+    // mutate([ '/api/trips', parseDate(tripInfo.date) ])
+
+    toast({
+      title: "Confirmed",
+      description: `Trip ${tripID} has been assigned to ${selectedEmployee.first_name} ${selectedEmployee.last_name}.`,
+    })
+  };
+
+  return (    
+    <DialogContent className="sm:max-w-[425px]">
+    <DialogHeader>
+      <DialogTitle>Assign Trip</DialogTitle>
+      <Combobox onValueChange={setSelectedEmployee} />
+      <DialogDescription>
+        {selectedEmployee.id === 0 ?
+          "Please select an employee to assign this trip to."
+        :
+          `Are you sure you want to assign this trip to ${selectedEmployee.first_name} ${selectedEmployee.last_name}?`
+        }
+      </DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      {selectedEmployee.id === 0 ?
+        <Button variant='outline'>Confirm</Button>
+      :
+        <DialogTrigger>
+          <Button type="submit" onClick={handleUpdateData}>Confirm</Button>
+        </DialogTrigger>
+      }
+    </DialogFooter>
+  </DialogContent>
+  )
 }
 
 async function unassignTrip(tripID: string) {
