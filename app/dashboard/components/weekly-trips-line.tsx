@@ -99,7 +99,7 @@ export function WeeklyTrips() {
                               </span>
                               <span className="font-bold">
                                 {/* Use value of `trips` property to look up corresponding date */}
-                                {/* {chartData[chartData.findIndex(item => item.trips === payload[1].value)].date} */}
+                                {chartData[chartData.findIndex(item => item.trips === payload[0].payload?.trips)].date}
                               </span>
                             </div>
                             <div className="flex flex-col">
@@ -107,7 +107,7 @@ export function WeeklyTrips() {
                                 Trips
                               </span>
                               <span className="font-bold">
-                                {/* {payload[1].value} */}
+                                {payload[0].payload?.trips}
                               </span>
                             </div>
                           </div>

@@ -86,7 +86,6 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                 <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload !== undefined && payload.length) {
-                      console.log(payload)
                       return (
                         <div className="rounded-lg border bg-background p-2 shadow-sm">
                           <div className="grid grid-cols-2 gap-2">
@@ -95,7 +94,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                                 Trip ID
                               </span>
                               <span className="font-bold">
-                                {payload[0].payload.id}
+                                {payload[0].payload?.id}
                               </span>
                             </div>
                             <div className="flex flex-col">
@@ -103,7 +102,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                                 Performance
                               </span>
                               <span className="font-bold">
-                                {payload[0].payload.performance}%
+                                {payload[0].payload?.performance}%
                               </span>
                             </div>
                           </div>
