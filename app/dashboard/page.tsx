@@ -20,6 +20,7 @@ import { MainNav } from "./components/main-nav"
 import { Overview } from "./components/overview"
 import { TopPerformers } from "./components/top-performers"
 import { WeeklyTrips } from "./components/weekly-trips"
+import { WeeklyCases } from "./components/weekly-cases"
 import { TripCompletion } from "./components/trip-completion"
 import { Search } from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
@@ -165,15 +166,9 @@ export default async function DashboardPage() {
                   </CardContent>
                 </Card> */}
               </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
-                  <CardHeader>
-                    <CardTitle>Overview</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pl-2">
-                    <Overview />
-                  </CardContent>
-                </Card>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
+                <WeeklyCases />
+
                 <Card className="col-span-3">
                   <CardHeader>
                     <CardTitle>Top Performers</CardTitle>

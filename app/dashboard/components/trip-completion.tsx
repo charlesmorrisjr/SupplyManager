@@ -51,9 +51,9 @@ export function TripCompletion() {
               <PieChart width={800} height={400}>
                 <Pie
                   data={data}
-                  cx={160}
+                  cx={170}
                   cy={100}
-                  innerRadius={60}
+                  innerRadius={50}
                   outerRadius={80}
                   fill="#8884d8"
                   paddingAngle={0}

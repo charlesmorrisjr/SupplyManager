@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { Line, LineChart, CartesianGrid, Tooltip } from "recharts"
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { Line, LineChart, CartesianGrid, Tooltip, Legend } from "recharts"
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Label, LabelList } from "recharts"
 
 // import { useConfig } from "@/hooks/use-config"
 import { Button } from "@/components/ui/button"
@@ -17,8 +17,22 @@ import {
 } from "@/components/ui/card"
 
 import useSWR from 'swr';
+import { parse } from "path"
 
-export function WeeklyTrips() {
+let chartData: any = [];
+
+function parseData(data: any) {
+  chartData.length = 0;
+  
+  data.forEach((item: any) => {
+    chartData.push({
+      date: item.date,
+      cases: item.trips._sum.total_cases
+    });
+  });
+}
+
+export function WeeklyCases() {
   const curDate = new Date(new Date().setHours(0,0,0,0));
 
   // Fetch chartData from chartDatabase using SWR
@@ -29,42 +43,46 @@ export function WeeklyTrips() {
     }
   }).then((response) => response.json());
 
-  let { data, error } = useSWR([ '/api/weekly-trip-count', curDate ], fetcher);
+  let { data, error } = useSWR([ '/api/weekly-case-count', curDate ], fetcher);
 
-  // if (data) populateData(data);
+  if (data) parseData(data);
+  console.log(chartData)
 
   return (
-    <Card className="col-span-5 row-span-full grow col-start-4">
+    <Card className="col-span-5 row-span-full grow col-start-0">
       <CardHeader>
-        <CardTitle>Trips This Week</CardTitle>
+        <CardTitle>Volume This Week</CardTitle>
         <CardDescription>
-        Total trips per day for the week of {new Date((new Date(curDate).setDate(curDate.getDate() - 6))).toLocaleDateString()} to {curDate.toLocaleDateString()}
+        Total cases per day for the week of {new Date((new Date(curDate).setDate(curDate.getDate() - 6))).toLocaleDateString()} to {curDate.toLocaleDateString()}
         </CardDescription>
       </CardHeader>
         <CardContent className="">
-          <div className="h-[200px]">
+          <div className="h-[300px]">
 
-          { data ? (
+          { chartData.length > 0 ? (
 
             <ResponsiveContainer>
-              <BarChart data={data}>
+              <BarChart data={chartData}>
                 <XAxis
                   dataKey="date"
-                  stroke="#888888"
+                  stroke="#777777"
                   fontSize={14}
                   className="font-semibold"
                   tickLine={false}
                   axisLine={false}
                 />
                 <YAxis
-                  stroke="#555555"
+                  stroke="#777777"
                   fontSize={14}
                   className="font-semibold"
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => `${value}`}
+                  label={{ value: 'cases', angle: -90, position: 'insideLeft' }}
                 />
-                <Bar dataKey="trips" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="cases" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]}>
+                  <LabelList className="font-medium" dataKey="cases" position="top" />
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
         ) : (

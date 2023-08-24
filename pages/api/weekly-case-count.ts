@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-// Gets total trips per day for the past week
-export default async function getWeeklyTrips(req: NextApiRequest, res: NextApiResponse) {
+// Gets total cases per day for the past week
+export default async function getWeeklyCases(req: NextApiRequest, res: NextApiResponse) {
   // Parse date to format YYYY-MM-DD and set time to 00:00:00
   // This ensures that the passed in date is the same as the date in the database
   const parseDate = (date: string) => new Date(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
@@ -12,23 +12,6 @@ export default async function getWeeklyTrips(req: NextApiRequest, res: NextApiRe
   const endDate = parseDate(String(req.headers.datevalue));
   const startDate = new Date(new Date(endDate).setDate(endDate.getDate() - 6));
 
-  // console.log(startDate, endDate)
-
-  // const avgPerformance = await prisma.trips.aggregate({
-  //   _avg: {
-  //     performance: true
-  //   },
-  //   _count: {
-  //     id: true
-  //   },
-  //   where: {
-  //     date: {
-  //       gte: startDate,
-  //       lte: endDate
-  //     }
-  //   }
-  // });
-
   // Function to extract the month and day from a date in the format of MM/DD
   const getMonthDay = (date: Date) => {
     let month = date.getMonth() + 1;
@@ -36,11 +19,14 @@ export default async function getWeeklyTrips(req: NextApiRequest, res: NextApiRe
     return `${month}/${day}`;
   }
 
-  let tripCount = [];
+  let caseCount = [];
 
   for (let datevalue = startDate; datevalue <= endDate; datevalue.setDate(datevalue.getDate() + 1)) {
-    tripCount.push({
-      trips: await prisma.trips.count({    
+    caseCount.push({
+      trips: await prisma.trips.aggregate({
+        _sum: {
+          total_cases: true
+        },
         where: {
           date: datevalue
         }
@@ -48,5 +34,5 @@ export default async function getWeeklyTrips(req: NextApiRequest, res: NextApiRe
       date: getMonthDay(datevalue)
     });
   }
-  res.json(tripCount)
+  res.json(caseCount)
 }
