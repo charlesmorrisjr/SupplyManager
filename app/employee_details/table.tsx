@@ -139,15 +139,13 @@ export default function EmployeeDetailsTable() {
             <div className="flex w-1/4 max-w-full">
             <Card className="grow">
               <CardHeader>
-                <CardTitle>Stats</CardTitle>
-                <CardDescription>
-                  Employee Stats for {date ? format(date, "PPP") : "today"}.
-                </CardDescription>
+                <CardTitle>Info</CardTitle>
               </CardHeader>
               <CardContent className="pb-4">
+              {selectedEmployee.id ?
                 <div className="pb-4">
                   <div className="pb-8">
-                    <p className="text-sm font-semibold leading-6">
+                    <h3 className="text-xl font-semibold leading-6">
                       {selectedEmployee.id
                         ? 
                         <>
@@ -156,12 +154,30 @@ export default function EmployeeDetailsTable() {
                         : 
                           'N/A'
                       }
-                    </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                    </h3>
+                    <p className="mt-1 pb-4 truncate text-sm leading-5 text-gray-500">
                       {selectedEmployee.id ? selectedEmployee.email : 'N/A'}
+                    </p>
+                    <p className="text-md font-medium leading-6">
+                      Performance: 100%
+                    </p>
+                    <p className="text-md font-medium leading-6">
+                      Completed Standard Hours: 14.6 hrs
+                    </p>
+                    <p className="text-md font-medium leading-6">
+                      Cases Picked Today: 2000
                     </p>
                   </div>
                 </div>
+                :
+                <div className="pb-4">
+                  <div className="pb-8">
+                    <h3 className="text-md font-medium leading-6">
+                      Please select an employee.
+                    </h3>
+                  </div>
+                </div>
+              }
               </CardContent>
             </Card>
             </div>
