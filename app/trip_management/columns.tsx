@@ -30,6 +30,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 import { Separator } from "@/components/ui/separator"
@@ -346,7 +355,8 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
               onSelect={handleDialogItemSelect}
               onOpenChange={handleDialogItemOpenChange}
             >
-              <AssignTripDialog tripID={tripID} />
+              {/* <AssignTripDialog tripID={tripID} /> */}
+            <AssignTripDialog tripID={tripID} />
             </DropdownMenuDialogItem>
           </>
         )}
@@ -369,7 +379,6 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
     </DropdownMenu>
   );
 }
-
 
 async function assignTrip(tripID: string, employeeID: number) {
   try {
@@ -402,6 +411,51 @@ type selectedEmployeeObj = {
 }
 
 export function AssignTripDialog({ tripID }: { tripID: string }) {
+  const { toast } = useToast()
+
+  // selectedEmployee is used to pass the employee info to this component. setSelectedEmployee is passed to the child component Combobox
+  const [selectedEmployee, setSelectedEmployee] = React.useState<selectedEmployeeObj>({id: 0, first_name: "", last_name: "", username: "", email: ""});
+
+  const handleUpdateData = async () => {
+    const parseDate = (date: string) => String(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
+
+    let tripInfo = await assignTrip(tripID, selectedEmployee.id)
+    mutate([ '/api/trips', parseDate(tripInfo.date) ])
+
+    toast({
+      title: "Confirmed",
+      description: `Trip ${tripID} has been assigned to ${selectedEmployee.first_name} ${selectedEmployee.last_name}.`,
+    })
+  };
+
+  return (    
+    <DialogContent className="sm:max-w-[425px]">
+    <DialogHeader>
+      <DialogTitle className="pb-2">Assign Trip</DialogTitle>
+      <Separator />
+      <DialogDescription className="pt-4 pb-2">
+        {selectedEmployee.id === 0 ?
+          "Please select an employee to assign this trip to."
+        :
+          `Are you sure you want to assign this trip to ${selectedEmployee.first_name} ${selectedEmployee.last_name}?`
+        }
+      </DialogDescription>
+      <Combobox onValueChange={setSelectedEmployee} />
+    </DialogHeader>
+    <DialogFooter>
+      {selectedEmployee.id === 0 ?
+        <Button variant='outline'>Confirm</Button>
+      :
+        <DialogTrigger>
+          <Button type="submit" onClick={handleUpdateData}>Confirm</Button>
+        </DialogTrigger>
+      }
+    </DialogFooter>
+  </DialogContent>
+  )
+}
+
+export function AssignTripSheet({ tripID }: { tripID: string }) {
   const { toast } = useToast()
 
   // selectedEmployee is used to pass the employee info to this component. setSelectedEmployee is passed to the child component Combobox

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronsUpDown, Scroll } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,7 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command"
+
 import {
   Popover,
   PopoverContent,
@@ -19,6 +20,7 @@ import {
 } from "@/components/ui/popover"
 
 import useSWR from 'swr';
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 export function Combobox({ onValueChange }: { onValueChange: (value: any) => void}) {
   const [open, setOpen] = React.useState(false)
@@ -40,7 +42,7 @@ export function Combobox({ onValueChange }: { onValueChange: (value: any) => voi
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[300px] justify-between"
+            className="w-[350px] justify-between"
           >
             {value
               ? data.find((employee: any) => employee.username === value)?.username + " - " + data.find((employee: any) => employee.username === value)?.last_name + ", " + data.find((employee: any) => employee.username === value)?.first_name
@@ -48,38 +50,40 @@ export function Combobox({ onValueChange }: { onValueChange: (value: any) => voi
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[300px] p-0">
-          <Command>
-            <CommandInput placeholder="Search employees..." />
-            <CommandEmpty>No employee found.</CommandEmpty>
-            <CommandGroup>
-              {data.map((employee: any) => (
+        <PopoverContent className="w-[350px] p-0">
+            <Command>
+              <CommandInput placeholder="Search employees..." />
+              <CommandEmpty>No employee found.</CommandEmpty>
+              <ScrollArea className="h-[350px]">
+              <CommandGroup>
+                {data.map((employee: any) => (
                 <CommandItem
-                  key={employee.id}
-                  value={employee.username}
-                  onSelect={(currentValue) => {
-                    // Find the employee id that matches the username, then pass the object to the
-                    // onValueChange function to make an API request to the database
-                    onValueChange(
-                      currentValue === value 
-                      ? {id: 0, first_name: "", last_name: "", username: "", email: ""}
-                      : data.find((employee: any) => employee.username === currentValue)
-                    )          
-                    setValue(currentValue === value ? "" : currentValue)                  
-                    setOpen(false)
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === employee.username ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {employee.username} - {employee.last_name}, {employee.first_name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </Command>
+                    key={employee.id}
+                    value={employee.username}
+                    onSelect={(currentValue) => {
+                      // Find the employee id that matches the username, then pass the object to the
+                      // onValueChange function to make an API request to the database
+                      onValueChange(
+                        currentValue === value 
+                        ? {id: 0, first_name: "", last_name: "", username: "", email: ""}
+                        : data.find((employee: any) => employee.username === currentValue)
+                      )          
+                      setValue(currentValue === value ? "" : currentValue)                  
+                      setOpen(false)
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === employee.username ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {employee.username} - {employee.last_name}, {employee.first_name}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+              </ScrollArea>
+            </Command>
         </PopoverContent>
       </Popover>
     )
