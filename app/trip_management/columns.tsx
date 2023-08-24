@@ -361,7 +361,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
         )}
         
         {/* If the trip is assigned, show the 'Unassign Trip' button */}
-        {completion === Completion.Completed && (            
+        {completion === Completion.Assigned && (            
           <>
             <DropdownMenuSeparator />
 
@@ -423,18 +423,22 @@ export function UnassignTripDialog({ tripID, casesPicked }: { tripID: string, ca
         <DialogDescription>
           {casesPicked > 0 ? (
             <>
-              This trip has {casesPicked} cases picked. Are you sure you want to unassign this trip from this employee?
+              This trip has already been started. Only trips that have not had any cases picked can be unassigned.
             </>
           ) : (
             <>
-              Are you sure you want to unassign this trip from this employee?
+              Are you sure you want to unassign this trip?
             </>
           )}
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
         <DialogTrigger>
-          <Button type="submit" onClick={handleUpdateData}>Confirm</Button>
+          {casesPicked > 0 ? 
+            <Button type="submit">OK</Button>
+          :
+            <Button type="submit" onClick={handleUpdateData}>Confirm</Button>
+          }
         </DialogTrigger>
       </DialogFooter>
     </DialogContent>
