@@ -78,9 +78,15 @@ export function WeeklyCases() {
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => `${value}`}
-                  label={{ value: 'cases', angle: -90, position: 'insideLeft' }}
+                  // label={{ value: 'cases', angle: -90, position: 'insideLeft' }}
                 />
-                <Bar dataKey="cases" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]}>
+                <defs>
+                  <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <Bar dataKey="cases" fill="url(#colorUv)" radius={[4, 4, 0, 0]}>
                   <LabelList className="font-medium" dataKey="cases" position="top" />
                 </Bar>
               </BarChart>
