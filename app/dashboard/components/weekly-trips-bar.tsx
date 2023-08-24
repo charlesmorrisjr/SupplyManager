@@ -42,7 +42,7 @@ export function WeeklyTrips() {
         </CardDescription>
       </CardHeader>
         <CardContent className="">
-          <div className="h-[200px]">
+          <div className="h-[250px]">
 
           { data ? (
 

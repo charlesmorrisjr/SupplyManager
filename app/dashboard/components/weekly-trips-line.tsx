@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { Line, LineChart, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts"
+import { Line, LineChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from "recharts"
 
 // import { useConfig } from "@/hooks/use-config"
 import { Button } from "@/components/ui/button"
@@ -15,8 +15,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { ClipLoader } from "react-spinners"
-
 import useSWR from 'swr';
 
 import { useDate } from "@/components/date-context"
@@ -26,17 +24,18 @@ const chartData: any[] = [];
 function populateData(data: any) {
   // Populate chartData array with trips values from each trip
   chartData.length = 0;
-  let tripCountAvg = (data.reduce((a: number, b: number) => a + b, 0) / data.length).toFixed(0);
+  let tripCountAvg = data.reduce((a: any, b: any) => a + b.trips, 0) / data.length;
 
-  data.forEach((tripCount: number) => {
+  data.forEach((tripCount: any) => {
     chartData.push({
       average: tripCountAvg,
-      trips: tripCount,
+      trips: tripCount.trips,
+      date: tripCount.date
     });
   });
 }
 
-export function Chart() {
+export function WeeklyTrips() {
   const curDate = new Date(new Date().setHours(0,0,0,0));
 
   // Fetch chartData from chartDatabase using SWR
@@ -50,9 +49,10 @@ export function Chart() {
   let { data, error } = useSWR([ '/api/weekly-trip-count', curDate ], fetcher);
 
   if (data) populateData(data);
+  // if (data) console.log(data)
 
   return (
-    <Card className="col-span-6 row-span-full grow">
+    <Card className="col-span-6 row-span-full grow max-h-[400px]">
       <CardHeader>
         <CardTitle>Weekly Volume</CardTitle>
         <CardDescription>
@@ -60,21 +60,27 @@ export function Chart() {
         </CardDescription>
       </CardHeader>
         <CardContent className="">
-          <div className="h-[200px]">
+          <div className="h-[300px]">
 
           { data ? (
 
            chartData.length > 1 ?
-            <ResponsiveContainer>
+            <ResponsiveContainer height='100%'>
               <LineChart
                 data={chartData}
+                height={300}
+                width={500}
                 margin={{
-                  top: 50,
-                  right: 10,
-                  left: 10,
-                  bottom: 0,
+                  top: 0,
+                  right: 20,
+                  left: 0,
+                  bottom: 20,
                 }}
               >
+              <XAxis dataKey="date"/>
+              {/* <YAxis dataKey="trips" domain={["dataMin", "dataMax"]} /> */}
+              {/* <YAxis dataKey="trips" domain={[300, 600]} /> */}
+              <YAxis type="number" domain={['auto', 'auto']} />
                 <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload !== undefined && payload.length) {
@@ -83,10 +89,11 @@ export function Chart() {
                           <div className="grid grid-cols-2 gap-2">
                             <div className="flex flex-col">
                               <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Average
+                                Date
                               </span>
-                              <span className="font-bold text-muted-foreground">
-                                {payload[0].value}
+                              <span className="font-bold">
+                                {/* Use value of `trips` property to look up corresponding date */}
+                                {chartData[chartData.findIndex(item => item.trips === payload[1].value)].date}
                               </span>
                             </div>
                             <div className="flex flex-col">
