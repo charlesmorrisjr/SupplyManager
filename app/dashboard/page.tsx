@@ -19,6 +19,7 @@ import { CalendarDateRangePicker } from "./components/date-range-picker"
 import { MainNav } from "./components/main-nav"
 import { Overview } from "./components/overview"
 import { TopPerformers } from "./components/top-performers"
+import { WeeklyTrips } from "./components/weekly-trips"
 import { Search } from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
 import { UserNav } from "./components/user-nav"
@@ -91,8 +92,8 @@ export default async function DashboardPage() {
             </TabsList> */}
             {/* <TabsContent value="overview" className="space-y-4"> */}
             <CardContent className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8 grid-rows-2">
+                <Card className='col-span-2 row-span-1'>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Total Items Today
@@ -117,7 +118,7 @@ export default async function DashboardPage() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className='col-span-2 row-start-2 row-span-1'>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Trips Completed
@@ -144,7 +145,10 @@ export default async function DashboardPage() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+
+                <WeeklyTrips />
+
+                {/* <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Sales</CardTitle>
                   </CardHeader>
@@ -167,7 +171,7 @@ export default async function DashboardPage() {
                       +201 since last hour
                     </p>
                   </CardContent>
-                </Card>
+                </Card> */}
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
