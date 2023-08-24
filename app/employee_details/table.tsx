@@ -108,7 +108,7 @@ export default function EmployeeDetailsTable() {
 
             <Combobox onValueChange={setSelectedEmployee} value={comboValue} setValue={setComboValue}/>
 
-            <Popover>
+            {/* <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
@@ -130,13 +130,13 @@ export default function EmployeeDetailsTable() {
                   initialFocus
                 />
               </PopoverContent>
-            </Popover>
+            </Popover> */}
           </div>          
           
           <Separator />
           
           <div className="flex justify-between space-x-4">
-            <div className="flex w-1/2 max-w-full">
+            <div className="flex w-1/4 max-w-full">
             <Card className="grow">
               <CardHeader>
                 <CardTitle>Stats</CardTitle>
@@ -168,6 +168,21 @@ export default function EmployeeDetailsTable() {
             
             <div className="flex w-1/2 max-w-full">
               <Chart trips={data} performance={avgPerformance(data)} />
+            </div>
+
+            <div className="flex w-1/4">
+              <Card className="m-0 p-0">
+                <CardContent className="p-2">
+                  <Calendar
+                    mode="single"
+                    required
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                    className="p-0"
+                  />
+                </CardContent>
+              </Card>
             </div>
           </div>
           
