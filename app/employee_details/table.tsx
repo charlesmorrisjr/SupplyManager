@@ -33,7 +33,7 @@ import { Separator } from "@/components/ui/separator";
 import {Chart} from "./chart";
 
 import { useDateContext } from "@/components/use-date-context";
-
+import { useEmployee } from "@/components/employee-context";
 
 function avgPerformance(trips: Trips[]) {
   // Get number of completed trips
@@ -71,11 +71,12 @@ export default function EmployeeDetailsTable() {
   const parseDate = (date: any) => new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0];
 
   // selectedEmployee is used to pass the employee info to this component. setSelectedEmployee is passed to the child component Combobox
-  const [selectedEmployee, setSelectedEmployee] = React.useState<selectedEmployeeObj>({id: 0, first_name: "", last_name: "", username: "", email: ""});
+  // const [selectedEmployee, setSelectedEmployee] = React.useState<selectedEmployeeObj>({id: 0, first_name: "", last_name: "", username: "", email: ""});
+  const {selectedEmployee, setSelectedEmployee} = useEmployee();
   
   // comboValue is used to display the employee username in the Combobox. This state is defined here
   // and passed to Combobox so that the Combobox doesn't lose its value when the table refreshes.
-  const [comboValue, setComboValue] = React.useState<string | undefined>("");
+  const [comboValue, setComboValue] = React.useState<string | undefined>(selectedEmployee.username);
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date, selectedEmployee]: [string, any, any]) =>

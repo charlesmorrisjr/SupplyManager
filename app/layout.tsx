@@ -5,7 +5,8 @@ import React, { Suspense } from 'react';
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster"
 
-import { DateProvider } from '../components/date-context';
+import { DateProvider } from '@/components/date-context';
+import { EmployeeProvider } from '@/components/employee-context';
 
 export const metadata = {
   title: 'Supply Manager',
@@ -26,7 +27,9 @@ export default async function RootLayout({
             <Nav />
           </Suspense>
           <DateProvider>
-            {children}
+            <EmployeeProvider>
+              {children}
+            </EmployeeProvider>
           </DateProvider>
         </ThemeProvider>
         <Toaster />
