@@ -277,8 +277,7 @@ function DropdownDialog({ tripID, completion, casesPicked, employeeID }: { tripI
         >
           <DialogContent className="sm:max-w-[725px]">
             <DialogHeader>
-              <DialogTitle className="pb-4">Trip Details: {tripID}</DialogTitle>
-              <Separator />
+              <DialogTitle>Trip Details: {tripID}</DialogTitle>
               <TripDetailsTable tripID={tripID} />
             </DialogHeader>
             <DialogFooter>

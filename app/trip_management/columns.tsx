@@ -333,8 +333,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
         >
           <DialogContent className="sm:max-w-[725px]">
             <DialogHeader>
-              <DialogTitle className="pb-4">Trip Details: {tripID}</DialogTitle>
-              <Separator />
+              <DialogTitle>Trip Details: {tripID}</DialogTitle>
               <TripDetailsTable tripID={tripID} />
             </DialogHeader>
             <DialogFooter>
@@ -431,9 +430,8 @@ export function AssignTripDialog({ tripID }: { tripID: string }) {
   return (    
     <DialogContent className="sm:max-w-[425px]">
     <DialogHeader>
-      <DialogTitle className="pb-2">Assign Trip</DialogTitle>
-      <Separator />
-      <DialogDescription className="pt-4 pb-2">
+      <DialogTitle>Assign Trip</DialogTitle>
+      <DialogDescription>
         {selectedEmployee.id === 0 ?
           "Please select an employee to assign this trip to."
         :
