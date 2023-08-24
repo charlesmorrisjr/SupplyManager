@@ -26,12 +26,12 @@ import {
 import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
 
-import { useDateContext } from "@/components/use-date-context";
+import { useDate } from "@/components/date-context";
 
 import useSWR from 'swr';
 
 export default function TripsTable() {  
-  const { date, setDate } = useDateContext();
+  const { date, setDate } = useDate();
 
   // Parse date to format YYYY-MM-DD and set time to 00:00:00
   // This ensures that the passed in date is the same as the date in the database

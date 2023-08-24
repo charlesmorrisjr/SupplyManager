@@ -32,7 +32,7 @@ import { Separator } from "@/components/ui/separator";
 
 import {Chart} from "./chart";
 
-import { useDateContext } from "@/components/use-date-context";
+import { useDate } from "@/components/date-context";
 import { useEmployee } from "@/components/employee-context";
 
 function avgPerformance(trips: Trips[]) {
@@ -55,23 +55,14 @@ function avgPerformance(trips: Trips[]) {
   return 0;
 }
 
-type selectedEmployeeObj = {
-  id: number,
-  first_name: string,
-  last_name: string,
-  username: string
-  email: string,
-}
-
 export default function EmployeeDetailsTable() {
-  const { date, setDate } = useDateContext();
+  const { date, setDate } = useDate();
 
   // Parse date to format YYYY-MM-DD and set time to 00:00:00
   // This ensures that the passed in date is the same as the date in the database
   const parseDate = (date: any) => new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0];
 
   // selectedEmployee is used to pass the employee info to this component. setSelectedEmployee is passed to the child component Combobox
-  // const [selectedEmployee, setSelectedEmployee] = React.useState<selectedEmployeeObj>({id: 0, first_name: "", last_name: "", username: "", email: ""});
   const {selectedEmployee, setSelectedEmployee} = useEmployee();
   
   // comboValue is used to display the employee username in the Combobox. This state is defined here

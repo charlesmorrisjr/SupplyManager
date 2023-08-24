@@ -27,13 +27,13 @@ import {
 import { Employees, columns } from "./columns"
 import { DataTable } from "./data-table"
 
-import { useDateContext } from "@/components/use-date-context";
+import { useDate } from "@/components/date-context";
 
 import useSWR from 'swr';
 
 
 export default function TeamTable() {
-  const { date, setDate } = useDateContext();
+  const { date, setDate } = useDate();
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date]: [string, any]) =>
@@ -52,7 +52,7 @@ export default function TeamTable() {
   return (
     <div className="mt-6">
 
-<Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
+      <Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
         <CardHeader>
           <CardTitle>Employees <Badge variant='secondary' className='text-xl'>{data && data.length}</Badge></CardTitle>
         </CardHeader>
