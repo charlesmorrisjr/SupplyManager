@@ -16,10 +16,16 @@ export function TopPerformers() {
   // const curDate = String(new Date(new Date().setHours(0, 0, 0, 0)));
   const curDate = new Date(new Date().setHours(0, 0, 0, 0));
   const [date, setDate] = React.useState<Date | undefined>(curDate);
-  
+
   // Fetch data from database using SWR
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error } = useSWR('/api/top_performers', fetcher);
+  const fetcher = async ([url, date]: [string, any]) =>
+  await fetch(url, {
+    headers: {
+      datevalue: String(date)
+    }
+  }).then((response) => response.json());
+
+  const { data, error } = useSWR([ '/api/top_performers', date ], fetcher);
   
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
