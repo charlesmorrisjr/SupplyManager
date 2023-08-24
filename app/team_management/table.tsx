@@ -50,11 +50,10 @@ export default function TeamTable() {
   if (error) return <div>An error occurred.</div>
 
   return (
-    <div className="mt-6">
-
-      <Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
-        <CardHeader>
-          <CardTitle>Employees <Badge variant='secondary' className='text-xl'>{data && data.length}</Badge></CardTitle>
+    <div>
+      <Card className="p-6 pt-4 shadow-2xl dark:shadow-lg dark:shadow-gray-800">
+        <CardHeader className="pb-6">
+          <CardTitle className="text-3xl font-bold tracking-tight">Employees <Badge variant='secondary' className='text-xl font-medium'>{data && data.length}</Badge></CardTitle>
         </CardHeader>
 
         <CardContent className="flex flex-col space-y-4">
