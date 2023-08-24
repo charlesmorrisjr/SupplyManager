@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { Line, LineChart, ResponsiveContainer, Tooltip } from "recharts"
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
 // import { useConfig } from "@/hooks/use-config"
 import { Button } from "@/components/ui/button"
@@ -22,11 +22,13 @@ function populateData(trips: any) {
   // Populate data array with performance values from each trip
   data.length = 0;
 
-  trips.forEach((trip: any) => {
+  trips.forEach((trip: any, idx: number) => {
     if (trip.completion === 2) {
       data.push({
-        baseline: 100.00,
-        percentage: trip.performance,
+        index: idx,
+        id: trip.id,
+        performance: trip.performance,
+        uv: trip.performance,
       });
     }
   });
@@ -63,35 +65,45 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
 
           { data.length > 1 ?
             <ResponsiveContainer>
-              <LineChart
+              <AreaChart
                 data={data}
+                height={300}
                 margin={{
-                  top: 100,
-                  right: 10,
-                  left: 10,
+                  top: 0,
+                  right: 0,
+                  left: 0,
                   bottom: 0,
                 }}
               >
+              <XAxis dataKey="index" type="number" domain={[1, "dataMax"]} />
+              <YAxis type="number" domain={[0, 200]} />
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
                 <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload !== undefined && payload.length) {
+                      console.log(payload)
                       return (
                         <div className="rounded-lg border bg-background p-2 shadow-sm">
                           <div className="grid grid-cols-2 gap-2">
                             <div className="flex flex-col">
                               <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Baseline
+                                Trip ID
                               </span>
-                              <span className="font-bold text-muted-foreground">
-                                {payload[0].value}%
+                              <span className="font-bold">
+                                {payload[0].payload.id}
                               </span>
                             </div>
                             <div className="flex flex-col">
                               <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Trip
+                                Performance
                               </span>
                               <span className="font-bold">
-                                {payload[1].value}%
+                                {payload[0].payload.performance}%
                               </span>
                             </div>
                           </div>
@@ -102,36 +114,8 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                     return null
                   }}
                 />
-                <Line
-                  type="monotone"
-                  strokeWidth={2}
-                  dataKey="baseline"
-                  activeDot={{
-                    r: 6,
-                    style: { fill: "hsl(var(--text-muted-foreground))", opacity: 0.3 },
-                  }}
-                  style={
-                    {
-                      stroke: "hsl(var(--muted-foreground))",
-                      opacity: 0.3,
-                    } as React.CSSProperties
-                  }
-                />
-                <Line
-                  type="monotone"
-                  dataKey="percentage"
-                  strokeWidth={2}
-                  activeDot={{
-                    r: 8,
-                    style: { fill: "hsl(var(--primary))" },
-                  }}
-                  style={
-                    {
-                      stroke: "hsl(var(--primary))",
-                    } as React.CSSProperties
-                  }
-                />
-              </LineChart>
+                <Area type="monotone" dataKey="uv" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorUv)" />
+              </AreaChart>
             </ResponsiveContainer>
           :
             <div className="flex flex-col items-center justify-center h-full">
