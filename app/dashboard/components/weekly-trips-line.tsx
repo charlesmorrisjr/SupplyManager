@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { Line, LineChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from "recharts"
+import { Area, AreaChart, Line, LineChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from "recharts"
 
 // import { useConfig } from "@/hooks/use-config"
 import { Button } from "@/components/ui/button"
@@ -30,6 +30,8 @@ function populateData(data: any) {
     chartData.push({
       average: tripCountAvg,
       trips: tripCount.trips,
+      uv: tripCount.trips,
+      pv: tripCountAvg,
       date: tripCount.date
     });
   });
@@ -66,7 +68,7 @@ export function WeeklyTrips() {
 
            chartData.length > 1 ?
             <ResponsiveContainer height='100%'>
-              <LineChart
+              <AreaChart
                 data={chartData}
                 height={300}
                 width={500}
@@ -78,9 +80,13 @@ export function WeeklyTrips() {
                 }}
               >
               <XAxis dataKey="date"/>
-              {/* <YAxis dataKey="trips" domain={["dataMin", "dataMax"]} /> */}
-              {/* <YAxis dataKey="trips" domain={[300, 600]} /> */}
               <YAxis type="number" domain={['auto', 'auto']} />
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
                 <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload !== undefined && payload.length) {
@@ -93,7 +99,7 @@ export function WeeklyTrips() {
                               </span>
                               <span className="font-bold">
                                 {/* Use value of `trips` property to look up corresponding date */}
-                                {chartData[chartData.findIndex(item => item.trips === payload[1].value)].date}
+                                {/* {chartData[chartData.findIndex(item => item.trips === payload[1].value)].date} */}
                               </span>
                             </div>
                             <div className="flex flex-col">
@@ -101,7 +107,7 @@ export function WeeklyTrips() {
                                 Trips
                               </span>
                               <span className="font-bold">
-                                {payload[1].value}
+                                {/* {payload[1].value} */}
                               </span>
                             </div>
                           </div>
@@ -112,36 +118,8 @@ export function WeeklyTrips() {
                     return null
                   }}
                 />
-                <Line
-                  type="monotone"
-                  strokeWidth={2}
-                  dataKey="average"
-                  activeDot={{
-                    r: 6,
-                    style: { fill: "hsl(var(--text-muted-foreground))", opacity: 0.3 },
-                  }}
-                  style={
-                    {
-                      stroke: "hsl(var(--muted-foreground))",
-                      opacity: 0.3,
-                    } as React.CSSProperties
-                  }
-                />
-                <Line
-                  type="monotone"
-                  dataKey="trips"
-                  strokeWidth={2}
-                  activeDot={{
-                    r: 8,
-                    style: { fill: "hsl(var(--primary))" },
-                  }}
-                  style={
-                    {
-                      stroke: "hsl(var(--primary))",
-                    } as React.CSSProperties
-                  }
-                />
-              </LineChart>
+                <Area type="monotone" dataKey="uv" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorUv)" />
+              </AreaChart>
             </ResponsiveContainer>
           :
             <div className="flex flex-col items-center justify-center h-full">
