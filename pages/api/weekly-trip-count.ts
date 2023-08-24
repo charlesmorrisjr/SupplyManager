@@ -32,7 +32,7 @@ export default async function getWeeklyPerformance(req: NextApiRequest, res: Nex
   // Function to extract the month and day from a date in the format of MM/DD
   const getMonthDay = (date: Date) => {
     let month = date.getMonth() + 1;
-    let day = date.getDate();
+    let day = date.getDate() + 1;
     return `${month}/${day}`;
   }
 
