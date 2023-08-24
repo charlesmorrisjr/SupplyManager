@@ -49,6 +49,7 @@ export function DataTable<TData, TValue>({
     initialState: {
       columnVisibility: {
         'cases_picked': false,
+        'employee_id': false,
       }
     }
   })

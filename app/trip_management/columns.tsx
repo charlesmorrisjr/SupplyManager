@@ -51,6 +51,8 @@ import { Badge } from "@/components/ui/badge";
 
 import { Combobox } from "./combobox"
 
+import UnassignTripDialog from "./unassign-trip"
+
 export type Trips = {
   id: number
   route: number
@@ -421,7 +423,6 @@ export function AssignTripDialog({ tripID }: { tripID: string }) {
     <DialogContent className="sm:max-w-[425px]">
     <DialogHeader>
       <DialogTitle>Assign Trip</DialogTitle>
-      <Combobox onValueChange={setSelectedEmployee} />
       <DialogDescription>
         {selectedEmployee.id === 0 ?
           "Please select an employee to assign this trip to."
@@ -429,6 +430,7 @@ export function AssignTripDialog({ tripID }: { tripID: string }) {
           `Are you sure you want to assign this trip to ${selectedEmployee.first_name} ${selectedEmployee.last_name}?`
         }
       </DialogDescription>
+      <Combobox onValueChange={setSelectedEmployee} />
     </DialogHeader>
     <DialogFooter>
       {selectedEmployee.id === 0 ?
@@ -440,72 +442,6 @@ export function AssignTripDialog({ tripID }: { tripID: string }) {
       }
     </DialogFooter>
   </DialogContent>
-  )
-}
-
-async function unassignTrip(tripID: string) {
-  try {
-    const response = await fetch('/api/unassign_trip', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ trip_id: tripID }),
-    });
-
-    if (response.ok) {
-      const jsonData = await response.json();
-      // console.log(jsonData);
-      return jsonData;
-    } else {
-      console.error('Request failed with status:', response.status);
-    }
-  } catch (error) {
-    console.error('Error sending POST request:', error);
-  }
-}
-
-export function UnassignTripDialog({ tripID, casesPicked }: { tripID: string, casesPicked: number }) {
-  const { toast } = useToast()
-
-  const handleUpdateData = async () => {
-    const parseDate = (date: string) => String(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
-
-    let tripInfo = await unassignTrip(tripID)
-    mutate([ '/api/trips', parseDate(tripInfo.date) ])
-
-    toast({
-      title: "Confirmed",
-      description: `Trip ${tripID} has been unassigned.`,
-    })
-  };
-
-  return (    
-    <DialogContent className="sm:max-w-[425px]">
-      <DialogHeader>
-        <DialogTitle>Unassign Trip</DialogTitle>
-        <DialogDescription>
-          {casesPicked > 0 ? (
-            <>
-              This trip has already been started. Only trips that have not had any cases picked can be unassigned.
-            </>
-          ) : (
-            <>
-              Are you sure you want to unassign this trip?
-            </>
-          )}
-        </DialogDescription>
-      </DialogHeader>
-      <DialogFooter>
-        <DialogTrigger>
-          {casesPicked > 0 ? 
-            <Button type="submit">OK</Button>
-          :
-            <Button type="submit" onClick={handleUpdateData}>Confirm</Button>
-          }
-        </DialogTrigger>
-      </DialogFooter>
-    </DialogContent>
   )
 }
 

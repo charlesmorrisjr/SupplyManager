@@ -85,6 +85,10 @@ export default function EmployeeDetailsTable() {
   const curDate = new Date(new Date().setHours(0, 0, 0, 0));
   const [date, setDate] = React.useState<Date | undefined>(curDate);
 
+  // Parse date to format YYYY-MM-DD and set time to 00:00:00
+  // This ensures that the passed in date is the same as the date in the database
+  const parseDate = (date: any) => new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0];
+
   // selectedEmployee is used to pass the employee info to this component. setSelectedEmployee is passed to the child component Combobox
   const [selectedEmployee, setSelectedEmployee] = React.useState<selectedEmployeeObj>({id: 0, first_name: "", last_name: "", username: "", email: ""});
   
@@ -96,12 +100,12 @@ export default function EmployeeDetailsTable() {
   const fetcher = async ([url, date, selectedEmployee]: [string, any, any]) =>
   await fetch(url, {
     headers: {
-      datevalue: String(date),
-      employee_id: String(selectedEmployee.id)
+      datevalue: date,
+      employee_id: String(selectedEmployee)
     }
   }).then((response) => response.json());
 
-  const { data, error } = useSWR([ '/api/employee_details', date, selectedEmployee ], fetcher);
+  const { data, error } = useSWR([ '/api/employee_details', parseDate(date), selectedEmployee.id ], fetcher);
 
   // // TODO: Starter code for retrieving trip details as required
   // const fetcher = async (url: string) => await fetch(url).then((response) => response.json());
@@ -118,7 +122,7 @@ export default function EmployeeDetailsTable() {
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
-    
+
   return (
     <div className="mt-6"> 
       <Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">

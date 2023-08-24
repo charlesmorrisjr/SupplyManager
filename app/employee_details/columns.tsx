@@ -44,7 +44,8 @@ import {
 
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge";
-import { DialogClose } from "@radix-ui/react-dialog";
+
+import UnassignTripDialog from "./unassign-trip";
 
 export type Trips = {
   id: number
@@ -55,6 +56,7 @@ export type Trips = {
   performance: number
   cases_picked: number
   total_cases: number
+  employee_id: number
 }
 
 enum Completion {
@@ -188,6 +190,10 @@ export const columns: ColumnDef<Trips>[] = [
     },
   },
   {
+    // This column is hidden. It's used to pass the employee ID to the unassign trip dialog component
+    accessorKey: "employee_id",
+  },
+  {
     // This column is hidden. The output combined with the 'Total Cases' column
     accessorKey: "cases_picked",
   },
@@ -220,13 +226,13 @@ export const columns: ColumnDef<Trips>[] = [
     id: "actions",
     cell: ({ row }) => { 
       return (
-        <DropdownDialog tripID={row.getValue("id")} completion={row.getValue("completion")} casesPicked={row.getValue("cases_picked")} />
+        <DropdownDialog tripID={row.getValue("id")} completion={row.getValue("completion")} casesPicked={row.getValue("cases_picked")} employeeID={row.getValue("employee_id")} />
       )
     },
   },
 ]
 
-function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, completion: number, casesPicked: number }) {
+function DropdownDialog({ tripID, completion, casesPicked, employeeID }: { tripID: string, completion: number, casesPicked: number, employeeID: number }) {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
   const dropdownTriggerRef: any = React.useRef(null);
@@ -283,8 +289,6 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
           </DialogContent>
         </DropdownMenuDialogItem>
         
-        <DropdownMenuSeparator />
-        
         {/* If the trip is assigned, show the 'Unassign Trip' button */}
         {completion === Completion.Assigned && (            
           <>
@@ -295,31 +299,7 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
               onSelect={handleDialogItemSelect}
               onOpenChange={handleDialogItemOpenChange}
             >
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Unassign Trip</DialogTitle>
-                  <DialogDescription>
-                    {casesPicked > 0 ? (
-                      <>
-                        This trip has already had cases picked. It cannot be unassigned.
-                      </>
-                    ) : (
-                      <>
-                        Are you sure you want to unassign this trip from this employee?
-                      </>
-                    )}
-              </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <DialogTrigger>
-                    <Button type="submit" onClick={() => {
-                      casesPicked === 0 &&
-                        console.log('ok!')
-                    }
-                    }>Confirm</Button>
-                  </DialogTrigger>
-                </DialogFooter>
-              </DialogContent>
+              <UnassignTripDialog tripID={tripID} casesPicked={casesPicked} employeeID={employeeID} />
             </DropdownMenuDialogItem>
           </>
         )}
