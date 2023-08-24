@@ -21,15 +21,17 @@ const data: any[] = [];
 function populateData(trips: any) {
   // Populate data array with performance values from each trip
   data.length = 0;
+  let index = 1;
 
-  trips.forEach((trip: any, idx: number) => {
+  trips.forEach((trip: any) => {
     if (trip.completion === 2) {
       data.push({
-        index: idx,
+        index,
         id: trip.id,
         performance: trip.performance,
         uv: trip.performance,
       });
+      index++;
     }
   });
 }
@@ -75,7 +77,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                   bottom: 0,
                 }}
               >
-              <XAxis dataKey="index" type="number" domain={[1, "dataMax"]} />
+              <XAxis dataKey="index" domain={[1, "auto"]} />
               <YAxis type="number" domain={[0, 200]} />
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -86,6 +88,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                 <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload !== undefined && payload.length) {
+                      console.log(payload[0])
                       return (
                         <div className="rounded-lg border bg-background p-2 shadow-sm">
                           <div className="grid grid-cols-2 gap-2">
@@ -119,6 +122,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
           :
             <div className="flex flex-col items-center justify-center h-full">
               <span className="text-muted-foreground">Not enough data to display chart.</span>
+              <span className="text-muted-foreground">Employee must have completed 2 or more trips.</span>
             </div>
           }
          </div>
