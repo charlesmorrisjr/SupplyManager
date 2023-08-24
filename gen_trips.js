@@ -30,7 +30,7 @@ const TODAYS_DATE = new Date(new Date().setHours(0, 0, 0, 0));
 // TODO: Only assign trips to employees who are orderfillers or lift drivers
 // TODO: Make start and end times for trips assigned to the same employee on the same day not overlap
 
-/* algo:
+/* initial algo:
 - Loop from START_DATE to END_DATE, incrementing by 1 day and set current date to curDate
   - Loop from 1 to MIN_TRIPS_PER_DAY + (random number * TRIPS_PER_DAY_RANDOM_RANGE)
     - For current trip
@@ -98,7 +98,10 @@ async function generateItems(tripInfo) {
   });
 }
 
-function generateRandomTrip(curDate) {
+// Give completion and cases_picked default values of 0 and allow them to be set
+// so we can generate some trips that are unassigned and some that are assigned
+// but not started yet
+function generateRandomTrip(curDate, completion, hasCases = false, completionIsSet = false) {
   let date = curDate;
   let route = faker.number.int({min: 1, max: MAX_ROUTES});
   let stop = faker.number.int({min: 1, max: MAX_STOPS});
@@ -107,14 +110,14 @@ function generateRandomTrip(curDate) {
   let door = faker.number.int({min: 1, max: MAX_DOORS});
   let standard_time = CASE_TIME * total_cases;
   
-  let completion;
-  if (curDate.toString() !== TODAYS_DATE.toString()) {
-    completion = 2;
-  } else {
-    completion = faker.number.int({min: 0, max: 2});
+  if (!completionIsSet) {
+    if (curDate.toString() !== TODAYS_DATE.toString()) {
+      completion = 2;
+    } else {
+      completion = faker.number.int({min: 0, max: 2});
+    }
   }
 
-  let cases_picked = 0;
   let employee_id = null;
   let start_time, end_time;
   let performance = null;
@@ -124,8 +127,10 @@ function generateRandomTrip(curDate) {
     start_time = faker.date.between({ from: date, to: new Date(date.getTime() + MS_PER_HOUR * 24) });
   }
 
+  let cases_picked = 0;
+
   if (completion === 1) {
-    cases_picked = faker.number.int({min: 0, max: total_cases});
+    cases_picked = hasCases ? faker.number.int({min: 0, max: total_cases}) : 0;
   } else if (completion === 2) {
     cases_picked = total_cases;
     end_time = start_time.getTime() + (standard_time / 2) + faker.number.int(standard_time);  // Range is 0.5 standard time to 1.5 standard time
@@ -204,6 +209,20 @@ async function insertTrips(startDate = new Date(TODAYS_DATE), endDate = new Date
       
       console.log(curDate);
 
+      // First generate several trips of different types for demo purposes
+      data.push(generateRandomTrip(curDate, 0, false, true));
+      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
+      curTripID++;      
+      data.push(generateRandomTrip(curDate, 1, false, true));
+      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
+      curTripID++;
+      data.push(generateRandomTrip(curDate, 1, true, true));
+      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
+      curTripID++;
+      data.push(generateRandomTrip(curDate, 2, false, true));
+      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
+      curTripID++;
+
       for (let curTrip = 1; curTrip <= numTrips; curTrip++) {
         data.push(generateRandomTrip(curDate));
         tripInfo.push([curTripID, data[data.length - 1].total_cases]);
@@ -240,5 +259,5 @@ if ((new Date(process.argv[2])).toString() !== 'Invalid Date' && (new Date(proce
   console.log('Please enter two valid dates (ex: gen_trips 01-01-2023 01-31-2023) or no dates to (ex: gen_trips)');
 }
 
-// generateItems([[182727, 2]]);
+// generateItems([[196393, 91]]);
 // insertTrips();
