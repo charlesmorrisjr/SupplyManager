@@ -17,6 +17,7 @@ import {
 import useSWR from 'swr';
 
 const COLORS = ['#0088FE', '#FFBB28', '#00C49F'];
+const gradientIdPrefix = 'pieGradient';
 
 export function TripCompletion() {
   const tripsExist = (data: any) => data[0].value > 0 && data[1].value > 0 && data[2].value > 0;
@@ -47,28 +48,43 @@ export function TripCompletion() {
           { data ? (
             tripsExist(data) ? (
             <ResponsiveContainer>
-              {/* <PieChart width={800} height={400} onMouseEnter={this.onPieEnter}> */}
-              <PieChart width={800} height={400}>
-                <Pie
-                  data={data}
-                  cx={170}
-                  cy={100}
-                  innerRadius={50}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  paddingAngle={0}
-                  dataKey="value"
-                  nameKey="name"
-                  label
-                >                  
-                  {data.map((entry: any, index: any) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Legend verticalAlign="bottom" height={36}/>
-                <Tooltip />
-
-              </PieChart>
+      <PieChart>
+        <defs>
+          {data.map((entry: any, index: any) => (
+            <linearGradient
+              key={`${gradientIdPrefix}-${index}`}
+              id={`${gradientIdPrefix}-${index}`}
+              x1="0"
+              y1="1"
+              x2="2"
+              y2="1"
+            >
+              <stop offset="0%" stopColor={COLORS[index % COLORS.length]} />
+              <stop offset="100%" stopColor="white" />
+            </linearGradient>
+          ))}
+        </defs>
+        <Pie
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius={40}
+          outerRadius={80}
+          paddingAngle={0}
+          dataKey="value"
+          nameKey="name"
+          label
+        >
+          {data.map((entry: any, index: any) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={`url(#${gradientIdPrefix}-${index})`}
+            />
+          ))}
+        </Pie>
+        <Legend verticalAlign="bottom" height={36} />
+        <Tooltip />
+      </PieChart>
             </ResponsiveContainer>
             ) : (
               <div className="flex flex-col items-center justify-center h-full w-full">
