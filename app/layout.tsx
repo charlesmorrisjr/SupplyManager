@@ -21,7 +21,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className="h-full">
+      <body className="h-full bg-slate-300 dark:bg-background">
         <ThemeProvider attribute="class" defaultTheme="light">
           <Suspense>
             <Nav />

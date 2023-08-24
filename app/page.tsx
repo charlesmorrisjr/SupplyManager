@@ -123,7 +123,7 @@ export default function IndexPage() {
         </div>
         <div className="mx-auto max-w-3xl py-8 sm:py-48 lg:py-36">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">  
-            <div className="relative rounded-full mt-16 mb-8 px-3 py-1 text-sm leading-6 text-slate-800 dark:text-slate-300 ring-1 ring-gray-900/10 dark:ring-black/30 dark:bg-slate-800 dark:glass hover:ring-gray-900/20">
+            <div className="relative rounded-full mt-16 mb-8 px-3 py-1 text-sm leading-6 text-slate-800 dark:text-slate-300 ring-1 ring-gray-900/20 dark:ring-black/30 dark:bg-slate-800 dark:glass hover:ring-gray-900/40">
               Currently in Development: {' '}
               <a href="#" className="font-semibold" style={{ color: '#008bff' }}>
                 <span className="absolute inset-0" aria-hidden="true" />

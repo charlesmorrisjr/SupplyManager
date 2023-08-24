@@ -48,7 +48,7 @@ export function TripCompletion() {
           { data ? (
             tripsExist(data) ? (
             <ResponsiveContainer>
-      <PieChart>
+      <PieChart className="mt-4 ml-1">
         <defs>
           {data.map((entry: any, index: any) => (
             <linearGradient

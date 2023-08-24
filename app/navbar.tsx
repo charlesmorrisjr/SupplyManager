@@ -62,7 +62,7 @@ export default function Navbar({ user }: { user: any }) {
   if (pathname === '/') return;
 
   return (
-    <div className="mx-auto sm:px-6 lg:px-8 xl:px-32 2xl:px-96 border-b-2 shadow-md dark:shadow-sm dark:shadow-gray-800">
+    <div className="mx-auto sm:px-6 lg:px-8 xl:px-32 2xl:px-96 border-b-2 shadow-md dark:shadow-sm dark:shadow-gray-800 bg-background">
       <div className="flex h-16 justify-between">
         <div className="flex flex-shrink-0 items-center">
           <NavigationMenu>
