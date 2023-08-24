@@ -16,7 +16,7 @@ import {
 
 import useSWR from 'swr';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#0088FE', '#FFBB28', '#00C49F'];
 
 export function TripCompletion() {
   const tripsExist = (data: any) => data[0].value > 0 && data[1].value > 0 && data[2].value > 0;
@@ -42,7 +42,7 @@ export function TripCompletion() {
         </CardDescription>
       </CardHeader>
         <CardContent className="">
-          <div className="h-[230px]">
+          <div className="h-[250px]">
 
           { data ? (
             tripsExist(data) ? (
@@ -52,7 +52,7 @@ export function TripCompletion() {
                 <Pie
                   data={data}
                   cx={160}
-                  cy={80}
+                  cy={100}
                   innerRadius={60}
                   outerRadius={80}
                   fill="#8884d8"
