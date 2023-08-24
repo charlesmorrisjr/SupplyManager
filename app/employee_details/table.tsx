@@ -145,7 +145,7 @@ export default function EmployeeDetailsTable() {
               {selectedEmployee.id ?
                 <div className="pb-4">
                   <div className="pb-8">
-                    <h3 className="text-xl font-semibold leading-6">
+                    <h3 className="text-lg font-semibold leading-6">
                       {selectedEmployee.id
                         ? 
                         <>
@@ -155,16 +155,13 @@ export default function EmployeeDetailsTable() {
                           'N/A'
                       }
                     </h3>
-                    <p className="mt-1 pb-4 truncate text-sm leading-5 text-gray-500">
+                    <p className="mt-1 pb-6 truncate text-sm leading-5 text-gray-500">
                       {selectedEmployee.id ? selectedEmployee.email : 'N/A'}
                     </p>
-                    <p className="text-md font-medium leading-6">
-                      Performance: 100%
+                    <p className="text-md pb-6 leading-6">
+                      Completed Hours: 14.6 hrs
                     </p>
-                    <p className="text-md font-medium leading-6">
-                      Completed Standard Hours: 14.6 hrs
-                    </p>
-                    <p className="text-md font-medium leading-6">
+                    <p className="text-md leading-6">
                       Cases Picked Today: 2000
                     </p>
                   </div>

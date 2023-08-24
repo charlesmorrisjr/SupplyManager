@@ -88,7 +88,6 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                 <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload !== undefined && payload.length) {
-                      console.log(payload[0])
                       return (
                         <div className="rounded-lg border bg-background p-2 shadow-sm">
                           <div className="grid grid-cols-2 gap-2">
