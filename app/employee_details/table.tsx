@@ -1,11 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
-
-import { Badge } from "@/components/ui/badge";
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -33,7 +31,9 @@ import useSWR from 'swr';
 import { Separator } from "@/components/ui/separator";
 
 import {Chart} from "./chart";
-import { Table } from "@/components/ui/table";
+
+import { useDateContext } from "@/components/use-date-context";
+
 
 function avgPerformance(trips: Trips[]) {
   // Get number of completed trips
@@ -63,27 +63,8 @@ type selectedEmployeeObj = {
   email: string,
 }
 
-// export function useMultipleRequests() {
-//   const urls: any[] = ['/api/v1/magazines/1234', '/api/v1/magazines/1234/articles']
-
-//   const fetcher = (...urls: any[]) => {
-//     const f = (url: any) => fetch(url).then(r => r.json())
-//     return Promise.all(urls.map(url => f(url)))
-//   }
-
-//   const { data, error } = useSWR(urls, fetcher)
-//   return {
-//     data: data,
-//     isError: !!error,
-//     isLoading: !data && !error
-//   }
-// }
-
 export default function EmployeeDetailsTable() {
-  // Sets the date to the current date at midnight to prevent timezone issues
-  // when retrieving data from the database
-  const curDate = new Date(new Date().setHours(0, 0, 0, 0));
-  const [date, setDate] = React.useState<Date | undefined>(curDate);
+  const { date, setDate } = useDateContext();
 
   // Parse date to format YYYY-MM-DD and set time to 00:00:00
   // This ensures that the passed in date is the same as the date in the database

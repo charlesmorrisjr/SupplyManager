@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useEffect } from "react";
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
@@ -27,13 +26,12 @@ import {
 import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
 
+import { useDateContext } from "@/components/use-date-context";
+
 import useSWR from 'swr';
 
 export default function TripsTable() {  
-  // Sets the date to the current date at midnight to prevent timezone issues
-  // when retrieving data from the database
-  const curDate = new Date(new Date().setHours(0, 0, 0, 0));
-  const [date, setDate] = React.useState<Date | undefined>(curDate);
+  const { date, setDate } = useDateContext();
 
   // Parse date to format YYYY-MM-DD and set time to 00:00:00
   // This ensures that the passed in date is the same as the date in the database

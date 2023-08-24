@@ -24,16 +24,16 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
 import { Employees, columns } from "./columns"
 import { DataTable } from "./data-table"
 
+import { useDateContext } from "@/components/use-date-context";
+
 import useSWR from 'swr';
 
+
 export default function TeamTable() {
-  const curDate = new Date(new Date().setHours(0, 0, 0, 0));
-  const [date, setDate] = React.useState<Date | undefined>(curDate);
+  const { date, setDate } = useDateContext();
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date]: [string, any]) =>
