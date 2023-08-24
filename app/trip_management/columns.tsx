@@ -368,6 +368,29 @@ function DropdownDialog({ tripID, completion, casesPicked }: { tripID: string, c
   );
 }
 
+
+async function assignTrip(tripID: string, employeeID: number) {
+  try {
+    const response = await fetch('/api/assign_trip', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ trip_id: tripID, employee_id: employeeID }),
+    });
+
+    if (response.ok) {
+      const jsonData = await response.json();
+      console.log(jsonData);
+      return jsonData;
+    } else {
+      console.error('Request failed with status:', response.status);
+    }
+  } catch (error) {
+    console.error('Error sending POST request:', error);
+  }
+}
+
 type selectedEmployeeObj = {
   id: number,
   first_name: string,
@@ -385,8 +408,8 @@ export function AssignTripDialog({ tripID }: { tripID: string }) {
   const handleUpdateData = async () => {
     const parseDate = (date: string) => String(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
 
-    // let tripInfo = await assignTrip(tripID)
-    // mutate([ '/api/trips', parseDate(tripInfo.date) ])
+    let tripInfo = await assignTrip(tripID, selectedEmployee.id)
+    mutate([ '/api/trips', parseDate(tripInfo.date) ])
 
     toast({
       title: "Confirmed",
