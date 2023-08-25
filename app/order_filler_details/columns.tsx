@@ -57,12 +57,25 @@ export type Trips = {
   cases_picked: number
   total_cases: number
   employee_id: number
+  standard_time: number
 }
 
 enum Completion {
   Unassigned = 0,
   Assigned = 1,
   Completed = 2,
+}
+
+// This function converts milliseconds to a time format of HH:MM:SS
+// Used for calculating standard time
+function convertMillisecondsToTime(ms: number) {
+  const MS_PER_HOUR = 1000 * 60 * 60;
+
+  let hours = Math.floor(ms / 1000 / 60 / 60);
+  let minutes = Math.floor((ms - (hours * MS_PER_HOUR)) / 1000 / 60);
+  let seconds = Math.floor((ms - (hours * MS_PER_HOUR) - (minutes * 1000 * 60)) / 1000);
+  const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  return formattedTime;
 }
 
 export const columns: ColumnDef<Trips>[] = [
@@ -132,6 +145,23 @@ export const columns: ColumnDef<Trips>[] = [
     },
     cell: ({ row }) => {
       return <div className="text-center font-medium">{row.getValue("weight")} lbs</div>
+    },
+  },
+  {
+    accessorKey: "standard_time",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Standard Time
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return <div className="text-center font-medium">{convertMillisecondsToTime(new Date(row.getValue("standard_time")).getTime())}</div>
     },
   },
   {
@@ -205,7 +235,7 @@ export const columns: ColumnDef<Trips>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Cases Picked/Total Cases
+          Cases Picked/Total
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )

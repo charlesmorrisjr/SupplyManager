@@ -153,9 +153,9 @@ export default function EmployeeDetailsTable() {
             <div className="flex w-1/4 max-w-full">
             <Card className="grow">
               <CardHeader>
-                <CardTitle>Info</CardTitle>
+                <CardTitle>Summary</CardTitle>
               </CardHeader>
-              <CardContent className="pb-4">
+              <CardContent className="pt-4">
               {selectedEmployee.id ?
                 <div className="pb-4">
                   <div className="pb-8">
