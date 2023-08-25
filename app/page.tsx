@@ -13,13 +13,13 @@ export default function IndexPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
   const {theme} = useTheme();
-  const [imageUrl, setImageUrl] = useState('/logo.png');
+  const [imageUrl, setImageUrl] = useState('/logo-dark.png');
 
   
   useEffect(() => {
-    const imageSrc = theme === 'light'
-      ? '/logo.png'
-      : '/logo-dark.png'
+    const imageSrc = theme === 'dark'
+      ? '/logo-dark.png'
+      : '/logo.png'
     setImageUrl(imageSrc)
   }, [theme]);
 
