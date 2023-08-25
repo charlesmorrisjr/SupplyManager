@@ -108,29 +108,31 @@ export default function EmployeeDetailsTable() {
 
             <Combobox onValueChange={setSelectedEmployee} value={comboValue} setValue={setComboValue}/>
 
-            {/* <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-[280px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  <span className="font-medium">{date ? format(date, "PPP") : "Pick a date"}</span>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  required
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover> */}
+            <div className="xl:hidden lg:flex">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[280px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <span className="font-medium">{date ? format(date, "PPP") : "Pick a date"}</span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    required
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>          
           
           <Separator />
@@ -183,7 +185,7 @@ export default function EmployeeDetailsTable() {
               <Chart trips={data} performance={avgPerformance(data)} />
             </div>
 
-            <div className="flex w-1/4">
+            <div className="hidden w-1/4 xl:flex">
               <Card className="m-0 p-0">
                 <CardContent className="p-2">
                   <Calendar
