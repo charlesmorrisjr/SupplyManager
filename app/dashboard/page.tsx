@@ -168,7 +168,7 @@ export default async function DashboardPage() {
                   <CardHeader>
                     <CardTitle>Top Performers</CardTitle>
                     <CardDescription>
-                      The highest performing employees today
+                      The highest performing order fillers today
                     </CardDescription>
                   </CardHeader>
                   <CardContent>

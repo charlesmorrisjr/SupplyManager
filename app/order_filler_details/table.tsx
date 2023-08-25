@@ -100,7 +100,7 @@ export default function EmployeeDetailsTable() {
     <div> 
       <Card className="p-6 pt-4 shadow-2xl dark:shadow-lg dark:shadow-gray-800">
         <CardHeader className="pb-8">
-          <CardTitle className="text-3xl font-bold tracking-tight">Employee Details</CardTitle>
+          <CardTitle className="text-3xl font-bold tracking-tight">Order Filler Details</CardTitle>
         </CardHeader>
 
         <CardContent className="flex flex-col space-y-4">
@@ -172,7 +172,7 @@ export default function EmployeeDetailsTable() {
                 <div className="pb-4">
                   <div className="pb-8">
                     <h3 className="text-md font-medium leading-6">
-                      Please select an employee.
+                      Please select an associate.
                     </h3>
                   </div>
                 </div>

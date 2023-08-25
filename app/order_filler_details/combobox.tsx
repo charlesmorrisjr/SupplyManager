@@ -46,14 +46,14 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
           >
             {value
               ? data.find((employee: any) => employee.username === value)?.username + " - " + data.find((employee: any) => employee.username === value)?.last_name + ", " + data.find((employee: any) => employee.username === value)?.first_name
-              : "Select employee..."}
+              : "Select associate..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[350px] p-0">
             <Command>
               <CommandInput placeholder="Search employees..." />
-              <CommandEmpty>No employee found.</CommandEmpty>
+              <CommandEmpty>No associate found.</CommandEmpty>
               <ScrollArea className="h-[300px]">
 
               <CommandGroup>

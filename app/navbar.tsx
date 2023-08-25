@@ -39,7 +39,7 @@ const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Dashboard', href: '/dashboard' },
   { name: 'Team Management', href: '/team_management' },
-  { name: 'Employee Details', href: '/employee_details' },
+  { name: 'Order Filler Details', href: '/order_filler_details' },
   { name: 'Trip Management', href: '/trip_management' },
 ];
 

@@ -59,7 +59,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
           </span>
         </CardTitle>
         <CardDescription>
-          Employee Performance for today.
+          Order filler performance for today.
         </CardDescription>
       </CardHeader>
         <CardContent className="pb-4">
@@ -123,7 +123,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
           :
             <div className="flex flex-col items-center justify-center h-full">
               <span className="text-muted-foreground">Not enough data to display chart.</span>
-              <span className="text-muted-foreground">Employee must have completed 2 or more trips.</span>
+              <span className="text-muted-foreground">Associate must have completed 2 or more trips.</span>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full w-full">
