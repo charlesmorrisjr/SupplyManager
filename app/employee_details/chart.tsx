@@ -42,9 +42,9 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
 
   // const theme = themes.find((theme) => theme.name === config.theme)
 
-  if (trips === undefined) return;
+  // if (trips === undefined) return;
 
-  populateData(trips);
+  if (trips !== undefined) populateData(trips);
 
   return (
     <Card className="grow">
@@ -65,8 +65,10 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
         <CardContent className="pb-4">
           <div className="h-[200px]">
 
-          { data.length > 1 ?
-            <ResponsiveContainer>
+          { trips ? (
+
+           data.length > 1 ?
+            <ResponsiveContainer height="100%">
               <AreaChart
                 data={data}
                 height={300}
@@ -123,7 +125,11 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
               <span className="text-muted-foreground">Not enough data to display chart.</span>
               <span className="text-muted-foreground">Employee must have completed 2 or more trips.</span>
             </div>
-          }
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full w-full">
+              <span className="spinner"></span>
+            </div>
+          )}
          </div>
         </CardContent>
     </Card>
