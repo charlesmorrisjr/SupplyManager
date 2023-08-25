@@ -36,14 +36,14 @@ export function TripCompletion() {
 
   return (
     <Card className="col-span-3 row-span-full grow">
-      <CardHeader>
+      <CardHeader className="pb-0">
         <CardTitle>Trip Completion</CardTitle>
         <CardDescription>
           Trip completion for today ({curDate.toLocaleDateString()})
         </CardDescription>
       </CardHeader>
-        <CardContent className="">
-          <div className="h-[250px]">
+        <CardContent className="p-0 px-6">
+          <div className="h-[300px]">
 
           { data ? (
             tripsExist(data) ? (
@@ -82,7 +82,7 @@ export function TripCompletion() {
             />
           ))}
         </Pie>
-        <Legend verticalAlign="bottom" height={36} />
+        <Legend verticalAlign="bottom" height={48} iconType="circle" />
         <Tooltip />
       </PieChart>
             </ResponsiveContainer>
