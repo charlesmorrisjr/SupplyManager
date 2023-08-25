@@ -53,7 +53,6 @@ export function WeeklyCases() {
   let { data, error } = useSWR([ '/api/weekly-case-count', curDate ], fetcher);
 
   if (data) parseData(data);
-  console.log(chartData)
 
   return (
     <Card className="col-span-5 row-span-full grow col-start-0">

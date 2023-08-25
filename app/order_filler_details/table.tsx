@@ -55,6 +55,18 @@ function avgPerformance(trips: Trips[]) {
   return 0;
 }
 
+// This function converts milliseconds to a time format of HH:MM:SS
+// Used for calculating standard time
+function convertMillisecondsToTime(ms: number) {
+  const MS_PER_HOUR = 1000 * 60 * 60;
+
+  let hours = Math.floor(ms / 1000 / 60 / 60);
+  let minutes = Math.floor((ms - (hours * MS_PER_HOUR)) / 1000 / 60);
+  let seconds = Math.floor((ms - (hours * MS_PER_HOUR) - (minutes * 1000 * 60)) / 1000);
+  const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  return formattedTime;
+}
+
 export default function EmployeeDetailsTable() {
   const { date, setDate } = useDate();
 
@@ -160,11 +172,11 @@ export default function EmployeeDetailsTable() {
                     <p className="mt-1 pb-6 truncate text-sm leading-5 text-gray-500">
                       {selectedEmployee.id ? selectedEmployee.email : 'N/A'}
                     </p>
-                    <p className="text-md pb-6 leading-6">
-                      Completed Hours: 14.6 hrs
+                    <p className="text-md font-normal pb-2 leading-6">
+                      Completed Hours: {data ? convertMillisecondsToTime(data.reduce((total: number, trip: any) => trip.completion === 2 ? total + (new Date(trip.standard_time).getTime()) : total, 0)) : '00:00:00'}
                     </p>
-                    <p className="text-md leading-6">
-                      Cases Picked Today: 2000
+                    <p className="text-md font-normal leading-6">
+                      Cases Picked Today: {data ? data.reduce((total: number, trip: any) => trip.completion === 2 ? total + Number(trip.cases_picked) : total, 0) : 0}
                     </p>
                   </div>
                 </div>

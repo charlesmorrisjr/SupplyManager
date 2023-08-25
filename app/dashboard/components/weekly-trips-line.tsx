@@ -47,14 +47,6 @@ function populateData(data: any) {
 
 export function WeeklyTrips() {
   const curDate = new Date(new Date().setHours(0,0,0,0));
-  const startDate = new Date(new Date(curDate).setDate(curDate.getDate() - 6));
-  const datesOfWeek = [];
-  
-  for (let datevalue = startDate; datevalue <= curDate; datevalue.setDate(datevalue.getDate() + 1)) {
-    datesOfWeek.push(new Date(datevalue));
-  }
-  console.log(datesOfWeek)
-  console.log(curDate)
     
   // Fetch chartData from chartDatabase using SWR
   const fetcher = async ([url, date]: [string, any]) =>
