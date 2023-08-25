@@ -1,8 +1,17 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 import Image from 'next/image'
 import { useTheme } from "next-themes"
@@ -125,10 +134,47 @@ export default function IndexPage() {
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">  
             <div className="relative rounded-full mt-16 mb-8 px-3 py-1 text-sm leading-6 text-slate-800 dark:text-slate-300 ring-1 ring-gray-900/20 dark:ring-black/30 dark:bg-slate-800 dark:glass hover:ring-gray-900/40">
               Currently in Development: {' '}
+              <Dialog>
+                <DialogTrigger>
               <a href="#" className="font-semibold" style={{ color: '#008bff' }}>
-                <span className="absolute inset-0" aria-hidden="true" />
+                <span className="absolute inset-0 font-semibold" aria-hidden="true" />
                 Read more <span aria-hidden="true">&rarr;</span>
               </a> 
+              </DialogTrigger>
+              <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Currently in Development</DialogTitle>
+                    <DialogDescription className='text-md font-normal'>
+                      <p className='pb-4'>
+                        This project is currently being developed.
+                        As of now, basic order filling and trip management has been implemented.
+                      </p>
+                      
+                      <p className='pb-4'>
+                      In the future, the following features will be added:
+                      </p>
+                      <p>
+                      - Order filler chase
+                      </p>
+                      <p>
+                      - Lift driver management
+                      </p>
+                      <p>
+                      - Loader management
+                      </p>
+                      <p>
+                        - Receiving management
+                      </p>
+                      <p>
+                        - ...and more!
+                      </p>
+                      <p className='pt-4'>
+                        For more information, please visit <a href="https://github.com/charlesmorrisjr/SupplyManager" target='_blank' style={{ color: '#008bff' }}>https://github.com/charlesmorrisjr/SupplyManager</a>.
+                      </p>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
           <div className="text-center">
