@@ -64,7 +64,7 @@ export function WeeklyTrips() {
   return (
     <Card className="col-span-6 row-span-full grow max-h-[400px]">
       <CardHeader>
-        <CardTitle>Weekly Volume</CardTitle>
+        <CardTitle>Trips This Week</CardTitle>
         <CardDescription>
         Total trips per day for the week of {new Date((new Date(curDate).setDate(curDate.getDate() - 6))).toLocaleDateString()} to {curDate.toLocaleDateString()}
         </CardDescription>

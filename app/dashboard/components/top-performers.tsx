@@ -59,11 +59,11 @@ export function TopPerformers() {
       {data ? (
         data.slice(0, 5).map((employee: any) => (
           <div key={employee.id} className="flex items-center">
-            <Avatar className="h-9 w-9">
+            {/* <Avatar className="h-9 w-9">
               <AvatarImage src={`/avatars/${employee.id}.png`} alt="Avatar" />
               <AvatarFallback>{employee.first_name.slice(0, 1)}{employee.last_name.slice(0, 1)}</AvatarFallback>
-            </Avatar>
-            <div className="ml-4 space-y-1">
+            </Avatar> */}
+            <div className="ml-0 py-2 space-y-1">
               <p className="text-sm font-medium leading-none">{employee.first_name} {employee.last_name}</p>
             </div>
             <div className="ml-auto font-medium">{employee.performance > 0 ? `${employee.performance}%` : "N/A"}</div>
