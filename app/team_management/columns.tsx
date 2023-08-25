@@ -24,6 +24,20 @@ export type Employees = {
   last_name: string
   name: string
   trips: object
+  casesPicked: number
+  totalStandardTime: string
+}
+
+// This function converts milliseconds to a time format of HH:MM:SS
+// Used for calculating standard time
+function convertMillisecondsToTime(ms: number) {
+  const MS_PER_HOUR = 1000 * 60 * 60;
+
+  let hours = Math.floor(ms / 1000 / 60 / 60);
+  let minutes = Math.floor((ms - (hours * MS_PER_HOUR)) / 1000 / 60);
+  let seconds = Math.floor((ms - (hours * MS_PER_HOUR) - (minutes * 1000 * 60)) / 1000);
+  const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  return formattedTime;
 }
 
 export const columns: ColumnDef<Employees>[] = [
@@ -58,7 +72,7 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("username")}</div>
+      return <div className="text-left font-medium">{row.getValue("username")}</div>
     },
   },
   {
@@ -75,7 +89,7 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("first_name")}</div>
+      return <div className="text-left font-medium">{row.getValue("first_name")}</div>
     },
   },
   {
@@ -92,7 +106,7 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("last_name")}</div>
+      return <div className="text-left font-medium">{row.getValue("last_name")}</div>
     },
   },
   {
@@ -131,6 +145,49 @@ export const columns: ColumnDef<Employees>[] = [
       return <div className="text-center font-medium">N/A</div>
     },
   },
+  {
+    accessorKey: "totalCasesPicked",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Cases Picked
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const trips: any[] = row.getValue("trips");
+
+      let totalCasesPicked = trips.reduce((total: number, trip: any) => trip.completion ? total + Number(trip.cases_picked) : total, 0);
+
+      return <div className="text-center font-medium">{totalCasesPicked}</div>
+    },
+  },
+  {
+    accessorKey: "totalStandardTime",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Completed Hours
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const trips: any[] = row.getValue("trips");
+
+      let totalStandardTime = convertMillisecondsToTime(trips.reduce((total: number, trip: any) => trip.completion === 2 ? total + new Date(trip.standard_time).getTime() : total, 0));
+
+      return <div className="text-center font-medium">{totalStandardTime}</div>
+    },
+  },
+
   // {
   //   id: "actions",
   //   cell: ({ row }) => { 

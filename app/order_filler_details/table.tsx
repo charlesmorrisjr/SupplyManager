@@ -176,7 +176,7 @@ export default function EmployeeDetailsTable() {
                       Completed Hours: {data ? convertMillisecondsToTime(data.reduce((total: number, trip: any) => trip.completion === 2 ? total + (new Date(trip.standard_time).getTime()) : total, 0)) : '00:00:00'}
                     </p>
                     <p className="text-md font-normal leading-6">
-                      Cases Picked Today: {data ? data.reduce((total: number, trip: any) => trip.completion === 2 ? total + Number(trip.cases_picked) : total, 0) : 0}
+                      Cases Picked Today: {data ? data.reduce((total: number, trip: any) => trip.completion ? total + Number(trip.cases_picked) : total, 0) : 0}
                     </p>
                   </div>
                 </div>

@@ -18,6 +18,7 @@ export default async function getEmployees(req: NextApiRequest, res: NextApiResp
           end_time: true,
           standard_time: true,
           performance: true,
+          cases_picked: true,
         },
         where: {
           date: new Date(searchDate)

@@ -170,7 +170,7 @@ export const columns: ColumnDef<Trips>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Associate Username
+          Order Filler
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -181,7 +181,7 @@ export const columns: ColumnDef<Trips>[] = [
       // Check if employees is an object and not null; otherwise, TypeScript will complain
       if (typeof employees === "object" && employees !== null && "username" in employees) {
         let username = String(employees.username);  
-        return <div className="text-center font-medium">{username}</div>
+        return <div className="text-left font-medium">{username}</div>
       }
     },
   },
