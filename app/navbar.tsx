@@ -124,7 +124,7 @@ export default function Navbar({ user }: { user: any }) {
                   </>
                 ) : (
                   <div className="m-2">
-                    <Button variant='ghost' onClick={() => signIn('github')}>
+                    <Button variant='ghost' onClick={() => signIn('google')}>
                       Sign in
                     </Button>
                   </div>
