@@ -23,10 +23,17 @@ let chartData: any = [];
 
 function parseData(data: any) {
   chartData.length = 0;
+
+  // Function to extract the month and day from a date in the format of MM/DD
+  const getMonthDay = (date: Date) => {
+    let month = date.getMonth() + 1;
+    let day = date.getDate() + 1;
+    return `${month}/${day}`;
+  }
   
   data.forEach((item: any) => {
     chartData.push({
-      date: item.date,
+      date: getMonthDay(new Date(item.date)),
       cases: item.trips._sum.total_cases
     });
   });

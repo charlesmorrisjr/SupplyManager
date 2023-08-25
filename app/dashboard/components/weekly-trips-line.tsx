@@ -23,6 +23,14 @@ const chartData: any[] = [];
 
 function populateData(data: any) {
   // Populate chartData array with trips values from each trip
+
+  // Function to extract the month and day from a date in the format of MM/DD
+  const getMonthDay = (date: Date) => {
+    let month = date.getMonth() + 1;
+    let day = date.getDate() + 1;
+    return `${month}/${day}`;
+  }
+
   chartData.length = 0;
   let tripCountAvg = data.reduce((a: any, b: any) => a + b.trips, 0) / data.length;
 
@@ -32,14 +40,22 @@ function populateData(data: any) {
       trips: tripCount.trips,
       uv: tripCount.trips,
       pv: tripCountAvg,
-      date: tripCount.date
+      date: getMonthDay(new Date(tripCount.date))
     });
   });
 }
 
 export function WeeklyTrips() {
   const curDate = new Date(new Date().setHours(0,0,0,0));
-
+  const startDate = new Date(new Date(curDate).setDate(curDate.getDate() - 6));
+  const datesOfWeek = [];
+  
+  for (let datevalue = startDate; datevalue <= curDate; datevalue.setDate(datevalue.getDate() + 1)) {
+    datesOfWeek.push(new Date(datevalue));
+  }
+  console.log(datesOfWeek)
+  console.log(curDate)
+    
   // Fetch chartData from chartDatabase using SWR
   const fetcher = async ([url, date]: [string, any]) =>
   await fetch(url, {

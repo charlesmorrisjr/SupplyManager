@@ -12,16 +12,19 @@ export default async function getWeeklyCases(req: NextApiRequest, res: NextApiRe
   const endDate = parseDate(String(req.headers.datevalue));
   const startDate = new Date(new Date(endDate).setDate(endDate.getDate() - 6));
 
-  // Function to extract the month and day from a date in the format of MM/DD
-  const getMonthDay = (date: Date) => {
-    let month = date.getMonth() + 1;
-    let day = date.getDate() + 1;
-    return `${month}/${day}`;
-  }
+  // // Function to extract the month and day from a date in the format of MM/DD
+  // const getMonthDay = (date: Date) => {
+  //   let month = date.getMonth() + 1;
+  //   let day = date.getDate() + 1;
+  //   return `${month}/${day}`;
+  // }
 
   let caseCount = [];
 
   for (let datevalue = startDate; datevalue <= endDate; datevalue.setDate(datevalue.getDate() + 1)) {
+    // Make a copy, otherwise the date will be the same for all objects in the array
+    let datevalueCopy = String(datevalue)
+
     caseCount.push({
       trips: await prisma.trips.aggregate({
         _sum: {
@@ -31,7 +34,7 @@ export default async function getWeeklyCases(req: NextApiRequest, res: NextApiRe
           date: datevalue
         }
       }),
-      date: getMonthDay(datevalue)
+      date: datevalueCopy
     });
   }
   res.json(caseCount)

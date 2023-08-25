@@ -29,23 +29,27 @@ export default async function getWeeklyTrips(req: NextApiRequest, res: NextApiRe
   //   }
   // });
 
-  // Function to extract the month and day from a date in the format of MM/DD
-  const getMonthDay = (date: Date) => {
-    let month = date.getMonth() + 1;
-    let day = date.getDate() + 1;
-    return `${month}/${day}`;
-  }
+  // // Function to extract the month and day from a date in the format of MM/DD
+  // const getMonthDay = (date: Date) => {
+  //   let month = date.getMonth() + 1;
+  //   let day = date.getDate() + 1;
+  //   return `${month}/${day}`;
+  // }
 
   let tripCount = [];
 
   for (let datevalue = startDate; datevalue <= endDate; datevalue.setDate(datevalue.getDate() + 1)) {
+    // Make a copy, otherwise the date will be the same for all objects in the array
+    let datevalueCopy = String(datevalue)
+    
     tripCount.push({
       trips: await prisma.trips.count({    
         where: {
           date: datevalue
         }
       }),
-      date: getMonthDay(datevalue)
+      // date: getMonthDay(datevalue)
+      date: datevalueCopy
     });
   }
   res.json(tripCount)
