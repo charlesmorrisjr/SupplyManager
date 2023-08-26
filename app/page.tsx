@@ -150,10 +150,27 @@ export default function IndexPage() {
                         As of now, basic order filling and trip management has been implemented.
                       </p>
                       
-                      <p className='pb-4'>
+                      <p className='pb-2'>
                       In the future, the following features will be added:
                       </p>
-                      <p>
+                      <ul>
+                        <li>
+                          Order filler chase
+                        </li>
+                        <li>
+                          Lift driver management
+                        </li>
+                        <li>
+                          Loader management
+                        </li>
+                        <li>
+                          Receiving management
+                        </li>
+                        <li>
+                          ...and more!
+                        </li>
+                      </ul>
+                      {/* <p>
                       - Order filler chase
                       </p>
                       <p>
@@ -167,8 +184,8 @@ export default function IndexPage() {
                       </p>
                       <p>
                         - ...and more!
-                      </p>
-                      <p className='pt-4'>
+                      </p> */}
+                      <p className='pt-2'>
                         For more information, please visit <a href="https://github.com/charlesmorrisjr/SupplyManager" target='_blank' style={{ color: '#008bff' }}>https://github.com/charlesmorrisjr/SupplyManager</a>.
                       </p>
                     </DialogDescription>

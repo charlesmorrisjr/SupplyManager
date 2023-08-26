@@ -48,43 +48,42 @@ export function TripCompletion() {
           { data ? (
             tripsExist(data) ? (
             <ResponsiveContainer>
-      <PieChart className="mt-4 ml-1">
-        <defs>
-          {data.map((entry: any, index: any) => (
-            <linearGradient
-              key={`${gradientIdPrefix}-${index}`}
-              id={`${gradientIdPrefix}-${index}`}
-              x1="0"
-              y1="1"
-              x2="2"
-              y2="1"
-            >
-              <stop offset="0%" stopColor={COLORS[index % COLORS.length]} />
-              <stop offset="100%" stopColor="white" />
-            </linearGradient>
-          ))}
-        </defs>
-        <Pie
-          data={data}
-          cx="50%"
-          cy="50%"
-          innerRadius={40}
-          outerRadius={80}
-          paddingAngle={0}
-          dataKey="value"
-          nameKey="name"
-          label
-        >
-          {data.map((entry: any, index: any) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={`url(#${gradientIdPrefix}-${index})`}
-            />
-          ))}
-        </Pie>
-        <Legend verticalAlign="bottom" height={48} iconType="circle" />
-        <Tooltip />
-      </PieChart>
+              <PieChart className="mt-4 ml-1">
+                <defs>
+                  {data.map((entry: any, index: any) => (
+                    <linearGradient
+                      key={`${gradientIdPrefix}-${index}`}
+                      id={`${gradientIdPrefix}-${index}`}
+                      x1="0"
+                      y1="1"
+                      x2="2"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor={COLORS[index % COLORS.length]} />
+                      <stop offset="100%" stopColor="white" />
+                    </linearGradient>
+                  ))}
+                </defs>
+                <Pie
+                  data={data}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={40}
+                  outerRadius={80}
+                  paddingAngle={0}
+                  dataKey="value"
+                  nameKey="name"
+                  label
+                >
+                  {data.map((entry: any, index: any) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={`url(#${gradientIdPrefix}-${index})`}
+                    />
+                  ))}
+                </Pie>
+                <Legend verticalAlign="bottom" height={48} iconType="circle" />
+              </PieChart>
             </ResponsiveContainer>
             ) : (
               <div className="flex flex-col items-center justify-center h-full w-full">
