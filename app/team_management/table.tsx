@@ -31,6 +31,43 @@ import { useDate } from "@/components/date-context";
 
 import useSWR from 'swr';
 
+function addAdditionalProperties(data: any) {
+  // This function converts milliseconds to a time format of HH:MM:SS
+  // Used for calculating standard time
+  const convertMillisecondsToTime = (ms: number) => {
+    const MS_PER_HOUR = 1000 * 60 * 60;
+
+    let hours = Math.floor(ms / 1000 / 60 / 60);
+    let minutes = Math.floor((ms - (hours * MS_PER_HOUR)) / 1000 / 60);
+    let seconds = Math.floor((ms - (hours * MS_PER_HOUR) - (minutes * 1000 * 60)) / 1000);
+    const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return formattedTime;
+  }
+
+  // Add additional properties to each employee object so the table can sort them properly
+  data.forEach((employee: any) => {
+    employee.casesPicked = employee.trips.reduce((total: number, trip: any) => trip.completion ? total + Number(trip.cases_picked) : total, 0);
+    employee.totalStandardTime = convertMillisecondsToTime(employee.trips.reduce((total: number, trip: any) => trip.completion === 2 ? total + new Date(trip.standard_time).getTime() : total, 0));
+
+    // Get number of completed trips
+    let completedTrips = employee.trips.filter((trip: any) => trip.completion === 2).length;
+
+    // Check if employee actually completed any trips
+    if (completedTrips > 0) {
+      
+      // Calculate average performance by adding up all performance values and dividing by number of completed trips
+      employee.avgPerformance = (employee.trips.reduce((total: number, trip: any) => {
+        if (trip.completion === 2) {
+          return total + Number(trip.performance);
+        } else {
+          return total;
+        }
+      }, 0) / completedTrips).toFixed(2);
+    } else {
+      employee.avgPerformance = 0;
+    }
+  });
+}
 
 export default function TeamTable() {
   const { date, setDate } = useDate();
@@ -48,6 +85,8 @@ export default function TeamTable() {
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
+
+  if (data) addAdditionalProperties(data);
 
   return (
     <div>

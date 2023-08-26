@@ -24,6 +24,7 @@ export type Employees = {
   last_name: string
   name: string
   trips: object
+  avgPerformance: number
   casesPicked: number
   totalStandardTime: string
 }
@@ -110,7 +111,7 @@ export const columns: ColumnDef<Employees>[] = [
     },
   },
   {
-    accessorKey: "trips",
+    accessorKey: "avgPerformance",
     header: ({ column }) => {
       return (
         <Button
@@ -123,30 +124,13 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      const trips: any[] = row.getValue("trips");
+      const avgPerformance: number = row.getValue("avgPerformance");
 
-      // Get number of completed trips
-      let completedTrips = trips.filter(trip => trip.completion === 2).length;
-
-      // Check if employee actually completed any trips
-      if (completedTrips > 0) {
-        
-        // Calculate average performance by adding up all performance values and dividing by number of completed trips
-        let avg_performance = (trips.reduce((total, trip) => {
-          if (trip.completion === 2) {
-            return total + Number(trip.performance);
-          } else {
-            return total;
-          }
-        }, 0) / completedTrips).toFixed(2);
-        
-        return <div className="text-center font-medium">{avg_performance}%</div>
-      }
-      return <div className="text-center font-medium">N/A</div>
+      return <div className="text-center font-medium">{avgPerformance}%</div>
     },
   },
   {
-    accessorKey: "totalCasesPicked",
+    accessorKey: "casesPicked",
     header: ({ column }) => {
       return (
         <Button
@@ -159,11 +143,9 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      const trips: any[] = row.getValue("trips");
+      const casesPicked: number = row.getValue("casesPicked")
 
-      let totalCasesPicked = trips.reduce((total: number, trip: any) => trip.completion ? total + Number(trip.cases_picked) : total, 0);
-
-      return <div className="text-center font-medium">{totalCasesPicked}</div>
+      return <div className="text-center font-medium">{casesPicked}</div>
     },
   },
   {
@@ -180,9 +162,7 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      const trips: any[] = row.getValue("trips");
-
-      let totalStandardTime = convertMillisecondsToTime(trips.reduce((total: number, trip: any) => trip.completion === 2 ? total + new Date(trip.standard_time).getTime() : total, 0));
+      const totalStandardTime: string = row.getValue("totalStandardTime");
 
       return <div className="text-center font-medium">{totalStandardTime}</div>
     },
