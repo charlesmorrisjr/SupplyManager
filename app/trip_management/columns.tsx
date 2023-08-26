@@ -68,7 +68,7 @@ export type Trips = {
   stop: number
   completion: number
   // employee_id: number
-  employees: object
+  employee_username: string
   weight: number
   cases_picked: number
   total_cases: number
@@ -163,7 +163,7 @@ export const columns: ColumnDef<Trips>[] = [
   //   },
   // },
   {
-    accessorKey: "employees",
+    accessorKey: "employee_username",
     header: ({ column }) => {
       return (
         <Button
@@ -176,13 +176,7 @@ export const columns: ColumnDef<Trips>[] = [
       )
     },
     cell: ({ row }) => {
-      const employees = row.getValue("employees");
-
-      // Check if employees is an object and not null; otherwise, TypeScript will complain
-      if (typeof employees === "object" && employees !== null && "username" in employees) {
-        let username = String(employees.username);  
-        return <div className="text-left font-medium">{username}</div>
-      }
+      return <div className="text-left font-medium">{row.getValue("employee_username")}</div>
     },
   },
   {

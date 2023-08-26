@@ -124,9 +124,7 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      const avgPerformance: number = row.getValue("avgPerformance");
-
-      return <div className="text-center font-medium">{avgPerformance}%</div>
+      return <div className="text-center font-medium">{row.getValue("avgPerformance")}%</div>
     },
   },
   {
@@ -143,9 +141,7 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      const casesPicked: number = row.getValue("casesPicked")
-
-      return <div className="text-center font-medium">{casesPicked}</div>
+      return <div className="text-center font-medium">{row.getValue("casesPicked")}</div>
     },
   },
   {
@@ -162,9 +158,7 @@ export const columns: ColumnDef<Employees>[] = [
       )
     },
     cell: ({ row }) => {
-      const totalStandardTime: string = row.getValue("totalStandardTime");
-
-      return <div className="text-center font-medium">{totalStandardTime}</div>
+      return <div className="text-center font-medium">{row.getValue("totalStandardTime")}</div>
     },
   },
 

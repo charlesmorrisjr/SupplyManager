@@ -30,6 +30,15 @@ import { useDate } from "@/components/date-context";
 
 import useSWR from 'swr';
 
+function addAdditionalData(data: any) {
+  data.forEach((trip: any) => {
+    // Check if employees is an object and not null; otherwise, TypeScript will complain
+    if (typeof trip.employees === "object" && trip.employees !== null && "username" in trip.employees) {
+      trip.employee_username = trip.employees.username;
+    }
+  })
+}
+
 export default function TripsTable() {  
   const { date, setDate } = useDate();
 
@@ -50,6 +59,8 @@ export default function TripsTable() {
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
+
+  if (data) addAdditionalData(data);
 
   return (
     <div> 

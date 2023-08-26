@@ -178,15 +178,7 @@ export const columns: ColumnDef<Trips>[] = [
       )
     },
     cell: ({ row }) => {
-      return (
-        <>
-          {row.getValue("performance") !== null &&
-            <div className="text-center font-medium">
-              {row.getValue("performance")}%
-            </div>
-          }
-        </>
-      )
+      return <div className="text-center font-medium">{row.getValue("performance")}%</div>
     },
   },
   {
