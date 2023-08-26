@@ -55,6 +55,10 @@ function avgPerformance(trips: Trips[]) {
   return 0;
 }
 
+function parseData(data: any) {
+  data.forEach((trip: any) => trip.performance = Number(trip.performance));
+}
+
 // This function converts milliseconds to a time format of HH:MM:SS
 // Used for calculating standard time
 function convertMillisecondsToTime(ms: number) {
@@ -92,21 +96,11 @@ export default function EmployeeDetailsTable() {
 
   const { data, error } = useSWR([ '/api/employee_details', parseDate(date), selectedEmployee.id ], fetcher);
 
-  // // TODO: Starter code for retrieving trip details as required
-  // const fetcher = async (url: string) => await fetch(url).then((response) => response.json());
-  // const { data, error } = useSWR(() => '/api/trip_details', fetcher);  
-
-  // if (!data || error) {
-  //   console.log("No data or error");
-  // } else {
-  //   console.log(data);
-  // }
-
-  // return;
-
   // * Uncomment the following line to have the table refresh every second
   // const { data, error } = useSWR([ '/api/trips', dateValue ], fetcher, { refreshInterval: 1000 });
   if (error) return <div>An error occurred.</div>
+
+  if (data) parseData(data);
 
   return (
     <div> 
