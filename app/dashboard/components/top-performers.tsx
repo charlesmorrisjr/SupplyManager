@@ -60,7 +60,7 @@ export function TopPerformers() {
         data.slice(0, 5).map((employee: any) => (
           <div key={employee.id} className="flex items-center">
             <Avatar className="h-9 w-9">
-              <AvatarImage src={`/public/avatars/${1}.png`} alt="Avatar" />
+              <AvatarImage src={`avatars/${(Math.random() * 5 + 1).toFixed(0)}.png`} alt="Avatar" />
               <AvatarFallback>{employee.first_name.slice(0, 1)}{employee.last_name.slice(0, 1)}</AvatarFallback>
             </Avatar>
             <div className="ml-2 py-2 space-y-1">
