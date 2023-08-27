@@ -20,7 +20,7 @@ const COLORS = ['#0088FE', '#FFBB28', '#00C49F'];
 const gradientIdPrefix = 'pieGradient';
 
 export function TripCompletion() {
-  const tripsExist = (data: any) => data[0].value > 0 && data[1].value > 0 && data[2].value > 0;
+  const tripsExist = (data: any) => data[0].value > 0 || data[1].value > 0 || data[2].value > 0;
   
   const curDate = new Date(new Date().setHours(0,0,0,0));
 

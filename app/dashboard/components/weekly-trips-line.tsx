@@ -88,7 +88,7 @@ export function WeeklyTrips() {
                 }}
               >
               <XAxis dataKey="date"/>
-              <YAxis type="number" domain={['auto', 'auto']} />
+              <YAxis type="number" domain={['dataMin', 'auto']} />
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
@@ -126,7 +126,7 @@ export function WeeklyTrips() {
                     return null
                   }}
                 />
-                <Area type="monotone" dataKey="uv" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorUv)" />
+                <Area type="monotone" dataKey="uv" dot={true} stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorUv)" />
               </AreaChart>
             </ResponsiveContainer>
           :

@@ -117,7 +117,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                     return null
                   }}
                 />
-                <Area type="monotone" dataKey="uv" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorUv)" />
+                <Area type="monotone" dataKey="uv" dot={true} stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorUv)" />
               </AreaChart>
             </ResponsiveContainer>
           :
