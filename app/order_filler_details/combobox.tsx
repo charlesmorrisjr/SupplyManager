@@ -53,10 +53,10 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
           </div>
         </PopoverTrigger>
         <PopoverContent className="w-[350px] p-0">
-            <Command>
-              <CommandInput placeholder="Search employees..." />
+            <Command className="max-h-[370px]">
+              <CommandInput placeholder="Search associates..." />
               <CommandEmpty>No associate found.</CommandEmpty>
-              <ScrollArea className="h-[300px]">
+              <ScrollArea className="h-[370px]">
 
               <CommandGroup>
                 {data.map((employee: any) => (
