@@ -10,6 +10,18 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
 
+import AuthenticationPage from './authentication'
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { Button } from '@/components/ui/button';
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -124,9 +136,19 @@ export default function Navbar({ user }: { user: any }) {
                   </>
                 ) : (
                   <div className="m-2">
-                    <Button variant='ghost' onClick={() => signIn('google')}>
-                      Sign in
-                    </Button>
+                    {/* <Button variant='ghost' onClick={() => signIn('google')}>Sign in</Button> */}
+                    <Dialog>
+                      <DialogTrigger>
+                        <span className='ghost-button hover:bg-accent transition-colors font-medium text-sm'>
+                          Sign in
+                        </span>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogDescription>
+                          <AuthenticationPage />
+                        </DialogDescription>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 )}
               </NavigationMenuItem>
