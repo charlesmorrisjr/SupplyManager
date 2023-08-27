@@ -46,6 +46,20 @@ function populateData(data: any) {
 }
 
 export function WeeklyTrips() {
+  const {theme} = useTheme();
+
+  // Makes the custom tick labels for the chart different colors depending on the theme
+  const CustomizedAxisTick = (...args: any) => {
+    const {  tx, dy, x, y, stroke, payload } = args[0];
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text x={tx} y={0} dy={dy} textAnchor="end" fill={theme === "dark" ? "#DDD" : "#000"}>
+          {payload.value}
+        </text>
+      </g>
+    );
+  };
+
   const curDate = new Date(new Date().setHours(0,0,0,0));
     
   // Fetch chartData from chartDatabase using SWR
@@ -87,8 +101,8 @@ export function WeeklyTrips() {
                   bottom: 20,
                 }}
               >
-              <XAxis dataKey="date"/>
-              <YAxis type="number" domain={['dataMin', 'auto']} />
+              <XAxis dataKey="date" tick={<CustomizedAxisTick tx={16} dy={16} />} />
+              <YAxis type="number" domain={['dataMin', 'auto']} tick={<CustomizedAxisTick tx={0} dy={4} />} />
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>

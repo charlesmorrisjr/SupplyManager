@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import React, {useEffect} from "react"
 import { useTheme } from "next-themes"
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
@@ -36,16 +36,24 @@ function populateData(trips: any) {
   });
 }
 
+
 export function Chart({ trips, performance }: { trips: any, performance: any }) {
-  const { theme: mode } = useTheme()
-  // const [config] = useConfig()
+  const {theme} = useTheme();
 
-  // const theme = themes.find((theme) => theme.name === config.theme)
-
-  // if (trips === undefined) return;
+  // Makes the custom tick labels for the chart different colors depending on the theme
+  const CustomizedAxisTick = (...args: any) => {
+    const {  tx, dy, x, y, stroke, payload } = args[0];
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text x={tx} y={0} dy={dy} textAnchor="end" fill={theme === "dark" ? "#DDD" : "#000"}>
+          {payload.value}
+        </text>
+      </g>
+    );
+  };
 
   if (trips !== undefined) populateData(trips);
-
+    
   return (
     <Card className="grow">
       <CardHeader>
@@ -62,8 +70,8 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
           Order filler performance for today.
         </CardDescription>
       </CardHeader>
-        <CardContent className="pb-4">
-          <div className="h-[200px]">
+        <CardContent className="pb-0 pl-0">
+          <div className="h-[230px]">
 
           { trips ? (
 
@@ -71,7 +79,7 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
             <ResponsiveContainer height="100%">
               <AreaChart
                 data={data}
-                height={300}
+                height={200}
                 margin={{
                   top: 0,
                   right: 0,
@@ -79,8 +87,9 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
                   bottom: 0,
                 }}
               >
-              <XAxis dataKey="index" domain={[1, "auto"]} />
-              <YAxis type="number" domain={[0, 200]} />
+                
+              <XAxis dataKey="index" domain={[1, "auto"]} tick={<CustomizedAxisTick tx={4} dy={16} />} />
+              <YAxis type="number" domain={[0, 200]} tick={<CustomizedAxisTick tx={0} dy={4} />} />
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>

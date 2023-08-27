@@ -40,6 +40,8 @@ function parseData(data: any) {
 }
 
 export function WeeklyCases() {
+  const {theme} = useTheme();
+  
   const curDate = new Date(new Date().setHours(0,0,0,0));
 
   // Fetch chartData from chartDatabase using SWR
@@ -71,7 +73,7 @@ export function WeeklyCases() {
               <BarChart data={chartData} margin={{ top: 20, right: 5, bottom: 5, left: 5 }}>
                 <XAxis
                   dataKey="date"
-                  stroke="#777777"
+                  stroke={theme === "light" ? "#000" : "#FFF"}
                   fontSize={14}
                   className="font-semibold"
                   tickLine={false}
@@ -93,7 +95,7 @@ export function WeeklyCases() {
                   </linearGradient>
                 </defs>
                 <Bar dataKey="cases" fill="url(#colorUv)" radius={[4, 4, 0, 0]}>
-                  <LabelList className="font-medium" dataKey="cases" position="top" />
+                  <LabelList className="font-medium" dataKey="cases" position="top"/>
                 </Bar>
               </BarChart>
             </ResponsiveContainer>

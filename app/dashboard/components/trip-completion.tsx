@@ -1,6 +1,6 @@
 "use client"
 
-import React, { PureComponent } from "react"
+import React from "react"
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Label, LabelList, Legend, Tooltip } from 'recharts';
 
 // import { useConfig } from "@/hooks/use-config"

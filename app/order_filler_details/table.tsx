@@ -201,11 +201,11 @@ export default function EmployeeDetailsTable() {
             </Card>
             </div>
             
-            <div className="flex w-1/2 max-w-full performance-chart">
+            <div className="flex w-1/2 max-w-full">
               <Chart trips={data} performance={avgPerformance(data)} />
             </div>
 
-            <div className="hidden w-1/4 xl:flex calendar-popover">
+            <div className="hidden w-1/4 xl:flex h-[340px]">
               <Card className="m-0 p-0">
                 <CardContent className="p-2">
                   <Calendar
