@@ -33,7 +33,7 @@ export default function IndexPage() {
   }, [theme]);
 
   return (
-    <div className="">
+    <div className="h-screen">
       {/* <header className="absolute inset-x-0 top-0 z-50">
         <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div className="flex lg:flex-1">
@@ -130,8 +130,8 @@ export default function IndexPage() {
             }}
           />
         </div>
-        <div className="mx-auto max-w-3xl py-8 sm:py-48 lg:py-36">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">  
+        <div className="mx-auto max-w-3xl py-48">
+          <div className="mb-8 flex justify-center">  
             <div className="relative rounded-full mt-16 mb-8 px-3 py-1 text-sm leading-6 text-slate-800 dark:text-slate-300 ring-1 ring-gray-900/20 dark:ring-black/30 dark:bg-slate-800 dark:glass hover:ring-gray-900/40">
               Currently in Development: {' '}
               <Dialog>
@@ -144,7 +144,7 @@ export default function IndexPage() {
               <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Currently in Development</DialogTitle>
-                    <DialogDescription className='text-md font-normal'>
+                    <DialogDescription className='text-md font-normal text-left'>
                       <p className='pb-4'>
                         This project is currently being developed.
                         As of now, basic order filling and trip management has been implemented.
@@ -186,7 +186,7 @@ export default function IndexPage() {
                         - ...and more!
                       </p> */}
                       <p className='pt-2'>
-                        For more information, please visit <a href="https://github.com/charlesmorrisjr/SupplyManager" target='_blank' style={{ color: '#008bff' }}>https://github.com/charlesmorrisjr/SupplyManager</a>.
+                        For more information, please visit this <a href="https://github.com/charlesmorrisjr/SupplyManager" target='_blank' style={{color: '#008bff' }}>link</a>.
                       </p>
                     </DialogDescription>
                   </DialogHeader>
