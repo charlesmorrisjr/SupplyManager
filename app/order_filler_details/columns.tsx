@@ -354,17 +354,25 @@ export function TripDetailsTable({ tripID }: { tripID: string }) {
           </TableHeader>
           <TableBody>
             {data ? (
-              !error ? (
-                data[0].trip_details.map((pickedCase: any, idx: number) => (
-                  <TableRow key={idx}>
-                    <TableCell className="font-medium">{idx + 1}</TableCell>
-                    <TableCell className="font-medium text-right">{pickedCase.items.name}</TableCell>
+              data[0].trip_details.length > 0 ? (
+                !error ? (
+                  data[0].trip_details.map((pickedCase: any, idx: number) => (
+                    <TableRow key={idx}>
+                      <TableCell className="font-medium">{idx + 1}</TableCell>
+                      <TableCell className="font-medium text-right">{pickedCase.items.name}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
+                      Error loading data
+                    </TableCell>
                   </TableRow>
-                ))
+                )
               ) : (
                 <TableRow>
                   <TableCell colSpan={columns.length} className="h-24 text-center font-medium">
-                    Error loading data
+                    No data available
                   </TableCell>
                 </TableRow>
               )
