@@ -13,24 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
+
 import { CalendarDateRangePicker } from "./components/date-range-picker"
 import { TopPerformers } from "./components/top-performers"
 import { WeeklyTrips } from "./components/weekly-trips-line"
 import { WeeklyCases } from "./components/weekly-cases"
 import { TripCompletion } from "./components/trip-completion"
-
-// import initializeTour, { tour } from "./tour-steps"
-
-// export const metadata: Metadata = {
-//   title: "Dashboard",
-//   description: "Example dashboard app built using the components.",
-// }
 
 export const dynamic = 'force-dynamic';
 

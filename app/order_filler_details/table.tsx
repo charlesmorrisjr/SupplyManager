@@ -1,8 +1,6 @@
 "use client";
 
-import React, {use, useEffect} from "react";
-
-// import initializeTour, { tour } from "./tour-steps";
+import React, {useState, useEffect} from "react";
 
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
@@ -74,6 +72,20 @@ function convertMillisecondsToTime(ms: number) {
 }
 
 export default function EmployeeDetailsTable() {  
+  const [tourSteps, setTourSteps] = useState([
+    {
+      target: '.employee-combobox',
+      content: 'This is step 1',
+    },
+    {
+      target: '.progress-chart',
+      content: 'This is step 2',
+    },
+    // Add more steps
+  ]);
+
+  const [isTourOpen, setIsTourOpen] = useState(true);
+
   const { date, setDate } = useDate();
 
   // Parse date to format YYYY-MM-DD and set time to 00:00:00
