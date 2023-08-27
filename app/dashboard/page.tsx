@@ -25,7 +25,7 @@ import { WeeklyTrips } from "./components/weekly-trips-line"
 import { WeeklyCases } from "./components/weekly-cases"
 import { TripCompletion } from "./components/trip-completion"
 
-import initializeTour, { tour } from "./tour-steps"
+// import initializeTour, { tour } from "./tour-steps"
 
 // export const metadata: Metadata = {
 //   title: "Dashboard",
@@ -35,14 +35,6 @@ import initializeTour, { tour } from "./tour-steps"
 export const dynamic = 'force-dynamic';
 
 export default function DashboardPage() {
-  initializeTour();
-
-  useEffect(() => {
-    setTimeout(() => {
-      tour.start();
-    }, 2000);
-  }, []);
-
   return (
     <>
     <main className="p-4 md:p-10 mx-auto max-w-7xl">

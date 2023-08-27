@@ -2,8 +2,7 @@
 
 import React, {use, useEffect} from "react";
 
-import Shepherd from 'shepherd.js';
-import initializeTour, { tour } from "./tour-steps";
+// import initializeTour, { tour } from "./tour-steps";
 
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
@@ -87,19 +86,6 @@ export default function EmployeeDetailsTable() {
   // comboValue is used to display the employee username in the Combobox. This state is defined here
   // and passed to Combobox so that the Combobox doesn't lose its value when the table refreshes.
   const [comboValue, setComboValue] = React.useState<string | undefined>(selectedEmployee.username);
-
-  initializeTour();
-
-  useEffect(() => {
-    setTimeout(() => {
-      tour.start();
-    }, 2000);
-  }, []);
-
-  // Move to next part of tour if an employee is selected
-  useEffect(() => {
-    if (selectedEmployee.id && tour.isActive() && tour.getCurrentStep()?.id === 'employee-combobox-step') tour.next();
-  }, [selectedEmployee]);
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date, selectedEmployee]: [string, any, any]) =>
