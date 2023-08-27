@@ -71,21 +71,7 @@ function convertMillisecondsToTime(ms: number) {
   return formattedTime;
 }
 
-export default function EmployeeDetailsTable() {  
-  const [tourSteps, setTourSteps] = useState([
-    {
-      target: '.employee-combobox',
-      content: 'This is step 1',
-    },
-    {
-      target: '.progress-chart',
-      content: 'This is step 2',
-    },
-    // Add more steps
-  ]);
-
-  const [isTourOpen, setIsTourOpen] = useState(true);
-
+export default function EmployeeDetailsTable() {
   const { date, setDate } = useDate();
 
   // Parse date to format YYYY-MM-DD and set time to 00:00:00
