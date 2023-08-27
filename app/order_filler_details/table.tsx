@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import React, {useState, useContext} from "react";
+// import { ShepherdTour, ShepherdTourContext } from 'react-shepherd'
+import Shepherd from 'shepherd.js';
 
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
@@ -34,6 +36,18 @@ import {Chart} from "./chart";
 
 import { useDate } from "@/components/date-context";
 import { useEmployee } from "@/components/employee-context";
+
+const tour = new Shepherd.Tour({
+  useModalOverlay: true,
+  defaultStepOptions: {
+    cancelIcon: {
+      enabled: true
+    },
+    classes: 'shadow-md bg-purple-dark',
+    scrollTo: true
+  }
+});
+
 
 function avgPerformance(trips: Trips[]) {
   // Get number of completed trips
@@ -71,7 +85,40 @@ function convertMillisecondsToTime(ms: number) {
   return formattedTime;
 }
 
-export default function EmployeeDetailsTable() {
+
+// function TourButton() {
+//   const tour = useContext(ShepherdTourContext);
+
+//   return (
+//     <Button className="button dark" onClick={tour?.start}>
+//       Start Tour
+//     </Button>
+//   );
+// }
+
+function initializeTour() {
+  tour.addStep({
+    id: 'example-step',
+    text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element.',
+    attachTo: {
+      element: '.performance-chart',
+      on: 'bottom'
+    },
+    classes: 'example-step-extra-class',
+    buttons: [
+      {
+        text: 'Exit',
+        action: tour.complete
+      },
+      {
+        text: 'Next',
+        action: tour.complete
+      }
+    ]
+  });
+}
+
+export default function EmployeeDetailsTable() {  
   const { date, setDate } = useDate();
 
   // Parse date to format YYYY-MM-DD and set time to 00:00:00
@@ -84,6 +131,8 @@ export default function EmployeeDetailsTable() {
   // comboValue is used to display the employee username in the Combobox. This state is defined here
   // and passed to Combobox so that the Combobox doesn't lose its value when the table refreshes.
   const [comboValue, setComboValue] = React.useState<string | undefined>(selectedEmployee.username);
+
+  initializeTour();
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date, selectedEmployee]: [string, any, any]) =>
@@ -104,6 +153,8 @@ export default function EmployeeDetailsTable() {
 
   return (
     <div> 
+      <Button onClick={() => tour.start()}>Start Tour</Button>
+
       <Card className="p-6 pt-4 shadow-2xl dark:shadow-lg dark:shadow-gray-800">
         <CardHeader className="pb-8">
           <CardTitle className="text-3xl font-bold tracking-tight">Order Filler Details</CardTitle>
@@ -187,7 +238,7 @@ export default function EmployeeDetailsTable() {
             </Card>
             </div>
             
-            <div className="flex w-1/2 max-w-full">
+            <div className="flex w-1/2 max-w-full performance-chart">
               <Chart trips={data} performance={avgPerformance(data)} />
             </div>
 

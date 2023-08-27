@@ -165,86 +165,72 @@ function convertMillisecondsToTime(ms) {
 }
 
 async function insertTrips(startDate = new Date(TODAYS_DATE), endDate = new Date(TODAYS_DATE)) {  
-    let curTripID;
-    let tripInfo = [];
-    
-    // Get the id of the last trip in the database
-    await db.any('SELECT MAX(id) FROM trips', [true])
-    .then(function(data) {
-      curTripID = Number(data[0].max) + 1;
-      // console.log(data[0].max);
-      // console.log(curTripID);
-    })
-    .catch(function(error) {
-        console.log(error);
-    });
-
-    // const query = 'INSERT INTO trips (completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time, performance) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *';
-
-    // Creating a reusable/static ColumnSet for generating INSERT queries:    
-
-    const cs = new pgp.helpers.ColumnSet([
-      'completion',
-      'weight',
-      'route',
-      'stop',
-      'total_cases',
-      'cases_picked',
-      'date',
-      'employee_id',
-      'door',
-      'start_time',
-      'end_time',
-      'standard_time',
-      'performance'
-    ], {table: 'trips'});
-
-    // data = array of objects that represent the import data:
-    const data = [];
-
-    for (let curDate = startDate; curDate <= endDate; curDate.setDate(curDate.getDate() + 1)) {
-      let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
-      // let numTrips = 1;
-      
-      console.log(curDate);
-
-      // First generate several trips of different types for demo purposes
-      data.push(generateRandomTrip(curDate, 0, false, true));
-      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
-      curTripID++;      
-      data.push(generateRandomTrip(curDate, 1, false, true));
-      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
-      curTripID++;
-      data.push(generateRandomTrip(curDate, 1, true, true));
-      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
-      curTripID++;
-      data.push(generateRandomTrip(curDate, 2, true, true));
-      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
-      curTripID++;
-
-      for (let curTrip = 1; curTrip <= numTrips; curTrip++) {
-        data.push(generateRandomTrip(curDate));
-        tripInfo.push([curTripID, data[data.length - 1].total_cases]);
-        curTripID++;
-      }
-    }
-    const insert = pgp.helpers.insert(data, cs);
-
-    await db.none(insert)
-    .then(() => {
-      console.log('success');
-    })
-    .catch(error => {
+  let curTripID;
+  let tripInfo = [];
+  
+  // Get the id of the last trip in the database
+  await db.any('SELECT MAX(id) FROM trips', [true])
+  .then(function(data) {
+    curTripID = Number(data[0].max) + 1;
+    // console.log(data[0].max);
+    // console.log(curTripID);
+  })
+  .catch(function(error) {
       console.log(error);
-    });
+  });
 
-    console.log('Generating items...');
+  // const query = 'INSERT INTO trips (completion, weight, route, stop, total_cases, cases_picked, date, employee_id, door, start_time, end_time, standard_time, performance) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *';
+
+  // Creating a reusable/static ColumnSet for generating INSERT queries:    
+
+  const cs = new pgp.helpers.ColumnSet([
+    'completion',
+    'weight',
+    'route',
+    'stop',
+    'total_cases',
+    'cases_picked',
+    'date',
+    'employee_id',
+    'door',
+    'start_time',
+    'end_time',
+    'standard_time',
+    'performance'
+  ], {table: 'trips'});
+
+  // data = array of objects that represent the import data:
+  const data = [];
+
+  for (let curDate = startDate; curDate <= endDate; curDate.setDate(curDate.getDate() + 1)) {
+    let numTrips = MIN_TRIPS_PER_DAY + Math.floor(Math.random() * TRIPS_PER_DAY_RANDOM_RANGE);
+    // let numTrips = 1;
     
-    // Generate items in batches of TRIP_BATCH_SIZE to avoid overloading the database
-    for (let i = 0; i < tripInfo.length; i += TRIP_BATCH_SIZE) {
-      await generateItems(tripInfo.slice(i, i + TRIP_BATCH_SIZE));
-      console.log(`${i}/${tripInfo.length}`)
+    console.log(curDate);
+
+    for (let curTrip = 1; curTrip <= numTrips; curTrip++) {
+      data.push(generateRandomTrip(curDate));
+      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
+      curTripID++;
     }
+  }
+  const insert = pgp.helpers.insert(data, cs);
+
+  await db.none(insert)
+  .then(() => {
+    console.log('success');
+  })
+  .catch(error => {
+    console.log(error);
+  });
+
+  console.log('Generating items...');
+  
+  // Generate items in batches of TRIP_BATCH_SIZE to avoid overloading the database
+  for (let i = 0; i < tripInfo.length; i += TRIP_BATCH_SIZE) {
+    await generateItems(tripInfo.slice(i, i + TRIP_BATCH_SIZE));
+    console.log(`${i}/${tripInfo.length}`)
+  }
 }
 
 // New generation function that ensures each order filler has at least
@@ -291,6 +277,13 @@ async function insertTripsForEachEmployee(startDate = new Date(TODAYS_DATE), end
   for (let curDate = startDate; curDate <= endDate; curDate.setDate(curDate.getDate() + 1)) {    
     console.log(curDate);
 
+    // // Generate some unassigned trips
+    // for (let curTrip = 1; curTrip <= faker.number.int({min: 1, max: 100}); curTrip++) {
+    //   data.push(generateRandomTrip(curDate, 0, false, true));
+    //   tripInfo.push([curTripID, data[data.length - 1].total_cases]);
+    //   curTripID++;
+    // }
+    
     for (let curEmployee = 1; curEmployee <= MAX_EMPLOYEES; curEmployee++) {
       // Completed trips
       let numTrips = faker.number.int({min: 3, max: 5});
@@ -310,30 +303,36 @@ async function insertTripsForEachEmployee(startDate = new Date(TODAYS_DATE), end
       data.push(generateRandomTrip(curDate, 1, false, true, curEmployee));
       tripInfo.push([curTripID, data[data.length - 1].total_cases]);
       curTripID++;
-    }
-    const insert = pgp.helpers.insert(data, cs);
 
-    await db.none(insert)
-    .then(() => {
-      console.log('success');
-    })
-    .catch(error => {
-      console.log(error);
-    });
-
-    console.log('Generating items...');
-    
-    // Generate items in batches of TRIP_BATCH_SIZE to avoid overloading the database
-    for (let i = 0; i < tripInfo.length; i += TRIP_BATCH_SIZE) {
-      // await generateItems(tripInfo.slice(i, i + TRIP_BATCH_SIZE));
-      console.log(`${i}/${tripInfo.length}`)
+      // Interperse some unassigned trips (not assigned to any employee)
+      data.push(generateRandomTrip(curDate, 0, false, true));
+      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
+      curTripID++;
     }
+  }
+
+  const insert = pgp.helpers.insert(data, cs);
+
+  await db.none(insert)
+  .then(() => {
+    console.log('success');
+  })
+  .catch(error => {
+    console.log(error);
+  });
+
+  console.log('Generating items...');
+  
+  // Generate items in batches of TRIP_BATCH_SIZE to avoid overloading the database
+  for (let i = 0; i < tripInfo.length; i += TRIP_BATCH_SIZE) {
+    await generateItems(tripInfo.slice(i, i + TRIP_BATCH_SIZE));
+    console.log(`${i}/${tripInfo.length}`)
   }
 }
 
 if ((new Date(process.argv[2])).toString() !== 'Invalid Date' && (new Date(process.argv[3])).toString() !== 'Invalid Date') {
   console.log(`Inserting trips from ${process.argv[2]} to ${process.argv[3]}...`);
-  insertTrips(new Date(process.argv[2]), new Date(process.argv[3]));
+  insertTripsForEachEmployee(new Date(process.argv[2]), new Date(process.argv[3]));
 } else if (process.argv.length === 2) {
   console.log(`Inserting trips for ${TODAYS_DATE}...`);
   insertTripsForEachEmployee();
