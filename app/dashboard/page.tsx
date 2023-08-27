@@ -1,6 +1,6 @@
 'use client';
 
-import { Metadata } from "next"
+// import { Metadata } from "next"
 
 import React, {useEffect} from "react";
 import Image from "next/image"
@@ -27,10 +27,10 @@ import { TripCompletion } from "./components/trip-completion"
 
 import initializeTour, { tour } from "./tour-steps"
 
-export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Example dashboard app built using the components.",
-}
+// export const metadata: Metadata = {
+//   title: "Dashboard",
+//   description: "Example dashboard app built using the components.",
+// }
 
 export const dynamic = 'force-dynamic';
 
