@@ -32,11 +32,11 @@ export default function AuthenticationPage() {
           className="hidden dark:block"
         /> */}
       </div>
-      <div className="container relative hidden h-[400px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 ">
+      <div className="container relative hidden h-[450px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 ">
         <div className="lg:p-6">
-          <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+          <div className="mx-auto flex w-full flex-col justify-center sm:w-[350px] space-y-8">
             <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">
+              <h1 className="text-2xl text-black dark:text-slate-50 font-semibold racking-tight">
                 Sign in
               </h1>
               <p className="text-sm text-muted-foreground">

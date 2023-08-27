@@ -53,7 +53,7 @@ export function WeeklyTrips() {
     const {  tx, dy, x, y, stroke, payload } = args[0];
     return (
       <g transform={`translate(${x},${y})`}>
-        <text x={tx} y={0} dy={dy} textAnchor="end" fill={theme === "dark" ? "#DDD" : "#000"}>
+        <text x={tx} y={0} dy={dy} textAnchor="end" className="font-medium text-sm" fill={theme === "dark" ? "#DDD" : "#000"}>
           {payload.value}
         </text>
       </g>
