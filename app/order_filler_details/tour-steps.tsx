@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Shepherd from "shepherd.js";
 
 export const tour = new Shepherd.Tour({

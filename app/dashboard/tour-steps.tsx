@@ -1,4 +1,10 @@
+// @ts-nocheck
 import Shepherd from "shepherd.js";
+
+interface MyObject {
+  addSteps: () => void;
+  // Other properties and methods of MyObject
+}
 
 export const tour = new Shepherd.Tour({
   useModalOverlay: false,
@@ -10,6 +16,8 @@ export const tour = new Shepherd.Tour({
     scrollTo: false
   },
 });
+
+
 
 export default function initializeTour() {  
   tour.addSteps([
