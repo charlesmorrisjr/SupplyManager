@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 import useSWR from 'swr';
 
+import { tour } from "./tour-steps";
+
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
@@ -248,7 +250,9 @@ export const columns: ColumnDef<Trips>[] = [
     id: "actions",
     cell: ({ row }) => { 
       return (
-        <DropdownDialog tripID={row.getValue("id")} completion={row.getValue("completion")} casesPicked={row.getValue("cases_picked")} employeeID={row.getValue("employee_id")} />
+        <div className="dropdown-button">
+          <DropdownDialog tripID={row.getValue("id")} completion={row.getValue("completion")} casesPicked={row.getValue("cases_picked")} employeeID={row.getValue("employee_id")} />
+        </div>
       )
     },
   },
@@ -259,6 +263,9 @@ function DropdownDialog({ tripID, completion, casesPicked, employeeID }: { tripI
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
   const dropdownTriggerRef: any = React.useRef(null);
   const focusRef: any = React.useRef(null);
+
+  // Cancel Shepherd tour when dropdown is opened
+  if (dropdownOpen && tour.isActive()) tour.cancel();
 
   function handleDialogItemSelect() {
     focusRef.current = dropdownTriggerRef.current;

@@ -18,6 +18,7 @@ interface EmployeeContextProps {
 const EmployeeContext = createContext<EmployeeContextProps | undefined>(undefined);
 
 export function EmployeeProvider({ children }: { children: ReactNode }) {
+  // const [selectedEmployee, setSelectedEmployee] = useState<Employee>({id: 100, first_name: "Lilla", last_name: "Jaskolski", username: "ljaskolski", email: "Lilla.Jaskolski@supplymanager.com"});
   const [selectedEmployee, setSelectedEmployee] = useState<Employee>({id: 0, first_name: "", last_name: "", username: "", email: ""});
 
   return (

@@ -1,4 +1,8 @@
+'use client';
+
 import { Metadata } from "next"
+
+import React, {useEffect} from "react";
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
@@ -21,6 +25,8 @@ import { WeeklyTrips } from "./components/weekly-trips-line"
 import { WeeklyCases } from "./components/weekly-cases"
 import { TripCompletion } from "./components/trip-completion"
 
+import initializeTour, { tour } from "./tour-steps"
+
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Example dashboard app built using the components.",
@@ -28,7 +34,14 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default async function DashboardPage() {
+export default function DashboardPage() {
+  initializeTour();
+
+  useEffect(() => {
+    setTimeout(() => {
+      tour.start();
+    }, 2000);
+  }, []);
 
   return (
     <>

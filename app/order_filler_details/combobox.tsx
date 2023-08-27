@@ -38,6 +38,7 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
+          <div className="flex employee-combobox">
           <Button
             variant="outline"
             role="combobox"
@@ -49,6 +50,7 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
               : "Select associate..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
+          </div>
         </PopoverTrigger>
         <PopoverContent className="w-[350px] p-0">
             <Command>

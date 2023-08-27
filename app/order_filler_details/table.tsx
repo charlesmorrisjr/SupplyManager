@@ -1,8 +1,9 @@
 "use client";
 
-import React, {useState, useContext} from "react";
-// import { ShepherdTour, ShepherdTourContext } from 'react-shepherd'
+import React, {use, useEffect} from "react";
+
 import Shepherd from 'shepherd.js';
+import initializeTour, { tour } from "./tour-steps";
 
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
@@ -36,18 +37,6 @@ import {Chart} from "./chart";
 
 import { useDate } from "@/components/date-context";
 import { useEmployee } from "@/components/employee-context";
-
-const tour = new Shepherd.Tour({
-  useModalOverlay: true,
-  defaultStepOptions: {
-    cancelIcon: {
-      enabled: true
-    },
-    classes: 'shadow-md bg-purple-dark',
-    scrollTo: true
-  }
-});
-
 
 function avgPerformance(trips: Trips[]) {
   // Get number of completed trips
@@ -85,39 +74,6 @@ function convertMillisecondsToTime(ms: number) {
   return formattedTime;
 }
 
-
-// function TourButton() {
-//   const tour = useContext(ShepherdTourContext);
-
-//   return (
-//     <Button className="button dark" onClick={tour?.start}>
-//       Start Tour
-//     </Button>
-//   );
-// }
-
-function initializeTour() {
-  tour.addStep({
-    id: 'example-step',
-    text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element.',
-    attachTo: {
-      element: '.performance-chart',
-      on: 'bottom'
-    },
-    classes: 'example-step-extra-class',
-    buttons: [
-      {
-        text: 'Exit',
-        action: tour.complete
-      },
-      {
-        text: 'Next',
-        action: tour.complete
-      }
-    ]
-  });
-}
-
 export default function EmployeeDetailsTable() {  
   const { date, setDate } = useDate();
 
@@ -133,6 +89,17 @@ export default function EmployeeDetailsTable() {
   const [comboValue, setComboValue] = React.useState<string | undefined>(selectedEmployee.username);
 
   initializeTour();
+
+  useEffect(() => {
+    setTimeout(() => {
+      tour.start();
+    }, 2000);
+  }, []);
+
+  // Move to next part of tour if an employee is selected
+  useEffect(() => {
+    if (selectedEmployee.id && tour.isActive() && tour.getCurrentStep()?.id === 'employee-combobox-step') tour.next();
+  }, [selectedEmployee]);
 
   // Fetch data from database using SWR
   const fetcher = async ([url, date, selectedEmployee]: [string, any, any]) =>
@@ -153,8 +120,6 @@ export default function EmployeeDetailsTable() {
 
   return (
     <div> 
-      <Button onClick={() => tour.start()}>Start Tour</Button>
-
       <Card className="p-6 pt-4 shadow-2xl dark:shadow-lg dark:shadow-gray-800">
         <CardHeader className="pb-8">
           <CardTitle className="text-3xl font-bold tracking-tight">Order Filler Details</CardTitle>
@@ -165,7 +130,7 @@ export default function EmployeeDetailsTable() {
 
             <Combobox onValueChange={setSelectedEmployee} value={comboValue} setValue={setComboValue}/>
 
-            <div className="xl:hidden lg:flex">
+            <div className="xl:hidden lg:flex calendar-popover">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -195,7 +160,7 @@ export default function EmployeeDetailsTable() {
           <Separator />
           
           <div className="flex justify-between space-x-4">
-            <div className="flex w-1/4 max-w-full">
+            <div className="flex w-1/4 max-w-full summary-card">
             <Card className="grow">
               <CardHeader>
                 <CardTitle>Summary</CardTitle>
@@ -242,7 +207,7 @@ export default function EmployeeDetailsTable() {
               <Chart trips={data} performance={avgPerformance(data)} />
             </div>
 
-            <div className="hidden w-1/4 xl:flex">
+            <div className="hidden w-1/4 xl:flex calendar-popover">
               <Card className="m-0 p-0">
                 <CardContent className="p-2">
                   <Calendar
@@ -258,7 +223,9 @@ export default function EmployeeDetailsTable() {
             </div>
           </div>
           
-          <DataTable columns={columns} data={data} />
+          <div className="table-container">
+            <DataTable columns={columns} data={data} />
+          </div>
         </CardContent>
       {/* <CardHeader> */}
             {/* <Separator /> */}
