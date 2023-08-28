@@ -505,7 +505,7 @@ export function TripDetailsTable({ tripID }: { tripID: string }) {
   
   return (
     <div className="self-center pt-4">
-      <ScrollArea className="h-[600px] w-[625px] rounded-md border p-8">
+      <ScrollArea className="h-[600px] w-[625px] rounded-md border p-8 max-w-sm sm:max-w-lg md:max-w-xl lg:max-w-2xl">
         <Table>
           <TableHeader>
             <TableRow>

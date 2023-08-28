@@ -110,7 +110,7 @@ export default function EmployeeDetailsTable() {
         </CardHeader>
 
         <CardContent className="flex flex-col space-y-4">
-          <div className="md:flex md:items-center md:justify-between">
+          <div className="md:flex md:items-center md:justify-between space-y-4 md:space-y-0">
 
             <Combobox onValueChange={setSelectedEmployee} value={comboValue} setValue={setComboValue}/>
 
