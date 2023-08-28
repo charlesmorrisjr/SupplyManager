@@ -64,12 +64,12 @@ export function WeeklyCases() {
         Total cases per day for the week of {new Date((new Date(curDate).setDate(curDate.getDate() - 6))).toLocaleDateString()} to {curDate.toLocaleDateString()}
         </CardDescription>
       </CardHeader>
-        <CardContent>
+        <CardContent className="p-0 pr-2 pl-4">
           <div className="h-[300px]">
 
           { chartData.length > 0 ? (
 
-            <ResponsiveContainer>
+            <ResponsiveContainer width="97%" height="100%">
               <BarChart data={chartData} margin={{ top: 20, right: 5, bottom: 5, left: 5 }}>
                 <XAxis
                   dataKey="date"

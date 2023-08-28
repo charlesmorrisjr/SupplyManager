@@ -143,7 +143,7 @@ export default function EmployeeDetailsTable() {
           
           <Separator />
           
-          <div className="md:flex md:justify-between md:space-x-4">
+          <div className="md:flex md:justify-between md:space-x-4 space-y-4 md:space-y-0">
             <div className="md:flex md:w-1/4 max-w-full summary-card">
             <Card className="grow">
               <CardHeader>
@@ -166,10 +166,10 @@ export default function EmployeeDetailsTable() {
                     <p className="mt-1 pb-6 truncate text-sm leading-5 text-gray-500">
                       {selectedEmployee.id ? selectedEmployee.email : 'N/A'}
                     </p>
-                    <p className="text-md font-normal pb-2 leading-6">
+                    <p className="text-sm font-medium pb-2 leading-6">
                       Completed Hours: {data ? convertMillisecondsToTime(data.reduce((total: number, trip: any) => trip.completion === 2 ? total + (new Date(trip.standard_time).getTime()) : total, 0)) : '00:00:00'}
                     </p>
-                    <p className="text-md font-normal leading-6">
+                    <p className="text-sm font-medium leading-6">
                       Cases Picked Today: {data ? data.reduce((total: number, trip: any) => trip.completion ? total + Number(trip.cases_picked) : total, 0) : 0}
                     </p>
                   </div>

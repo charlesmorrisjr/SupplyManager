@@ -26,28 +26,12 @@ export default function DashboardPage() {
   return (
     <>
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <div className="md:hidden">
-        <Image
-          src="/examples/dashboard-light.png"
-          width={1280}
-          height={866}
-          alt="Dashboard"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/dashboard-dark.png"
-          width={1280}
-          height={866}
-          alt="Dashboard"
-          className="hidden dark:block"
-        />
-      </div>
       <Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           {/* <CardTitle className="text-xl font-medium">Dashboard</CardTitle> */}
         </CardHeader>
         <CardContent>
-      <div className="hidden flex-col md:flex">
+      <div className="flex-col md:flex">
         {/* <div className="border-b">
           <div className="flex h-16 items-center px-4">
             <TeamSwitcher />
@@ -82,7 +66,7 @@ export default function DashboardPage() {
             </TabsList> */}
             {/* <TabsContent value="overview" className="space-y-4"> */}
             <CardContent className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8 grid-rows-2">
+              <div className="space-y-4 lg:space-y-0 lg:grid lg:gap-4 lg:grid-cols-8">
                 <TripCompletion />
 
 
@@ -154,7 +138,7 @@ export default function DashboardPage() {
                   </CardContent>
                 </Card> */}
               </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
+              <div className="lg:grid lg:gap-4 lg:grid-cols-8 space-y-4 lg:space-y-0">
                 <WeeklyCases />
 
                 <Card className="col-span-3">
