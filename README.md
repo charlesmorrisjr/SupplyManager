@@ -1,5 +1,20 @@
 ![Title](/public/title.png?raw=true "Supply Manager Title")
 
+<p align="center">
+  <img src="https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
+  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
+  <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white">
+  <img src="https://img.shields.io/badge/shadcn%2Fui-black?style=for-the-badge&logo=shadcn&logoColor=white">
+  <img src="https://img.shields.io/badge/Recharts-turquoise?style=for-the-badge">
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000?logo=nextdotjs&logoColor=fff&style=for-the-badge">
+  <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white">
+  <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white">
+  <img src="https://img.shields.io/badge/Neon-brightgreen?style=for-the-badge">
+</p>
+
 # Introduction
 
 Supply Manager is a supply chain warehouse management app designed to allow managers and associates to assign and unassign trips to and from order fillers, access performance metrics, view the items on each trip and more.
@@ -71,30 +86,13 @@ Here you can view a summary of all trips on any given day. The dropdown menu on 
 
 Much of the code in this project is unoptimized and not written according to best practices. Due to the time limit and the nature of this hackathon, I chose to get the MVP up and running as quickly as possible instead of trying to make my code perfect. I plan on making the following improvements once the hackathon is over, including, but not limited to:
 
-- Refactor code into separate components: Some of the files contain many different components that should be placed in their own separate files.
-- Move the API request arguments from the header to the body: While reading about how to pass arguments from client to server using SWR, I ended up using someone else’s code, and they passed the data in the request headers. After doing more research, I realized that it’s better to pass the data in the body instead.
-- Replace any types with correct types: This was my first project developed using TypeScript, which I learned as I went along. Because of the deadline, I declared some variables with the any type to save time figuring out how to define them.
-- Make the app mobile-friendly: Besides the homepage, the rest of the site is not usable on mobile devices. Due to the nature of this site, it doesn’t need to work on mobile as it would mostly be used on laptop and desktop computers in a warehouse, but I will consider making it mobile-friendly in the future.
+- **Refactor code into separate components:** Some of the files contain many different components that should be placed in their own separate files.
+- **Move the API request arguments from the header to the body:** While reading about how to pass arguments from client to server using SWR, I ended up using someone else’s code, and they passed the data in the request headers. After doing more research, I realized that it’s better to pass the data in the body instead.
+- **Replace `any` types with correct types:** This was my first project developed using TypeScript, which I learned as I went along. Because of the deadline, I declared some variables with the `any` type to save time figuring out how to define them.
+- **Make the app mobile-friendly:** Besides the homepage, the rest of the site is not usable on mobile devices. Due to the nature of this site, it doesn’t need to work on mobile as it would mostly be used on laptop and desktop computers in a warehouse, but I will consider making it mobile-friendly in the future.
 
 # Credits
 
-Food item names: USDA FoodData Central Data (https://fdc.nal.usda.gov/download-datasets.html)
+**Food item names:** USDA FoodData Central Data (https://fdc.nal.usda.gov/download-datasets.html)
 
-Avatar images: https://www.freepik.com/free-vector/bundle-with-set-face-business-people_6196665.htm#query=profile avatar&position=19&from_view=keyword&track=ais
-
-## Technologies Used
-
-<p align="center">
-  <img src="https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white">
-  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
-  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
-  <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white">
-  <img src="https://img.shields.io/badge/shadcn%2Fui-black?style=for-the-badge&logo=shadcn&logoColor=white">
-  <img src="https://img.shields.io/badge/Recharts-turquoise?style=for-the-badge">
-</p>
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-000?logo=nextdotjs&logoColor=fff&style=for-the-badge">
-  <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white">
-  <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white">
-  <img src="https://img.shields.io/badge/Neon-brightgreen?style=for-the-badge">
-</p>
+**Avatar images:** https://www.freepik.com/free-vector/bundle-with-set-face-business-people_6196665.htm#query=profile avatar&position=19&from_view=keyword&track=ais
