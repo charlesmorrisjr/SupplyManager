@@ -276,13 +276,6 @@ async function insertTripsForEachEmployee(startDate = new Date(TODAYS_DATE), end
 
   for (let curDate = startDate; curDate <= endDate; curDate.setDate(curDate.getDate() + 1)) {    
     console.log(curDate);
-
-    // // Generate some unassigned trips
-    // for (let curTrip = 1; curTrip <= faker.number.int({min: 1, max: 100}); curTrip++) {
-    //   data.push(generateRandomTrip(curDate, 0, false, true));
-    //   tripInfo.push([curTripID, data[data.length - 1].total_cases]);
-    //   curTripID++;
-    // }
     
     for (let curEmployee = 1; curEmployee <= MAX_EMPLOYEES; curEmployee++) {
       // Completed trips
@@ -309,6 +302,13 @@ async function insertTripsForEachEmployee(startDate = new Date(TODAYS_DATE), end
       tripInfo.push([curTripID, data[data.length - 1].total_cases]);
       curTripID++;
     }
+
+    // Generate some more unassigned trips
+    for (let curTrip = 1; curTrip <= faker.number.int({min: 1, max: 100}); curTrip++) {
+      data.push(generateRandomTrip(curDate, 0, false, true));
+      tripInfo.push([curTripID, data[data.length - 1].total_cases]);
+      curTripID++;
+    }
   }
 
   const insert = pgp.helpers.insert(data, cs);
@@ -321,7 +321,7 @@ async function insertTripsForEachEmployee(startDate = new Date(TODAYS_DATE), end
     console.log(error);
   });
 
-  console.log('Generating items...');
+  console.log('\nGenerating items...');
   
   // Generate items in batches of TRIP_BATCH_SIZE to avoid overloading the database
   for (let i = 0; i < tripInfo.length; i += TRIP_BATCH_SIZE) {

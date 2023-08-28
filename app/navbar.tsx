@@ -93,7 +93,7 @@ export default function Navbar({ user }: { user: any }) {
         </div>
         
         <div className="flex flex-shrink-0 items-center mr-4">
-          <NavigationMenu>
+          {/* <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
                 {user ? (
@@ -136,7 +136,6 @@ export default function Navbar({ user }: { user: any }) {
                   </>
                 ) : (
                   <div className="m-2">
-                    {/* <Button variant='ghost' onClick={() => signIn('google')}>Sign in</Button> */}
                     <Dialog>
                       <DialogTrigger>
                         <span className='ghost-button hover:bg-accent transition-colors font-medium text-sm'>
@@ -153,15 +152,8 @@ export default function Navbar({ user }: { user: any }) {
                 )}
               </NavigationMenuItem>
             </NavigationMenuList>
-          </NavigationMenu>
-          {/* <Button variant="outline" size="icon">
-            { mounted && 
-              theme === "dark" ?
-              <Sun className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" onClick={() => setTheme("light")} />
-              :
-              <Moon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" onClick={() => setTheme("dark")} />
-            }
-          </Button> */}
+          </NavigationMenu> */}
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon">

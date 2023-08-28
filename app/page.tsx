@@ -155,16 +155,16 @@ export default function IndexPage() {
                       </p>
                       <ul>
                         <li>
-                          Order filler chase
+                          Chase Management
                         </li>
                         <li>
-                          Lift driver management
+                          Lift Driver Management
                         </li>
                         <li>
-                          Loader management
+                          Loader Management
                         </li>
                         <li>
-                          Receiving management
+                          Receiving Management
                         </li>
                         <li>
                           ...and more!
