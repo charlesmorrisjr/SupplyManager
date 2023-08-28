@@ -385,7 +385,6 @@ async function assignTrip(tripID: string, employeeID: number) {
 
     if (response.ok) {
       const jsonData = await response.json();
-      console.log(jsonData);
       return jsonData;
     } else {
       console.error('Request failed with status:', response.status);

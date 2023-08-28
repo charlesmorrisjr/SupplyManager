@@ -110,11 +110,11 @@ export default function EmployeeDetailsTable() {
         </CardHeader>
 
         <CardContent className="flex flex-col space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="md:flex md:items-center md:justify-between">
 
             <Combobox onValueChange={setSelectedEmployee} value={comboValue} setValue={setComboValue}/>
 
-            <div className="xl:hidden lg:flex calendar-popover">
+            <div className="lg:hidden md:flex calendar-popover">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -143,8 +143,8 @@ export default function EmployeeDetailsTable() {
           
           <Separator />
           
-          <div className="flex justify-between space-x-4">
-            <div className="flex w-1/4 max-w-full summary-card">
+          <div className="md:flex md:justify-between md:space-x-4">
+            <div className="md:flex md:w-1/4 max-w-full summary-card">
             <Card className="grow">
               <CardHeader>
                 <CardTitle>Summary</CardTitle>
@@ -187,11 +187,11 @@ export default function EmployeeDetailsTable() {
             </Card>
             </div>
             
-            <div className="flex w-1/2 max-w-full">
+            <div className="md:flex md:w-1/2 max-w-full">
               <Chart trips={data} performance={avgPerformance(data)} />
             </div>
 
-            <div className="hidden w-1/4 xl:flex h-[340px]">
+            <div className="hidden w-1/4 lg:flex h-[340px]">
               <Card className="m-0 p-0">
                 <CardContent className="p-2">
                   <Calendar

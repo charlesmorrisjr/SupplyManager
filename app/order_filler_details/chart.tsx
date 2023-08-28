@@ -75,13 +75,13 @@ export function Chart({ trips, performance }: { trips: any, performance: any }) 
           Order filler performance for today.
         </CardDescription>
       </CardHeader>
-        <CardContent className="pb-0 pl-0">
+        <CardContent className="p-0 pr-2">
           <div className="h-[230px]">
 
           { selectedEmployee.id !== 0 ? (
               trips ? 
                 data.length > 1 ?
-                  <ResponsiveContainer height="100%">
+                  <ResponsiveContainer width="97%" height="100%">
                     <AreaChart
                       data={data}
                       height={200}
