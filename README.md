@@ -91,6 +91,12 @@ Much of the code in this project is unoptimized and not written according to bes
 - **Replace `any` types with correct types:** This was my first project developed using TypeScript, which I learned as I went along. Because of the deadline, I declared some variables with the `any` type to save time figuring out how to define them.
 - **Make the app mobile-friendly:** Besides the homepage, the rest of the site is not usable on mobile devices. Due to the nature of this site, it doesn’t need to work on mobile as it would mostly be used on laptop and desktop computers in a warehouse, but I will consider making it mobile-friendly in the future.
 
+## Known Bugs
+
+- There is a small bug in the combo boxes that lets you search employees only by username, not by full name.
+- There's another bug that happens on the first and last days of the month because I decided to use local dates to retrieve specific info from the database, and the database server's time is different from mine. Sometimes, the server thinks it's a day ahead or behind me. I probably should have used UTC date times instead. I found it at the last minute and wasn't able to fix it. It doesn't affect the functionality of the app, but it causes the weekly charts on the dashboard to sometimes display incorrect dates.
+
+
 # Credits
 
 **Food item names:** USDA FoodData Central Data (https://fdc.nal.usda.gov/download-datasets.html)
