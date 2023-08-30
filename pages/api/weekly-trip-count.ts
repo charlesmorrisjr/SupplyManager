@@ -41,6 +41,7 @@ export default async function getWeeklyTrips(req: NextApiRequest, res: NextApiRe
   for (let datevalue = startDate; datevalue <= endDate; datevalue.setDate(datevalue.getDate() + 1)) {
     // Make a copy, otherwise the date will be the same for all objects in the array
     let datevalueCopy = String(datevalue)
+    // console.log(datevalueCopy)
     
     tripCount.push({
       trips: await prisma.trips.count({    

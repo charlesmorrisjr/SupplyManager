@@ -146,45 +146,8 @@ export default function IndexPage() {
                     <DialogTitle>Currently in Development</DialogTitle>
                     <DialogDescription className='text-md font-normal text-left'>
                       <p className='pb-4'>
-                        This project is currently being developed.
-                        As of now, basic order filling and trip management has been implemented.
-                      </p>
-                      
-                      <p className='pb-2'>
-                      In the future, the following features will be added:
-                      </p>
-                      <ul>
-                        <li>
-                          Chase Management
-                        </li>
-                        <li>
-                          Lift Driver Management
-                        </li>
-                        <li>
-                          Loader Management
-                        </li>
-                        <li>
-                          Receiving Management
-                        </li>
-                        <li>
-                          ...and more!
-                        </li>
-                      </ul>
-                      {/* <p>
-                      - Order filler chase
-                      </p>
-                      <p>
-                      - Lift driver management
-                      </p>
-                      <p>
-                      - Loader management
-                      </p>
-                      <p>
-                        - Receiving management
-                      </p>
-                      <p>
-                        - ...and more!
-                      </p> */}
+                        This project was created this project as part of a 4-week hackathon and is currently in development.
+                      </p>                      
                       <p className='pt-2'>
                         For more information, please visit this <a href="https://github.com/charlesmorrisjr/SupplyManager" target='_blank' style={{color: '#008bff' }}>link</a>.
                       </p>
@@ -204,10 +167,10 @@ export default function IndexPage() {
             />
 
             {/* <h1 className="mb-16 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Supply Manager
+              Supply chain order filling management.
             </h1>
             <p className="mt-6 text-lg font-medium leading-8 text-gray-600">
-              Supply Manager allows you to manage your supply chain in a more efficient way.
+              
             </p> */}
             <div className="mt-16 flex items-center justify-center gap-x-6">
               <a

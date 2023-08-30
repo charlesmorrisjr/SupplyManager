@@ -60,6 +60,11 @@ export function WeeklyTrips() {
     );
   };
 
+  function convertToUTC(dateString: string): string {
+    const date = new Date(dateString);
+    const utcString = date.toISOString();
+    return utcString;
+  }
   const curDate = new Date(new Date().setHours(0,0,0,0));
     
   // Fetch chartData from chartDatabase using SWR
@@ -67,10 +72,12 @@ export function WeeklyTrips() {
   await fetch(url, {
     headers: {
       datevalue: String(date)
+      // datevalue: date
     }
   }).then((response) => response.json());
 
   let { data, error } = useSWR([ '/api/weekly-trip-count', curDate ], fetcher);
+  // let { data, error } = useSWR([ '/api/weekly-trip-count', convertToUTC(String(curDate)) ], fetcher);
 
   if (data) populateData(data);
   // if (data) console.log(data)
