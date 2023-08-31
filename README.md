@@ -1,5 +1,8 @@
-![Title](/public/title.png?raw=true "Supply Manager Title")
-
+<div align="center">
+  
+  ![Title](/public/title.png?raw=true "Supply Manager Title")
+  
+</div>
 <p align="center">
   <img src="https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white">
   <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
