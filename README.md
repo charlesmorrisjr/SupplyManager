@@ -88,8 +88,6 @@ Much of the code in this project is unoptimized and not written according to bes
 ## Known Bugs
 
 - A small bug in the combo boxes lets you search employees only by username, not by full name.
-- Another bug happens on the first and last days of the month because I decided to use local dates to retrieve specific info from the database, and the database server's time is different from mine. Sometimes, the server thinks it's a day ahead or behind me. I probably should have used UTC date times instead. I found it last minute of the hackathon and couldn't fix it in time. It doesn't affect the app's functionality, but it causes the weekly chart labels on the dashboard to sometimes display incorrect dates.
-
 
 # Credits
 
