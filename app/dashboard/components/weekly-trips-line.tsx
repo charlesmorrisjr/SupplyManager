@@ -51,7 +51,6 @@ function populateData(data: any) {
       date: getMonthDay(new Date(tripCount.date))
     });
   });
-  console.log(chartData);
 }
 
 export function WeeklyTrips() {

@@ -48,7 +48,7 @@ export function Combobox({ onValueChange, value, setValue }: { onValueChange: (v
             {value
               ? data.find((employee: any) => employee.username === value)?.username + " - " + data.find((employee: any) => employee.username === value)?.last_name + ", " + data.find((employee: any) => employee.username === value)?.first_name
               : "Select associate..."}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDown className="ml-2 h-4 w-4" />
           </Button>
           </div>
         </PopoverTrigger>
