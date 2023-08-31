@@ -75,9 +75,13 @@ export default function TeamTable() {
   // Fetch data from database using SWR
   const fetcher = async ([url, date]: [string, any]) =>
   await fetch(url, {
+    method: 'POST',
     headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
       datevalue: String(date)
-    }
+    })
   }).then((response) => response.json());
 
   const { data, error } = useSWR([ '/api/employees', date ], fetcher);

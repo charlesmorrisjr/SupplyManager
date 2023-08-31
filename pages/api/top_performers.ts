@@ -7,7 +7,7 @@ export default async function getTopPerformers(req: NextApiRequest, res: NextApi
   // This ensures that the passed in date is the same as the date in the database
   const parseDate = (date: string) => new Date(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
 
-  const searchDate = parseDate(String(req.headers.datevalue));
+  const searchDate = parseDate(String(req.body.datevalue));
   
   const allEmployees = await prisma.employees.findMany({
     include: {

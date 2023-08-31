@@ -494,8 +494,12 @@ export function TripDetailsTable({ tripID }: { tripID: string }) {
   const fetcher = async ([url, id]: [string, string]) =>
   await fetch(url, {
     headers: {
-      trip_id: id,
-    }
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify({
+      trip_id: id
+    })
   }).then((response) => response.json());
 
   let { data, error } = useSWR([ '/api/trip_details', tripID ], fetcher);

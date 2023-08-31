@@ -8,7 +8,8 @@ const prisma = new PrismaClient()
 // - Query database for all trips that match date
 
 export default async function getTrips(req: NextApiRequest, res: NextApiResponse) {
-  const searchDate = String(req.headers.datevalue);
+  const searchDate = String(req.body.datevalue);
+
   const allTrips = await prisma.trips.findMany({
     include: {
       employees: {

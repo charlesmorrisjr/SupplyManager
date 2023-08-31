@@ -9,7 +9,7 @@ export default async function getWeeklyCases(req: NextApiRequest, res: NextApiRe
   const parseDate = (date: string) => new Date(new Date(date).toISOString().replace("T", " ").replace(/\.\d+/, "").split(" ")[0]);
 
   // Start date is 6 days before the end date (gets the past week)
-  const endDate = parseDate(String(req.headers.datevalue));
+  const endDate = parseDate(String(req.body.datevalue));
   const startDate = new Date(new Date(endDate).setDate(endDate.getDate() - 6));
 
   // // Function to extract the month and day from a date in the format of MM/DD

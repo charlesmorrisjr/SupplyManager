@@ -40,14 +40,13 @@ function populateData(trips: any) {
   });
 }
 
-
 export function Chart({ trips, performance }: { trips: any, performance: any }) {
   const {theme} = useTheme();
   const {selectedEmployee, setSelectedEmployee} = useEmployee();
 
   // Makes the custom tick labels for the chart different colors depending on the theme
   const CustomizedAxisTick = (...args: any) => {
-    const {  tx, dy, x, y, stroke, payload } = args[0];
+    const { tx, dy, x, y, stroke, payload } = args[0];
     return (
       <g transform={`translate(${x},${y})`}>
         <text x={tx} y={0} dy={dy} textAnchor="end" className="font-medium" fill={theme === "dark" ? "#DDD" : "#000"}>

@@ -47,9 +47,13 @@ export function WeeklyCases() {
   // Fetch chartData from chartDatabase using SWR
   const fetcher = async ([url, date]: [string, any]) =>
   await fetch(url, {
+    method: 'POST',
     headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
       datevalue: String(date)
-    }
+    })
   }).then((response) => response.json());
 
   let { data, error } = useSWR([ '/api/weekly-case-count', curDate ], fetcher);

@@ -4,8 +4,8 @@ const prisma = new PrismaClient()
 
 // Retrieve all trips for a specific employee on a specific date
 export default async function getEmployeeDetails(req: NextApiRequest, res: NextApiResponse) {
-  const searchDate = String(req.headers.datevalue);
-  const employeeID = Number(req.headers.employee_id);
+  const searchDate = String(req.body.datevalue);
+  const employeeID = Number(req.body.employee_id);
 
   const allEmployees = await prisma.employees.findMany({
     select: {

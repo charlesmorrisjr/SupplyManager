@@ -50,8 +50,12 @@ export default function TripsTable() {
   const fetcher = async ([url, date]: [string, any]) =>
   await fetch(url, {
     headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify({ 
       datevalue: date
-    }
+    }),
   }).then((response) => response.json());
 
   let { data, error } = useSWR([ '/api/trips', parseDate(date) ], fetcher);

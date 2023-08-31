@@ -89,9 +89,13 @@ export default function EmployeeDetailsTable() {
   const fetcher = async ([url, date, selectedEmployee]: [string, any, any]) =>
   await fetch(url, {
     headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify({
       datevalue: date,
       employee_id: String(selectedEmployee)
-    }
+    }),
   }).then((response) => response.json());
 
   const { data, error } = useSWR([ '/api/employee_details', parseDate(date), selectedEmployee.id ], fetcher);
