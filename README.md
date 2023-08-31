@@ -86,7 +86,7 @@ Much of the code in this project is unoptimized and not written according to bes
 - **Refactor code into separate functions and components:** Some files contain many different components that should be placed in their own files.
 - **Data pagination:** The backend currently fetches more data than the client requires per request. For example, instead of retrieving only the 10 trips the user needs to see on the trip management page, the backend fetches and preloads all the trips for the selected date. The code must be rewritten to retrieve only the data that is required.
 - **Replace `any` types with correct types:** This was my first project developed using TypeScript, which I learned as I went along. Because of the deadline, I declared some variables with the `any` type to save time figuring out how to define them.
-- **Make the app mobile-friendly:** Besides the homepage, the rest of the site is not usable on mobile devices. Due to the nature of this site, it doesn’t need to work on mobile as it would mostly be used on laptop and desktop computers in a warehouse, but I will consider making it mobile-friendly in the future.
+- **Make the app mobile-friendly:** Although the site has a mobile navbar, the rest is not easily usable on mobile devices. Due to the nature of this site, it doesn’t need to work on mobile as it would mostly be used on laptop and desktop computers in a warehouse, but I will work on making it mobile-friendly in the future.
 
 ## Known Bugs
 
