@@ -27,7 +27,15 @@ function parseData(data: any) {
   // Function to extract the month and day from a date in the format of MM/DD
   const getMonthDay = (date: Date) => {
     let month = date.getMonth() + 1;
-    let day = date.getDate() + 1;
+    let day = date.getDate();
+
+    // If the day is the last day of the month, set it to 1 for the next month
+    if (day === new Date(date.getFullYear(), month, 0).getDate()) {
+      day = 1;
+      month += 1;
+    } else {
+      day += 1;
+    }
     return `${month}/${day}`;
   }
   
