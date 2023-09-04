@@ -2,10 +2,8 @@
 
 // import { Metadata } from "next"
 
-import React, {useEffect} from "react";
-import Image from "next/image"
+import React from "react";
 
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -25,144 +23,78 @@ export const dynamic = 'force-dynamic';
 export default function DashboardPage() {
   return (
     <>
-    <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          {/* <CardTitle className="text-xl font-medium">Dashboard</CardTitle> */}
-        </CardHeader>
-        <CardContent>
-      <div className="flex-col md:flex">
-        {/* <div className="border-b">
-          <div className="flex h-16 items-center px-4">
-            <TeamSwitcher />
-            <MainNav className="mx-6" />
-            <div className="ml-auto flex items-center space-x-4">
-              <Search />
-              <UserNav />
-            </div>
-          </div>
-        </div> */}
-        <div className="flex-1 space-y-4">
-          <div className="flex items-center p-6 pt-0 justify-between space-y-2">
-            <CardTitle className="mt-2 text-3xl font-bold tracking-tight">Dashboard</CardTitle>
-            <div className="flex items-center space-x-2">
-              {/* <CalendarDateRangePicker /> */}
-              {/* <Button>Download</Button> */}
-            </div>
-          </div>
-          <div className="space-y-4">
-          {/* <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
-                Analytics
-              </TabsTrigger>
-              <TabsTrigger value="reports" disabled>
-                Reports
-              </TabsTrigger>
-              <TabsTrigger value="notifications" disabled>
-                Notifications
-              </TabsTrigger>
-            </TabsList> */}
-            {/* <TabsContent value="overview" className="space-y-4"> */}
-            <CardContent className="space-y-4">
-              <div className="space-y-4 lg:space-y-0 lg:grid lg:gap-4 lg:grid-cols-8">
-                <TripCompletion />
+      <main className="hidden md:block md:p-10 md:mx-auto md:max-w-7xl">
+        <Card className="shadow-2xl dark:shadow-lg dark:shadow-gray-800">
+          <CardContent>
+            <div className="flex-col md:flex">
+              <div className="flex-1 space-y-4">
+                <div className="flex items-center p-6 pt-0 justify-between space-y-2">
+                  <CardTitle className="mt-10 text-3xl font-bold tracking-tight">Dashboard</CardTitle>
+                  <div className="flex items-center space-x-2">
+                    {/* <CalendarDateRangePicker /> */}
+                    {/* <Button>Download</Button> */}
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <CardContent className="space-y-4">
+                    <div className="space-y-4 lg:space-y-0 lg:grid lg:gap-4 lg:grid-cols-8">
+                      <TripCompletion />
+                      <WeeklyTrips />
+                    </div>
+                    <div className="lg:grid lg:gap-4 lg:grid-cols-8 space-y-4 lg:space-y-0">
+                      <WeeklyCases />
 
-
-
-                {/* <Card className='col-span-2 row-span-1'>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Total Items Today
-                    </CardTitle>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
-                    >
-                      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                    </svg>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">98,999</div>
-                    <p className="text-xs text-muted-foreground">
-                      +20.1% more than yesterday
-                    </p>
+                      <Card className="col-span-3">
+                        <CardHeader>
+                          <CardTitle>Top Performers</CardTitle>
+                          <CardDescription>
+                            The highest performing order fillers today
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <TopPerformers />
+                        </CardContent>
+                      </Card>
+                    </div>
                   </CardContent>
-                </Card> */}
-
-                {/* <Card className='col-span-2 row-start-2 row-span-1'>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Trips Completed
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">55%</div>
-                    <p className="text-xs text-muted-foreground">
-                      5% higher than expected
-                    </p>
-                  </CardContent>
-                </Card> */}
-
-                <WeeklyTrips />
-
-                {/* <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">+12,234</div>
-                    <p className="text-xs text-muted-foreground">
-                      +19% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Active Now
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">+573</div>
-                    <p className="text-xs text-muted-foreground">
-                      +201 since last hour
-                    </p>
-                  </CardContent>
-                </Card> */}
+                </div>
               </div>
-              <div className="lg:grid lg:gap-4 lg:grid-cols-8 space-y-4 lg:space-y-0">
-                <WeeklyCases />
+            </div>
+          </CardContent>
+        </Card>
+      </main>
 
-                <Card className="col-span-3">
-                  <CardHeader>
-                    <CardTitle>Top Performers</CardTitle>
-                    <CardDescription>
-                      The highest performing order fillers today
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <TopPerformers />
-                  </CardContent>
-                </Card>
-              </div>
-            </CardContent>
-            {/* </TabsContent> */}
-          {/* </Tabs> */}
+      {/* Mobile layout */}
+      <main className="md:hidden">
+        <div className="flex-col md:flex">
+          <div className="flex-1 pt-4 space-y-4">
+            {/* <CalendarDateRangePicker /> */}
+            {/* <Button>Download</Button> */}
+            <div className="px-2 space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center text-3xl font-bold">Dashboard</CardTitle>
+                </CardHeader>
+              </Card>
+              
+              <TripCompletion />
+              <WeeklyTrips />
+              <WeeklyCases />
+
+              <Card className="col-span-3">
+                <CardHeader>
+                  <CardTitle>Top Performers</CardTitle>
+                  <CardDescription>
+                    The highest performing order fillers today
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <TopPerformers />
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
-      </div>
-
-      </CardContent>
-      </Card>
-
       </main>
     </>
   );
