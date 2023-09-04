@@ -2,16 +2,12 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { Line, LineChart, CartesianGrid, Tooltip, Legend } from "recharts"
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Label, LabelList } from "recharts"
+import { Bar, BarChart, ResponsiveContainer, XAxis, LabelList, Tooltip } from "recharts"
 
-// import { useConfig } from "@/hooks/use-config"
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -41,8 +37,9 @@ function parseData(data: any) {
   
   data.forEach((item: any) => {
     chartData.push({
-      date: getMonthDay(new Date(item.date)),
+      date: getMonthDay(new Date(item.date)),      
       cases: item.trips._sum.total_cases
+      // cases: (item.trips._sum.total_cases / 1000).toFixed(1)
     });
   });
 }
@@ -76,13 +73,13 @@ export function WeeklyCases() {
         Total cases per day for the week of {new Date((new Date(curDate).setDate(curDate.getDate() - 6))).toLocaleDateString()} to {curDate.toLocaleDateString()}
         </CardDescription>
       </CardHeader>
-        <CardContent className="p-0 pr-2 pl-4">
+        <CardContent className="p-4 pr-2 pl-6">
           <div className="h-[300px]">
 
           { chartData.length > 0 ? (
 
             <ResponsiveContainer width="97%" height="100%">
-              <BarChart data={chartData} margin={{ top: 20, right: 5, bottom: 5, left: 5 }}>
+              <BarChart data={chartData} margin={{ top: 20, right: 5, bottom: 0, left: 5 }}>
                 <XAxis
                   dataKey="date"
                   stroke={theme === "light" ? "#000" : "#FFF"}
@@ -100,6 +97,7 @@ export function WeeklyCases() {
                   tickFormatter={(value) => `${value}`}
                   // label={{ value: 'cases', angle: -90, position: 'insideLeft' }}
                 /> */}
+                {/* <Tooltip /> */}
                 <defs>
                   <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
@@ -107,7 +105,7 @@ export function WeeklyCases() {
                   </linearGradient>
                 </defs>
                 <Bar dataKey="cases" fill="url(#colorUv)" radius={[4, 4, 0, 0]}>
-                  <LabelList className="font-medium" dataKey="cases" position="top"/>
+                  <LabelList className="font-medium text-sm" dataKey="cases" position="top"/>
                 </Bar>
               </BarChart>
             </ResponsiveContainer>

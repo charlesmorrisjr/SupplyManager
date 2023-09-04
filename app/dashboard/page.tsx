@@ -67,7 +67,7 @@ export default function DashboardPage() {
       {/* Mobile layout */}
       <main className="md:hidden">
         <div className="flex-col md:flex">
-          <div className="flex-1 pt-4 space-y-4">
+          <div className="flex-1 py-4 space-y-4">
             {/* <CalendarDateRangePicker /> */}
             {/* <Button>Download</Button> */}
             <div className="px-2 space-y-4">

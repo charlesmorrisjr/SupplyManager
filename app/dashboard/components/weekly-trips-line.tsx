@@ -53,6 +53,36 @@ function populateData(data: any) {
   });
 }
 
+function tooltipContent({ active, payload }: any) {
+  if (active && payload && payload !== undefined && payload.length) {
+    return (
+      <div className="rounded-lg border bg-background p-2 shadow-sm">
+        <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-col">
+            <span className="text-[0.70rem] uppercase text-muted-foreground">
+              Date
+            </span>
+            <span className="font-bold">
+              {/* Use value of `trips` property to look up corresponding date */}
+              {chartData[chartData.findIndex(item => item.trips === payload[0].payload?.trips)].date}
+            </span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[0.70rem] uppercase text-muted-foreground">
+              Trips
+            </span>
+            <span className="font-bold">
+              {payload[0].payload?.trips}
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return null
+}
+
 export function WeeklyTrips() {
   const {theme} = useTheme();
 
@@ -68,11 +98,6 @@ export function WeeklyTrips() {
     );
   };
 
-  function convertToUTC(dateString: string): string {
-    const date = new Date(dateString);
-    const utcString = date.toISOString();
-    return utcString;
-  }
   const curDate = new Date(new Date().setHours(0,0,0,0));
     
   // Fetch chartData from chartDatabase using SWR
@@ -101,77 +126,84 @@ export function WeeklyTrips() {
         Total trips per day for the week of {new Date((new Date(curDate).setDate(curDate.getDate() - 6))).toLocaleDateString()} to {curDate.toLocaleDateString()}
         </CardDescription>
       </CardHeader>
-        <CardContent className="">
-          <div className="h-[300px]">
-
+      <CardContent className="p-0">
+        <div className="hidden md:block h-[300px]">
           { data ? (
-
-           chartData.length > 1 ?
+            chartData.length > 1 ?
             <ResponsiveContainer height='100%'>
               <AreaChart
                 data={chartData}
                 height={300}
-                width={500}
+                width={600}
                 margin={{
                   top: 0,
-                  right: 20,
+                  right: 30,
                   left: 0,
                   bottom: 20,
                 }}
               >
-              <XAxis dataKey="date" tick={<CustomizedAxisTick tx={16} dy={16} />} />
-              <YAxis type="number" domain={['dataMin', 'auto']} tick={<CustomizedAxisTick tx={0} dy={4} />} />
-              <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload && payload !== undefined && payload.length) {
-                      return (
-                        <div className="rounded-lg border bg-background p-2 shadow-sm">
-                          <div className="grid grid-cols-2 gap-2">
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Date
-                              </span>
-                              <span className="font-bold">
-                                {/* Use value of `trips` property to look up corresponding date */}
-                                {chartData[chartData.findIndex(item => item.trips === payload[0].payload?.trips)].date}
-                              </span>
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Trips
-                              </span>
-                              <span className="font-bold">
-                                {payload[0].payload?.trips}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    }
-
-                    return null
-                  }}
-                />
+                <XAxis dataKey="date" tick={<CustomizedAxisTick tx={10} dy={16} />} />
+                <YAxis type="number" domain={['dataMin', 'auto']} tick={<CustomizedAxisTick tx={0} dy={4} />} />
+                <defs>
+                  <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <Tooltip content={tooltipContent} />
                 <Area type="monotone" dataKey="uv" dot={true} stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorUv)" />
               </AreaChart>
             </ResponsiveContainer>
-          :
+            :
             <div className="flex flex-col items-center justify-center h-full">
-              <span className="text-muted-foreground">Not enough chartData to display chart.</span>
+              <span className="text-muted-foreground">Not enough data to display chart.</span>
             </div>
-        ) : (
+          ) : (
           <div className="flex flex-col items-center justify-center h-full w-full">
             <span className="spinner"></span>
           </div>
-        )}
-         </div>
-        </CardContent>
+          )}
+        </div>
+        
+        {/* Mobile */}
+        <div className="md:hidden h-[300px]">
+          { data ? (
+            chartData.length > 1 ?
+            <ResponsiveContainer height='100%'>
+              <AreaChart
+                data={chartData}
+                height={300}
+                width={600}
+                margin={{
+                  top: 0,
+                  right: 30,
+                  left: 0,
+                  bottom: 40,
+                }}
+              >
+                <XAxis dataKey="date" tick={<CustomizedAxisTick tx={10} dy={16} />} />
+                <YAxis type="number" domain={['dataMin', 'auto']} tick={<CustomizedAxisTick tx={0} dy={4} />} />
+                <defs>
+                  <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <Tooltip content={tooltipContent} />
+                <Area type="monotone" dataKey="uv" dot={true} stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorUv)" />
+              </AreaChart>
+            </ResponsiveContainer>
+            :
+            <div className="flex flex-col items-center justify-center h-full">
+              <span className="text-muted-foreground">Not enough data to display chart.</span>
+            </div>
+          ) : (
+          <div className="flex flex-col items-center justify-center h-full w-full">
+            <span className="spinner"></span>
+          </div>
+          )}
+        </div>
+      </CardContent>
     </Card>
   )
 }

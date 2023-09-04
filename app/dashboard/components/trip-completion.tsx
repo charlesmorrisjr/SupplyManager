@@ -46,7 +46,7 @@ export function TripCompletion() {
           Trip completion for today ({curDate.toLocaleDateString()})
         </CardDescription>
       </CardHeader>
-        <CardContent className="p-0 px-6">
+        <CardContent className="p-0">
           <div className="h-[300px]">
 
           { data ? (
