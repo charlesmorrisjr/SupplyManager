@@ -80,7 +80,7 @@ export default function Navbar({ user }: { user: any }) {
         </div>
         
         {/* Sign in/sign out dialog and button */}
-        <div className="flex flex-shrink-0 items-center mr-4">
+        <div className="flex flex-shrink-0 justify-end items-center mr-4">
           {/* <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -161,7 +161,7 @@ export default function Navbar({ user }: { user: any }) {
       {/* Mobile menu */}
       <div className="md:hidden">
         <div className="flex justify-between">
-          <div className='p-2'>
+          <div className='p-2 pl-0'>
             <span className="sr-only">Open main menu</span>
             <Button variant="ghost" onClick={() => setOpen(!open)}>
               {open ? (
@@ -188,7 +188,7 @@ export default function Navbar({ user }: { user: any }) {
             </div>
           )}
 
-          <div className='p-2'>
+          <div className='p-2 pr-3'>
             <Button variant="outline" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
               {theme === "light" ? (
                 <>
