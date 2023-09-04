@@ -44,6 +44,36 @@ function parseData(data: any) {
   });
 }
 
+function tooltipContent({ active, payload }: any) {
+  if (active && payload && payload !== undefined && payload.length) {
+    return (
+      <div className="rounded-lg border bg-background p-2 shadow-sm">
+        <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-col">
+            <span className="text-[0.70rem] uppercase text-muted-foreground">
+              Date
+            </span>
+            <span className="font-bold">
+              {/* Use value of `trips` property to look up corresponding date */}
+              {chartData[chartData.findIndex((item: any) => item.trips === payload[0].payload?.trips)].date}
+            </span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[0.70rem] uppercase text-muted-foreground">
+              Cases
+            </span>
+            <span className="font-bold">
+              {payload[0].payload?.cases}
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return null
+}
+
 export function WeeklyCases() {
   const {theme} = useTheme();
   
@@ -73,13 +103,21 @@ export function WeeklyCases() {
         Total cases per day for the week of {new Date((new Date(curDate).setDate(curDate.getDate() - 6))).toLocaleDateString()} to {curDate.toLocaleDateString()}
         </CardDescription>
       </CardHeader>
-        <CardContent className="p-4 pr-2 pl-6">
-          <div className="h-[300px]">
+        <CardContent className="pt-4 pr-2 pl-6">
+          <div className="hidden md:block h-[300px]">
 
           { chartData.length > 0 ? (
 
             <ResponsiveContainer width="97%" height="100%">
-              <BarChart data={chartData} margin={{ top: 20, right: 5, bottom: 0, left: 5 }}>
+              <BarChart 
+                data={chartData}
+                margin={{ 
+                  top: 0, 
+                  right: 5, 
+                  bottom: 0, 
+                  left: 5 
+                }}
+              >
                 <XAxis
                   dataKey="date"
                   stroke={theme === "light" ? "#000" : "#FFF"}
@@ -115,6 +153,46 @@ export function WeeklyCases() {
           </div>
         )}
          </div>
+
+         {/* Mobile */}
+         <div className="h-[300px] md:hidden">
+          { chartData.length > 0 ? (
+
+            <ResponsiveContainer width="97%" height="100%">
+              <BarChart data={chartData} margin={{ top: 0, right: 5, bottom: 0, left: 5 }}>
+                <XAxis
+                  dataKey="date"
+                  stroke={theme === "light" ? "#000" : "#FFF"}
+                  fontSize={14}
+                  className="font-semibold"
+                  tickLine={false}
+                  axisLine={false}
+                />
+                {/* <YAxis
+                  stroke="#777777"
+                  fontSize={14}
+                  className="font-semibold"
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(value) => `${value}`}
+                  // label={{ value: 'cases', angle: -90, position: 'insideLeft' }}
+                /> */}
+                <Tooltip content={tooltipContent} />
+                <defs>
+                  <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <Bar dataKey="cases" fill="url(#colorUv)" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+          <div className="flex flex-col items-center justify-center h-full w-full">
+            <span className="spinner"></span>
+          </div>
+          )}
+          </div>
         </CardContent>
     </Card>
   )
