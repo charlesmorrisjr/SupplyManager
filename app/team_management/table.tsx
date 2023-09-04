@@ -93,44 +93,90 @@ export default function TeamTable() {
   if (data) addAdditionalProperties(data);
 
   return (
-    <div>
-      <Card className="p-6 pt-4 shadow-2xl dark:shadow-lg dark:shadow-gray-800">
-        <CardHeader className="pb-6">
-          <CardTitle className="text-3xl font-bold tracking-tight">Team Management <Badge variant='secondary' className='text-xl font-medium'>{data && data.length}</Badge></CardTitle>
-        </CardHeader>
+    <>
+      <main className="hidden md:block">
+        <Card className="p-6 pt-4 shadow-2xl dark:shadow-lg dark:shadow-gray-800">
+          <CardHeader className="pb-6">
+            <CardTitle className="text-3xl font-bold tracking-tight">Team Management <Badge variant='secondary' className='text-xl font-medium'>{data && data.length}</Badge></CardTitle>
+          </CardHeader>
 
-        <CardContent className="flex flex-col space-y-4">
-          <div className="flex items-center justify-center">
+          <CardContent className="flex flex-col space-y-4">
+            <div className="flex items-center justify-center">
 
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-[280px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  <span className="font-medium">{date ? format(date, "PPP") : "Pick a date"}</span>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  required
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[280px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <span className="font-medium">{date ? format(date, "PPP") : "Pick a date"}</span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    required
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
 
-          <DataTable columns={columns} data={data} />
+            <DataTable columns={columns} data={data} />
 
-        </CardContent>
-      </Card>
-    </div>
+          </CardContent>
+        </Card>
+      </main>
+      
+      <main className="md:hidden space-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-center text-3xl font-bold">Team Management</CardTitle>
+          </CardHeader>
+        </Card>
+
+        <div className="flex flex-col space-y-4">
+
+
+          <Card>
+            <CardContent className="pt-6 space-y-6">
+              <div className="flex items-center justify-center">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[280px] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      <span className="font-medium">{date ? format(date, "PPP") : "Pick a date"}</span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      required
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <DataTable columns={columns} data={data} />
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+    </>
   )
 }

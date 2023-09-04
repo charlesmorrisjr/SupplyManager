@@ -226,118 +226,109 @@ export default function EmployeeDetailsTable() {
 
       {/* Mobile */}
       <main className="md:hidden space-y-4"> 
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-center text-3xl font-bold">Order Filler Details</CardTitle>
+          </CardHeader>
+        </Card>
+
+        <div className="flex flex-col space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle className="text-center text-3xl font-bold">Order Filler Details</CardTitle>
-            </CardHeader>
+            <CardContent className="pt-6">
+
+              <div className="flex justify-center">
+                <div className="space-y-4">
+                  <div className="flex justify-center">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[280px] justify-start text-left font-normal",
+                            !date && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          <span className="font-medium">{date ? format(date, "PPP") : "Pick a date"}</span>
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          required
+                          selected={date}
+                          onSelect={setDate}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+
+                  <Combobox onValueChange={setSelectedEmployee} value={comboValue} setValue={setComboValue}/>
+                </div>
+              </div>          
+            </CardContent>
           </Card>
 
-          <div className="flex flex-col space-y-4">
-            <div className="space-y-4">
-
-              <Combobox onValueChange={setSelectedEmployee} value={comboValue} setValue={setComboValue}/>
-
-              <div className="">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[280px] justify-start text-left font-normal",
-                        !date && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      <span className="font-medium">{date ? format(date, "PPP") : "Pick a date"}</span>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      required
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-            </div>          
-
-            <div className="md:flex md:justify-between md:space-x-4 space-y-4 md:space-y-0">
-              <div className="md:flex md:w-1/4 max-w-full summary-card">
-              <Card className="grow">
-                <CardHeader>
-                  <CardTitle>Summary</CardTitle>
-                </CardHeader>
-                <CardContent className="pt-4">
-                {selectedEmployee.id ?
-                  <div className="pb-4">
-                    <div className="pb-8">
-                      <h3 className="text-lg font-semibold leading-6">
-                        {selectedEmployee.id
-                          ? 
-                          <>
-                            {selectedEmployee.first_name} {selectedEmployee.last_name}
-                          </>
-                          : 
-                            'N/A'
-                        }
-                      </h3>
-                      <p className="mt-1 pb-6 truncate text-sm leading-5 text-gray-500">
-                        {selectedEmployee.id ? selectedEmployee.email : 'N/A'}
-                      </p>
-                      <p className="text-sm font-medium pb-2 leading-6">
-                        Completed Hours: {data ? convertMillisecondsToTime(data.reduce((total: number, trip: any) => trip.completion === 2 ? total + (new Date(trip.standard_time).getTime()) : total, 0)) : '00:00:00'}
-                      </p>
-                      <p className="text-sm font-medium leading-6">
-                        Cases Picked Today: {data ? data.reduce((total: number, trip: any) => trip.completion ? total + Number(trip.cases_picked) : total, 0) : 0}
-                      </p>
-                    </div>
+          <div className="md:flex md:justify-between md:space-x-4 space-y-4 md:space-y-0">
+            <div className="md:flex md:w-1/4 max-w-full summary-card">
+            <Card className="grow">
+              <CardHeader>
+                <CardTitle>Summary</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-4">
+              {selectedEmployee.id ?
+                <div className="pb-4">
+                  <div className="pb-8">
+                    <h3 className="text-lg font-semibold leading-6">
+                      {selectedEmployee.id
+                        ? 
+                        <>
+                          {selectedEmployee.first_name} {selectedEmployee.last_name}
+                        </>
+                        : 
+                          'N/A'
+                      }
+                    </h3>
+                    <p className="mt-1 pb-6 truncate text-sm leading-5 text-gray-500">
+                      {selectedEmployee.id ? selectedEmployee.email : 'N/A'}
+                    </p>
+                    <p className="text-sm font-medium pb-2 leading-6">
+                      Completed Hours: {data ? convertMillisecondsToTime(data.reduce((total: number, trip: any) => trip.completion === 2 ? total + (new Date(trip.standard_time).getTime()) : total, 0)) : '00:00:00'}
+                    </p>
+                    <p className="text-sm font-medium leading-6">
+                      Cases Picked Today: {data ? data.reduce((total: number, trip: any) => trip.completion ? total + Number(trip.cases_picked) : total, 0) : 0}
+                    </p>
                   </div>
-                  :
-                  <div className="pb-4">
-                    <div className="pb-8">
-                      <h3 className="text-md font-medium leading-6">
-                        Please select an associate.
-                      </h3>
-                    </div>
+                </div>
+                :
+                <div className="pb-4">
+                  <div className="pb-8">
+                    <h3 className="text-md font-medium leading-6">
+                      Please select an associate.
+                    </h3>
                   </div>
-                }
-                </CardContent>
-              </Card>
-              </div>
-              
-              <div className="md:flex md:w-1/2 max-w-full">
-                <Chart trips={data} performance={avgPerformance(data)} />
-              </div>
-
-              {/* <div className=" h-[340px]">
-                <Card className="m-0 p-0">
-                  <CardContent className="p-2">
-                    <Calendar
-                      mode="single"
-                      required
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
-                      className="p-0"
-                    />
-                  </CardContent>
-                </Card>
-              </div> */}
-            </div>
-            
-            <Card>
-              <CardContent className="pt-6">
-                <DataTable columns={columns} data={data} />
+                </div>
+              }
               </CardContent>
             </Card>
+            </div>
+            
+            <div className="md:flex md:w-1/2 max-w-full">
+              <Chart trips={data} performance={avgPerformance(data)} />
+            </div>
           </div>
-          {/* <CardHeader> */}
-              {/* <Separator /> */}
-              {/* <CardTitle>Trips <Badge variant='secondary' className='text-xl'>{data && data.length}</Badge></CardTitle> */}
-          {/* </CardHeader> */}
+          
+          <Card>
+            <CardContent className="pt-6">
+              <DataTable columns={columns} data={data} />
+            </CardContent>
+          </Card>
+        </div>
+        {/* <CardHeader> */}
+            {/* <Separator /> */}
+            {/* <CardTitle>Trips <Badge variant='secondary' className='text-xl'>{data && data.length}</Badge></CardTitle> */}
+        {/* </CardHeader> */}
 
       </main>
     </>
