@@ -94,7 +94,7 @@ export default function TeamTable() {
 
   return (
     <>
-      <main className="hidden md:block">
+      <div className="hidden md:block">
         <Card className="p-6 pt-4 shadow-2xl dark:shadow-lg dark:shadow-gray-800">
           <CardHeader className="pb-6">
             <CardTitle className="text-3xl font-bold tracking-tight">Team Management <Badge variant='secondary' className='text-xl font-medium'>{data && data.length}</Badge></CardTitle>
@@ -132,9 +132,10 @@ export default function TeamTable() {
 
           </CardContent>
         </Card>
-      </main>
+      </div>
       
-      <main className="md:hidden space-y-4">
+      {/* Mobile */}
+      <div className="md:hidden space-y-4">
         <Card>
           <CardHeader>
             <CardTitle className="text-center text-3xl font-bold">Team Management</CardTitle>
@@ -176,7 +177,7 @@ export default function TeamTable() {
             </CardContent>
           </Card>
         </div>
-      </main>
+      </div>
     </>
   )
 }

@@ -6,7 +6,7 @@ export default async function TripManagementPage() {
   // const data = await getData()
 
   return (
-    <main className="p-4 md:p-10 mx-auto max-w-7xl">
+    <main className="px-2 py-4 md:p-10 mx-auto max-w-7xl">
     
       <TripsTable />
     
