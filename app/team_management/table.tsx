@@ -142,41 +142,37 @@ export default function TeamTable() {
           </CardHeader>
         </Card>
 
-        <div className="flex flex-col space-y-4">
+        <Card>
+          <CardContent className="pt-6 space-y-6">
+            <div className="flex items-center justify-center">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[280px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <span className="font-medium">{date ? format(date, "PPP") : "Pick a date"}</span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    required
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
 
-
-          <Card>
-            <CardContent className="pt-6 space-y-6">
-              <div className="flex items-center justify-center">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[280px] justify-start text-left font-normal",
-                        !date && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      <span className="font-medium">{date ? format(date, "PPP") : "Pick a date"}</span>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      required
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-
-              <DataTable columns={columns} data={data} />
-            </CardContent>
-          </Card>
-        </div>
+            <DataTable columns={columns} data={data} />
+          </CardContent>
+        </Card>
       </div>
     </>
   )
