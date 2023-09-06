@@ -69,21 +69,21 @@ export function DataTablePagination<TData>({
         </Button>
         <Button
           variant="outline"
-          className="h-8 w-8 p-0"
+          className="h-12 w-12 md:h-8 md:w-8 p-0"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
           <span className="sr-only">Go to previous page</span>
-          <ChevronLeftIcon className="h-4 w-4" />
+          <ChevronLeftIcon className="h-6 w-6 md:h-4 md:w-4" />
         </Button>
         <Button
           variant="outline"
-          className="h-8 w-8 p-0"
+          className="h-12 w-12 md:h-8 md:w-8 p-0"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
           <span className="sr-only">Go to next page</span>
-          <ChevronRightIcon className="h-4 w-4" />
+          <ChevronRightIcon className="h-6 w-6 md:h-4 md:w-4" />
         </Button>
         <Button
           variant="outline"
