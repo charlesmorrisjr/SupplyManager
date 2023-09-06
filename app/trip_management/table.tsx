@@ -147,13 +147,14 @@ export default function TripsTable() {
               </Popover>
             </div>
 
-            <div className="hidden md:block">
+            <DataTable columns={columns} data={data} />
+            {/* <div className="hidden md:block">
               <DataTable columns={columns} data={data} />
             </div>
 
             <div className="block md:hidden">
               <MobileTableCard data={data} />
-            </div>
+            </div> */}
           </CardContent>
         </Card>
       </div>
