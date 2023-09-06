@@ -26,6 +26,8 @@ import {
 import { Trips, columns } from "./columns"
 import { DataTable } from "./data-table"
 
+import { MobileTableCard } from "./mobile-table-card";
+
 import { useDate } from "@/components/date-context";
 
 import useSWR from 'swr';
@@ -145,8 +147,13 @@ export default function TripsTable() {
               </Popover>
             </div>
 
-            <DataTable columns={columns} data={data} />
+            <div className="hidden md:block">
+              <DataTable columns={columns} data={data} />
+            </div>
 
+            <div className="block md:hidden">
+              <MobileTableCard data={data} />
+            </div>
           </CardContent>
         </Card>
       </div>
