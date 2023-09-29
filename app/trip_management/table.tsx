@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
+
 import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
+import { ArrowBigLeft, ArrowBigRight, Calendar as CalendarIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge";
 
@@ -43,6 +45,9 @@ function addAdditionalData(data: any) {
 
 export default function TripsTable() {  
   const { date, setDate } = useDate();
+  const [ dataStartIdx, setDataStartIdx ] = useState(0);
+  
+  let mobileData = [];
 
   // Parse date to format YYYY-MM-DD and set time to 00:00:00
   // This ensures that the passed in date is the same as the date in the database
@@ -68,6 +73,11 @@ export default function TripsTable() {
 
   if (data) addAdditionalData(data);
 
+  // ! (temporary for development)
+  if (data) {
+    mobileData = data.slice(dataStartIdx, dataStartIdx + 5);
+  }
+  
   return (
     <>
       <div className="hidden md:block">
@@ -121,7 +131,6 @@ export default function TripsTable() {
         <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="flex items-center justify-center">
-
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -147,14 +156,17 @@ export default function TripsTable() {
               </Popover>
             </div>
 
-            <DataTable columns={columns} data={data} />
-            {/* <div className="hidden md:block">
-              <DataTable columns={columns} data={data} />
+            <div className="flex items-center justify-between">
+              <Button variant="outline" onClick={() => setDataStartIdx(dataStartIdx >= 5 ? dataStartIdx - 5 : 0)}>
+                <ArrowBigLeft className="h-8 w-8" />
+              </Button>
+
+              <Button variant="outline" onClick={() => setDataStartIdx(dataStartIdx <= data.length - 6 ? dataStartIdx + 5 : data.length - 6)}>
+                <ArrowBigRight className="h-8 w-8" />
+              </Button>
             </div>
 
-            <div className="block md:hidden">
-              <MobileTableCard data={data} />
-            </div> */}
+            <MobileTableCard data={mobileData} />
           </CardContent>
         </Card>
       </div>

@@ -1,35 +1,33 @@
 import React from 'react';
 
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
-export function MobileTableCard(data: any) {
+import { Progress } from "@/components/ui/progress"
+
+export function MobileTableCard({ data }: any) {
   return (
-    // <Accordion type="single" collapsible>
-    //   <AccordionItem value="item-1">
-    //     <AccordionTrigger className='font-bold text-lg'>Trip ID: 1234</AccordionTrigger>
-    //     <AccordionContent>
-    //       <p>Order Filler: jsmith</p>
-    //       <p>Standard Time: 0:30:00</p>
-    //       <p>Completion: Completed</p>
-    //       <p>Cases Picked/Total: 140/300</p>
-    //     </AccordionContent>
-    //   </AccordionItem>
-    // </Accordion>
-    <div className="card">
-      <div className="font-bold text-lg">
-        <h2>Trip ID: 1234</h2>
-      </div>
-      <div className="card-body">
-        <p>Order Filler: jsmith</p>
-        <p>Standard Time: 0:30:00</p>
-        <p>Completion: Completed</p>
-        <p>Cases Picked/Total: 140/300</p>
-      </div>
-    </div>
+    data.map((trip: any) => (
+      <Card key={trip.id} className="my-6">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold">Trip ID: {trip.id}</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div>
+            <p><span className="font-bold">Order Filler:</span> {trip.employee_username}</p>
+            <p><span className="font-bold">Standard Time:</span> {trip.standard_time}</p>
+            <p><span className="font-bold">Completion:</span> {trip.completion}</p>
+            <p><span className="font-bold">Cases Picked/Total:</span> {trip.cases_picked}/{trip.total_cases}</p>
+          </div>
+          <Progress value={(trip.cases_picked / trip.total_cases) * 100} />
+        </CardContent>
+      </Card>
+    ))
   );
 }
